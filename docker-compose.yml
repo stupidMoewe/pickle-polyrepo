@@ -1,0 +1,74 @@
+version: '3'
+services:
+
+  db:
+    image: mongo:4.2.8
+    container_name: db
+    ports:
+      - "4000:27017"
+    restart: always
+
+  rabbit:
+    image: rabbitmq:3.8.1-management
+    container_name: rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    expose:
+      - "5672"
+      - "15672"
+    restart: always
+
+  redis:
+    image: redis:7.0.4-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+  
+  user:
+    image: user
+    build: 
+      context: ./user
+      dockerfile: Dockerfile-dev
+    container_name: user
+    volumes:
+      - ./user/src:/usr/src/app/src
+      # - ./user/nodemon.json:/usr/src/app/nodemon.json
+    ports:
+      - "4001:4001"
+    environment:
+      - PORT=4001
+      - RABBIT=amqp://guest:guest@rabbit:5672
+      - NODE_ENV=development
+      - DBHOST=mongodb://db:27017/user
+      - REDIS_URL=redis:6379
+    depends_on:
+      - rabbit
+      - db
+      - redis
+    restart: "no"
+
+  question:
+    image: question
+    build: 
+      context: ./question
+      dockerfile: Dockerfile-dev
+    container_name: question
+    volumes:
+      - /tmp/question/npm-cache:/root/.npm:z
+      - ./question/src:/usr/src/app/src:z
+    ports:
+      - "4002:4002"
+    environment:
+      - PORT=4002
+      - RABBIT=amqp://guest:guest@rabbit:5672
+      - NODE_ENV=development
+      - DBHOST=mongodb://db:27017/question
+      - REDIS_URL=redis:6379
+    depends_on:
+      - rabbit
+      - db
+      - redis
+    restart: "no"
+  
