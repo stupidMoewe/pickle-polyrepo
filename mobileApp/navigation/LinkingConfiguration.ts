@@ -15,6 +15,11 @@ const linking: LinkingOptions<RootStackParamList> = {
 		screens: {
 			Root: {
 				screens: {
+					OnBoardingScreen: {
+						screens: {
+							OnBoardingScreen: "one",
+						},
+					},
 					Feed: {
 						screens: {
 							FeedScreen: "one",
@@ -28,6 +33,11 @@ const linking: LinkingOptions<RootStackParamList> = {
 					CreateQuestion: {
 						screens: {
 							CreateQuestion: "two",
+						},
+					},
+					Menu: {
+						screens: {
+							Menu: "two",
 						},
 					},
 				},

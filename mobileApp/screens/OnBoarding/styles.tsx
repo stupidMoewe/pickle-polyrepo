@@ -5,23 +5,32 @@ const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-	container: {
-		width: width,
-		height: height,
-		paddingTop: "20%",
+	safeAreaView: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "#fff",
 	},
-	form: {
-		width: 0.9 * width,
-		alignSelf: "center",
+	titleView: {
+		marginTop: 100,
 	},
 	title: {
-		fontSize: fontLarge,
+		// fontFamily: "Inter-Bold",
 		fontWeight: "bold",
-		marginTop: "10%",
-		marginBottom: "10%",
+		fontSize: 30,
+		color: "#20315f",
 	},
-	subTitle: {
+	containerView: { flex: 1, justifyContent: "center", alignItems: "center" },
+	descriptionText: {
 		fontSize: fontLarge,
+		textAlign: "center",
+		marginHorizontal: "10%",
+	},
+	descriptionTextSmall: {
+		marginTop: "10%",
+		fontSize: fontNormal,
+		textAlign: "center",
+		marginHorizontal: "10%",
 	},
 	buttonContainer: {
 		backgroundColor: "#AD40AF",
@@ -34,9 +43,10 @@ const styles = StyleSheet.create({
 	},
 	buttonText: {
 		color: "white",
-		fontSize: fontNormal,
+		fontSize: 18,
 		textAlign: "center",
 		fontWeight: "bold",
+		// fontFamily: "Roboto-MediumItalic",
 	},
 });
 

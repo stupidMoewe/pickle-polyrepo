@@ -8,22 +8,18 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		width: width * 0.9,
 	},
-	title: {
-		fontSize: fontNormal,
-		fontWeight: "bold",
-		marginBottom: 10,
-	},
 	input: {
 		width: "100%",
-		height: 40,
-		padding: 20,
+		height: 50,
 		borderWidth: 2,
 		borderColor: "white",
 		borderRadius: 12,
-		color: "gray",
+		color: "white",
 		fontSize: fontNormal,
 		fontWeight: "bold",
 		alignSelf: "center",
+		marginTop: 30,
+		paddingHorizontal: 15,
 	},
 });
 

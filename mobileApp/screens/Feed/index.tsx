@@ -1,13 +1,13 @@
 import { FontAwesome, Fontisto } from "@expo/vector-icons";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Dimensions, FlatList, StyleSheet } from "react-native";
+import { Dimensions, FlatList, TouchableHighlight } from "react-native";
 import Question from "../../components/Question";
 
+import Constants from "expo-constants";
 import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
 import { RootTabScreenProps } from "../../types";
-import Constants from "expo-constants";
 import styles from "./style";
 
 interface IQuestion {
@@ -51,9 +51,15 @@ export default function Feed({ navigation }: RootTabScreenProps<"Feed">) {
 				decelerationRate={"fast"}
 			></FlatList>
 			<View style={styles.topIconsLeft}>
-				<Text>
-					<FontAwesome name="chevron-left" size={45} color={pinkPickle} />
-				</Text>
+				<TouchableHighlight
+					onPress={() => {
+						navigation.openDrawer();
+					}}
+				>
+					<Text>
+						<FontAwesome name="chevron-left" size={45} color={pinkPickle} />
+					</Text>
+				</TouchableHighlight>
 			</View>
 			<View style={styles.topIconsRight}>
 				<Text>

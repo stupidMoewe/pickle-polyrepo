@@ -5,22 +5,22 @@
 
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { DrawerScreenProps } from "@react-navigation/drawer";
 
 declare global {
 	namespace ReactNavigation {
-		interface RootParamList extends RootStackParamList {}
+		interface RootParamList extends RootDrawerParamList {}
 	}
 }
 
-export type RootStackParamList = {
+export type RootDrawerParamList = {
 	Root: NavigatorScreenParams<RootTabParamList> | undefined;
 	Modal: undefined;
 	NotFound: undefined;
 };
 
-export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
-	RootStackParamList,
+export type RootDrawerScreenProps<Screen extends keyof RootDrawerParamList> = DrawerScreenProps<
+	RootDrawerParamList,
 	Screen
 >;
 
@@ -28,9 +28,11 @@ export type RootTabParamList = {
 	Feed: undefined;
 	CreateQuestion: undefined;
 	Profile: undefined;
+	OnBoarding: undefined;
+	Login: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
 	BottomTabScreenProps<RootTabParamList, Screen>,
-	NativeStackScreenProps<RootStackParamList>
+	DrawerScreenProps<RootDrawerParamList>
 >;

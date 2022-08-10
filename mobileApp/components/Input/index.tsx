@@ -1,19 +1,54 @@
 import React, { useState } from "react";
-import { TextInput } from "react-native";
-import { Text, View } from "../Themed";
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	TextInput,
+	ScrollView,
+	TouchableWithoutFeedback,
+	Keyboard,
+} from "react-native";
 import styles from "./styles";
 
-export function Input(props: TextInput["props"]) {
-	const [text, onChangeText] = useState("");
-	// const [number, onChangeNumber] = useState(null);
+interface IInput {
+	placeholder?: string;
+	keyboardType?:
+		| "default"
+		| "email-address"
+		| "numeric"
+		| "phone-pad"
+		| "number-pad"
+		| "decimal-pad"
+		| "visible-password";
+	secureTextEntry?: boolean;
+	onChangeText?: (text: string) => void;
+	onEndEditing?: (text: string) => void;
+	onSubmitEditing?: (text: string) => void;
+	onBlur?: () => void;
+	value?: string;
+}
+const useInput = () => {
+	const [value, setValue] = useState("");
+	const input = <input value={value} onChange={(e) => setValue(e.target.value)} />;
+	return [value, input];
+};
+
+export default function InputField({
+	placeholder = "Enter your text",
+	keyboardType = "default",
+	secureTextEntry = false,
+	onChangeText,
+	value = "",
+}: IInput) {
 	return (
 		<View style={styles.inputContainer}>
 			<TextInput
-				placeholder={props.placeholder}
-				keyboardType="numeric"
+				placeholder={placeholder}
+				keyboardType={keyboardType}
+				style={styles.input}
+				secureTextEntry={secureTextEntry}
+				value={value}
 				onChangeText={onChangeText}
-				// value={number}
-				style={[props.style, styles.input]}
 			/>
 		</View>
 	);
