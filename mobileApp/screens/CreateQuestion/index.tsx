@@ -21,7 +21,6 @@ export default function CreateQuestion({ navigation }: RootTabScreenProps<"Creat
 
 	const questionAPIUrl = Constants?.manifest?.extra?.questionAPIUrl;
 	const postQuestion = async () => {
-		console.log(title, answer1, answer2);
 		try {
 			const url = `${questionAPIUrl}/create-question`;
 			const response = await axios(url, {
@@ -32,11 +31,10 @@ export default function CreateQuestion({ navigation }: RootTabScreenProps<"Creat
 					answer2,
 				},
 			});
-			console.log(response.data);
+			navigation.navigate("Feed");
 		} catch (err) {
 			console.log(err);
 		}
-		// return response.data;
 	};
 
 	return (

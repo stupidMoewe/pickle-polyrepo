@@ -5,7 +5,7 @@ const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-	safeAreaView: {
+	container: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
 		marginTop: 100,
 	},
 	title: {
-		// fontFamily: "Inter-Bold",
 		fontWeight: "bold",
 		fontSize: 30,
 		color: "#20315f",

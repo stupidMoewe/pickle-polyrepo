@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-	View,
-	Text,
-	TouchableOpacity,
-	TextInput,
-	ScrollView,
-	TouchableWithoutFeedback,
-	Keyboard,
-} from "react-native";
+import { TextInput, View } from "react-native";
 import styles from "./styles";
 
 interface IInput {
@@ -27,11 +19,6 @@ interface IInput {
 	onBlur?: () => void;
 	value?: string;
 }
-const useInput = () => {
-	const [value, setValue] = useState("");
-	const input = <input value={value} onChange={(e) => setValue(e.target.value)} />;
-	return [value, input];
-};
 
 export default function InputField({
 	placeholder = "Enter your text",

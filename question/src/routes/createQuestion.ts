@@ -17,6 +17,8 @@ export const createQuestion = router.post(
 	],
 	validateRequest,
 	async (req: Request, res: Response) => {
+		console.log(req.session);
+
 		const { title, answer1, answer2 } = req.body;
 		if (!req.session.userId) {
 			return res.status(401).json({ message: "Unauthorized" });

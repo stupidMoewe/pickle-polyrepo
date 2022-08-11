@@ -7,6 +7,7 @@ import { useColorScheme } from "react-native";
 import useCachedResources from "./hooks/useCachedResources";
 import Navigation from "./navigation";
 import styles from "./styles";
+import { AuthProvider } from "./context/AuthContext";
 // import { createDrawerNavigator } from "@react-navigation/drawer";
 
 const Stack = createNativeStackNavigator();
@@ -20,10 +21,12 @@ export default function App() {
 		return null;
 	} else {
 		return (
-			<SafeAreaProvider style={styles.container}>
-				<Navigation colorScheme={colorScheme} />
-				<StatusBar />
-			</SafeAreaProvider>
+			<AuthProvider>
+				<SafeAreaProvider style={styles.container}>
+					<Navigation colorScheme={colorScheme} />
+					<StatusBar />
+				</SafeAreaProvider>
+			</AuthProvider>
 		);
 	}
 }

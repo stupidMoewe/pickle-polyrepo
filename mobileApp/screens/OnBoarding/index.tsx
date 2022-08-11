@@ -8,7 +8,7 @@ import styles from "./styles";
 
 const OnBoarding = ({ navigation }: RootTabScreenProps<"OnBoarding">) => {
 	return (
-		<SafeAreaView style={styles.safeAreaView}>
+		<View style={styles.container}>
 			<View style={styles.titleView}>
 				<Text style={styles.title}>PICKLE</Text>
 			</View>
@@ -23,12 +23,12 @@ const OnBoarding = ({ navigation }: RootTabScreenProps<"OnBoarding">) => {
 			</View>
 			<TouchableOpacity
 				style={styles.buttonContainer}
-				onPress={() => navigation.navigate("Feed")}
+				onPress={() => navigation.navigate("Login")}
 			>
 				<Text style={styles.buttonText}>C'est parti !</Text>
 				<MaterialIcons name="arrow-forward-ios" size={22} color="#fff" />
 			</TouchableOpacity>
-		</SafeAreaView>
+		</View>
 	);
 };
 

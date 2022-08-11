@@ -1,12 +1,21 @@
-import { DrawerContentScrollView, DrawerItem, DrawerItemList } from "@react-navigation/drawer";
-import React from "react";
+import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
+import { DrawerActions } from "@react-navigation/native";
+import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
+import { useAuth } from "../../context/AuthContext";
 
-import Ionicons from "react-native-vector-icons/Ionicons";
-import { View, Text } from "../Themed";
+import { Text, View } from "../Themed";
 import styles from "./styles";
 
 const CustomDrawer = (props: any) => {
+	const [loading, isLoading] = useState(false);
+	const auth = useAuth();
+	const logout = async () => {
+		isLoading(true);
+		await props.navigation.dispatch(DrawerActions.closeDrawer());
+		auth.logout();
+	};
+
 	return (
 		<View style={styles.container}>
 			<DrawerContentScrollView {...props} contentContainerStyle={styles.containerScroll}>
@@ -27,9 +36,9 @@ const CustomDrawer = (props: any) => {
 				</View>
 			</DrawerContentScrollView>
 			<View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}>
-				<TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
+				<TouchableOpacity onPress={logout}>
 					<View style={{ flexDirection: "row", alignItems: "center" }}>
-						<Text style={styles.text}>Sign Out</Text>
+						<Text style={styles.text}>Logout</Text>
 					</View>
 				</TouchableOpacity>
 			</View>
