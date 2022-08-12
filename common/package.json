@@ -1,6 +1,6 @@
 {
-  "name": "pickle",
-  "version": "1.0.9",
+  "name": "@stupidpickle/common",
+  "version": "1.0.10",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
