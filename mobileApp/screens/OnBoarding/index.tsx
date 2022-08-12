@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { RootTabScreenProps } from "../../types";

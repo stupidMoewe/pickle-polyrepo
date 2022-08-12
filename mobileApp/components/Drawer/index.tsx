@@ -29,7 +29,13 @@ const CustomDrawer = (props: any) => {
 						}}
 					/>
 					<DrawerItem label="Réglages" labelStyle={styles.text} onPress={() => {}} />
-					<DrawerItem label="Mon Profile" labelStyle={styles.text} onPress={() => {}} />
+					<DrawerItem
+						label="Mon Profile"
+						labelStyle={styles.text}
+						onPress={() => {
+							props.navigation.navigate("Profile");
+						}}
+					/>
 					<DrawerItem label="Mes Signets" labelStyle={styles.text} onPress={() => {}} />
 					<DrawerItem label="Assistance" labelStyle={styles.text} onPress={() => {}} />
 					<DrawerItem label="Pigeon" labelStyle={styles.text} onPress={() => {}} />

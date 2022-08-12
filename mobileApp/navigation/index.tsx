@@ -13,12 +13,12 @@ import Feed from "../screens/Feed";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import CustomDrawer from "../components/Drawer";
-import { AuthProvider, useAuth } from "../context/AuthContext";
+import { Text, View } from "../components/Themed";
+import { useAuth } from "../context/AuthContext";
 import Login from "../screens/Login";
-import NotFoundScreen from "../screens/NotFoundScreen";
 import OnBoardingScreen from "../screens/OnBoarding";
+import Profile from "../screens/Profile";
 import LinkingConfiguration from "./LinkingConfiguration";
-import { View, Text } from "../components/Themed";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
 	return (
@@ -43,7 +43,7 @@ function RootNavigator() {
 	if (loading) {
 		return (
 			<View>
-				<Text>test</Text>
+				<Text>Loading</Text>
 			</View>
 		);
 	}
@@ -51,22 +51,22 @@ function RootNavigator() {
 		<>
 			{authData ? (
 				<Drawer.Navigator
-					initialRouteName="Feed"
+					initialRouteName="CreateQuestion"
 					drawerContent={(props) => <CustomDrawer {...props} />}
 					screenOptions={{
 						headerShown: false,
 					}}
 				>
 					<>
+						{/* <Drawer.Screen name="TestForm" component={TestForm} /> */}
 						<Drawer.Screen name="Feed" component={Feed} />
-						{/* <Drawer.Screen name="Menu" component={Menu} /> */}
-						{/* <Drawer.Screen name="Profile" component={Profile} /> */}
+						<Drawer.Screen name="Profile" component={Profile} />
 						<Drawer.Screen name="CreateQuestion" component={CreateQuestion} />
 					</>
 				</Drawer.Navigator>
 			) : (
 				<Drawer.Navigator
-					initialRouteName="Feed"
+					initialRouteName="OnBoardingScreen"
 					drawerContent={(props) => <CustomDrawer {...props} />}
 					screenOptions={{
 						headerShown: false,

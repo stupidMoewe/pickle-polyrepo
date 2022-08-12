@@ -2,7 +2,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import Constants from "expo-constants";
 import React, { useState } from "react";
-import { Button, Pressable, ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView } from "react-native";
+import { CustomButton } from "../../components/Button";
 import Input from "../../components/Input";
 import { Text, View } from "../../components/Themed";
 import { RootTabScreenProps } from "../../types";
@@ -21,49 +22,53 @@ export default function CreateQuestion({ navigation }: RootTabScreenProps<"Creat
 
 	const questionAPIUrl = Constants?.manifest?.extra?.questionAPIUrl;
 	const postQuestion = async () => {
-		try {
-			const url = `${questionAPIUrl}/create-question`;
-			const response = await axios(url, {
-				method: "POST",
-				data: {
-					title,
-					answer1,
-					answer2,
-				},
+		const url = `${questionAPIUrl}/create-question`;
+		await axios
+			.post(url, {
+				title,
+				answer1,
+				answer2,
+			})
+			.then((res) => {
+				console.log(res);
+				navigation.navigate("Feed");
+			})
+			.catch((error) => {
+				console.log(error.response.data.errors);
 			});
-			navigation.navigate("Feed");
-		} catch (err) {
-			console.log(err);
-		}
 	};
 
 	return (
 		<View style={styles.container}>
-			<View style={styles.form}>
-				<ScrollView>
-					<Text style={styles.title}>Create Question</Text>
-					<Text style={styles.subTitle}>Ma Question</Text>
-					<Input
-						placeholder="Question"
-						value={title}
-						onChangeText={(text) => setTitle(text)}
-					></Input>
-					<Text style={styles.subTitle}>Mes Réponses</Text>
-					<Input
-						placeholder="Answer 1"
-						value={answer1}
-						onChangeText={(text) => setAnswer1(text)}
-					></Input>
-					<Input
-						placeholder="Answer 2"
-						value={answer2}
-						onChangeText={(text) => setAnswer2(text)}
-					></Input>
-					<TouchableOpacity style={styles.buttonContainer} onPress={postQuestion}>
-						<Text style={styles.buttonText}>Poster Question</Text>
+			<Text style={styles.title}>Post a Question</Text>
+			<ScrollView>
+				<View style={styles.inputContainer}>
+					<Text style={styles.label}>Title :</Text>
+					<View style={styles.inputView}>
+						<Input
+							placeholder="Email"
+							value={title}
+							onChangeText={(text) => setTitle(text)}
+						/>
 						<MaterialIcons name="arrow-forward-ios" size={22} color="#fff" />
-					</TouchableOpacity>
-				</ScrollView>
+					</View>
+				</View>
+				<Text style={styles.label}>Answers :</Text>
+				<Input
+					placeholder="Answer 1"
+					value={answer1}
+					secureTextEntry={true}
+					onChangeText={(text) => setAnswer1(text)}
+				></Input>
+				<Input
+					placeholder="Answer 2"
+					value={answer2}
+					secureTextEntry={true}
+					onChangeText={(text) => setAnswer2(text)}
+				></Input>
+			</ScrollView>
+			<View style={styles.postQuestionBtn}>
+				<CustomButton title={"Post"} onPress={postQuestion} color="pink"></CustomButton>
 			</View>
 		</View>
 	);

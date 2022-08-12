@@ -14,36 +14,31 @@ const linking: LinkingOptions<RootStackParamList> = {
 	config: {
 		screens: {
 			Root: {
-				screens: {
-					OnBoardingScreen: {
-						screens: {
-							OnBoardingScreen: "one",
-						},
-					},
-					Feed: {
-						screens: {
-							FeedScreen: "one",
-						},
-					},
-					Profile: {
-						screens: {
-							Profile: "one",
-						},
-					},
-					CreateQuestion: {
-						screens: {
-							CreateQuestion: "two",
-						},
-					},
-					Menu: {
-						screens: {
-							Menu: "two",
-						},
-					},
-				},
+				// screens: {
+				// 	OnBoardingScreen: {
+				// 		screens: {
+				// 			OnBoardingScreen: "one",
+				// 		},
+				// 	},
+				// 	Feed: {
+				// 		screens: {
+				// 			FeedScreen: "one",
+				// 		},
+				// 	},
+				// 	Profile: {
+				// 		screens: {
+				// 			Profile: "one",
+				// 		},
+				// 	},
+				// 	CreateQuestion: {
+				// 		screens: {
+				// 			CreateQuestion: "two",
+				// 		},
+				// 	},
+				// },
+				// Modal: "modal",
+				// NotFound: "*",
 			},
-			Modal: "modal",
-			NotFound: "*",
 		},
 	},
 };

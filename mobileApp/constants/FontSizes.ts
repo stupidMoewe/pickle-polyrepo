@@ -1,4 +1,4 @@
-export const fontSmall = 12;
-export const fontNormal = 20;
-export const fontLarge = 26;
-export const fontVeryLarge = 32;
+export const fontSmall = 16;
+export const fontNormal = 22;
+export const fontLarge = 30;
+export const fontVeryLarge = 36;

@@ -16,10 +16,18 @@ interface RegisterData {
 	password: string;
 }
 
+interface QuestionType {
+	id: number;
+	title: string;
+	answer1: string;
+	answer2: string;
+}
+
 interface AuthData {
 	userId: string;
 	username: string;
 	email: string;
+	questions: QuestionType[];
 }
 
 interface AuthContextData {
@@ -66,6 +74,7 @@ const AuthProvider: React.FC = ({ children }) => {
 				userId: response.data.user.id,
 				username: response.data.user.username,
 				email: response.data.user.email,
+				questions: response.data.user.questions,
 			};
 			setAuthData(authDataResponse);
 			const stringAuthData = JSON.stringify(authDataResponse);

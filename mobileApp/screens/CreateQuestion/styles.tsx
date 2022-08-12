@@ -6,37 +6,34 @@ const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
 	container: {
-		width: width,
-		height: height,
 		paddingTop: "20%",
+		flex: 1,
+		justifyContent: "space-between",
+		alignItems: "center",
+		height: height,
 	},
-	form: {
-		width: 0.9 * width,
-		alignSelf: "center",
+	inputContainer: {
+		marginBottom: 40,
+	},
+	inputView: {
+		// flexDirection: "column",
+		// alignItems: "center",
+		// justifyContent: "space-between",
+		// borderColor: "#fff",
+		// borderWidth: 1,
+		// width: width,
 	},
 	title: {
-		fontSize: fontLarge,
 		fontWeight: "bold",
-		marginTop: "10%",
-		marginBottom: "10%",
+		fontSize: 30,
+		marginBottom: 60,
 	},
-	subTitle: {
+	label: {
 		fontSize: fontLarge,
+		marginBottom: 10,
 	},
-	buttonContainer: {
-		backgroundColor: "#AD40AF",
-		padding: 20,
-		width: "90%",
-		borderRadius: 10,
+	postQuestionBtn: {
 		marginBottom: 50,
-		flexDirection: "row",
-		justifyContent: "space-between",
-	},
-	buttonText: {
-		color: "white",
-		fontSize: fontNormal,
-		textAlign: "center",
-		fontWeight: "bold",
 	},
 });
 
