@@ -6,7 +6,7 @@ export interface QuestionCreatedEvent {
 		id: string;
 		title: string;
 		answer1: string;
-		answer2: number;
+		answer2: string;
 		creatorId: string;
 	};
 }
