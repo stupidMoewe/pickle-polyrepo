@@ -1,40 +1,45 @@
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Dimensions, ImageBackground, StyleSheet, TouchableHighlight } from "react-native";
+import { Dimensions, StyleSheet, TouchableHighlight } from "react-native";
 import { fontLarge } from "../constants/FontSizes";
 import { pinkPickle } from "../constants/ThemeColors";
+import { QuestionType } from "../types";
 import { AnswerBntText } from "./AnswerBntText";
 import { Text, View } from "./Themed";
 
-export default function Question({ question, navigation }: any): JSX.Element {
+// type questionComponentProp = DrawerNavigationProp<RootDrawerParamList, "Question">;
+
+export default function Question({ question }: QuestionType) {
+	const navigation = useNavigation();
 	return (
 		<View style={styles.container}>
-			<ImageBackground source={question.image} style={styles.ImageBackground}>
-				<View style={styles.questionContainer}>
-					<Text style={styles.title}>{question.title}</Text>
-					<AnswerBntText styles={styles.answer} text={question.answer1} />
-					<AnswerBntText styles={styles.answer} text={question.answer2} />
+			{/* <ImageBackground source={question.imageUrl} style={styles.ImageBackground}> */}
+			<View style={styles.questionContainer}>
+				<Text style={styles.title}>{question.title}</Text>
+				<AnswerBntText styles={styles.answer} text={question.answer1} />
+				<AnswerBntText styles={styles.answer} text={question.answer2} />
+			</View>
+			<View style={styles.questionScreen}>
+				<View style={styles.bottomIcons}>
+					<Text>
+						<AntDesign name="heart" size={45} color={pinkPickle} />
+					</Text>
+					<TouchableHighlight
+						onPress={() => {
+							navigation.navigate("CreateQuestion");
+						}}
+					>
+						{/* <Text> */}
+						<AntDesign name="pluscircleo" size={70} color={pinkPickle} />
+						{/* </Text> */}
+					</TouchableHighlight>
+					<Text>
+						<AntDesign name="clockcircleo" size={45} color={pinkPickle} />
+					</Text>
 				</View>
-				<View style={styles.questionScreen}>
-					<View style={styles.bottomIcons}>
-						<Text>
-							<AntDesign name="heart" size={45} color={pinkPickle} />
-						</Text>
-						<TouchableHighlight
-							onPress={() => {
-								navigation.navigate("CreateQuestion");
-							}}
-						>
-							{/* <Text> */}
-							<AntDesign name="pluscircleo" size={70} color={pinkPickle} />
-							{/* </Text> */}
-						</TouchableHighlight>
-						<Text>
-							<AntDesign name="clockcircleo" size={45} color={pinkPickle} />
-						</Text>
-					</View>
-				</View>
-			</ImageBackground>
+			</View>
+			{/* </ImageBackground> */}
 		</View>
 	);
 }
@@ -55,18 +60,9 @@ const styles = StyleSheet.create({
 		height: "100%",
 		display: "flex",
 		flexDirection: "column",
-		// padding: 20,
 		paddingTop: "20%",
-		// childern: {
-		// 	marginBottom: "10%",
-		// 	borderColor: "white",
-		// 	borderWidth: 2,
-		// 	backgroundColor: "white",
-		// },
 	},
 	title: {
-		// position: "relative",
-		// top: "10%",
 		fontSize: fontLarge,
 		textAlign: "center",
 		fontWeight: "bold",
@@ -75,13 +71,7 @@ const styles = StyleSheet.create({
 		marginTop: "10%",
 	},
 	answer: {
-		// fontSize: fontLarge,
-		// textAlign: "center",
-		// fontWeight: "bold",
-		// color: "white",
-		// padding: 10,
 		marginTop: "15%",
-		// borderRadius: 16,
 	},
 	questionScreen: {
 		position: "absolute",
@@ -99,7 +89,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 		position: "absolute",
 		bottom: 25,
-		// shadowColor: "#171717",
 		shadowColor: "#555",
 		shadowOffset: { width: 0, height: 0 },
 		shadowOpacity: 10,

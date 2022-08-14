@@ -8,7 +8,7 @@ export const questionById = router.get(
 	async (req: Request, res: Response) => {
 		const questionId = req.params.questionId;
 		try {
-			const questionFound = await Question.findOne({ id: questionId });
+			const questionFound = await Question.findById(questionId);
 			res.status(200).send(questionFound);
 		} catch (err) {
 			res.status(500).send(err);

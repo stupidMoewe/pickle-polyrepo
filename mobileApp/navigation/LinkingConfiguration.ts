@@ -7,19 +7,19 @@
 import { LinkingOptions } from "@react-navigation/native";
 import * as Linking from "expo-linking";
 
-import { RootStackParamList } from "../types";
+import { RootDrawerParamList } from "../types";
 
-const linking: LinkingOptions<RootStackParamList> = {
+const linking: LinkingOptions<RootDrawerParamList> = {
 	prefixes: [Linking.makeUrl("/")],
 	config: {
 		screens: {
 			Root: {
 				// screens: {
-				// 	OnBoardingScreen: {
-				// 		screens: {
-				// 			OnBoardingScreen: "one",
-				// 		},
-				// 	},
+				// 	// OnBoardingScreen: {
+				// 	// 	screens: {
+				// 	// 		OnBoardingScreen: "one",
+				// 	// 	},
+				// 	// },
 				// 	Feed: {
 				// 		screens: {
 				// 			FeedScreen: "one",

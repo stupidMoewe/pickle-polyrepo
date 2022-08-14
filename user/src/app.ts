@@ -39,65 +39,6 @@ app.use(
 	})
 );
 
-// This makes sure the queue is declared before attempting to consume from it
-// channel.assertQueue(queue, {
-// 	durable: true,
-// });
-
-// const consumer = async () => {
-// 	if (!process.env.RABBIT) {
-// 		throw new Error("RABBIT must be defined");
-// 	}
-// 	const connection = await amqp.connect(process.env.RABBIT);
-// 	const channel = await connection.createChannel();
-// 	const q = "questionChannel";
-// 	const queue = "questionQueue";
-// 	await channel.assertExchange(q, "fanout", { durable: true });
-// 	const response = await channel.assertQueue(queue, { durable: true });
-// 	await channel.bindQueue(response.queue, q, "");
-
-// 	console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
-
-// 	channel.consume(
-// 		queue,
-// 		(msg) => {
-// 			console.log("received sth");
-// 			if (msg) {
-// 				console.log(" [x] Received %s", msg.content.toString());
-// 			}
-// 		},
-// 		{
-// 			noAck: true,
-// 		}
-// 	);
-// };
-
-// try {
-// 	consumer();
-// } catch (err) {
-// 	console.log(err);
-// }
-
-// const consumeMessage = async () => {
-// 	if (!process.env.RABBIT) {
-// 		throw new Error("RABBIT must be defined");
-// 	}
-// 	const q = "question";
-// 	const connection = await amqplib.connect(process.env.RABBIT);
-// 	const channel = await connection.createChannel();
-// 	await channel.assertQueue(q, { durable: true });
-// 	await channel.consume(q, async (msg) => {
-// 		if (msg) {
-// 			const message = JSON.parse(msg.content.toString());
-// 			const creatorId = message.creatorId;
-// 			const questionId = message.id;
-// 			await User.findOneAndUpdate(creatorId, { $push: { questions: questionId } });
-// 			channel.ack(msg);
-// 		}
-// 	});
-// };
-// consumeMessage();
-
 app.use(register);
 app.use(users);
 app.use(me);

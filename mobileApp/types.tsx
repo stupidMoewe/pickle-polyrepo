@@ -15,6 +15,10 @@ declare global {
 
 export type RootDrawerParamList = {
 	Root: NavigatorScreenParams<RootTabParamList> | undefined;
+	Question: undefined;
+	Feed: undefined;
+	SingleQuestion: { question: QuestionType };
+	CreateQuestion: undefined;
 	Modal: undefined;
 	NotFound: undefined;
 };
@@ -30,9 +34,23 @@ export type RootTabParamList = {
 	Profile: undefined;
 	OnBoarding: undefined;
 	Login: undefined;
+	SingleQuestion: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
 	BottomTabScreenProps<RootTabParamList, Screen>,
 	DrawerScreenProps<RootDrawerParamList>
 >;
+
+export interface QuestionType {
+	question: {
+		id: string;
+		title: string;
+		answer1: string;
+		answer2: string;
+		answer3?: string;
+		answer4?: string;
+		imageUrl?: string;
+		creatorId: string;
+	};
+}

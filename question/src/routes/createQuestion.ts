@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-import { Question } from "../model/Question";
+import { QuestionCreatedPublisher } from "../events/publishers/question-created-publisher";
 import { isAuth } from "../middlewares/isAuth";
-import amqplib from "amqplib";
 import { validateRequest } from "../middlewares/validate-results";
+import { Question } from "../model/Question";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
@@ -17,34 +18,22 @@ export const createQuestion = router.post(
 	],
 	validateRequest,
 	async (req: Request, res: Response) => {
-		console.log(req.session);
-
 		const { title, answer1, answer2 } = req.body;
 		if (!req.session.userId) {
 			return res.status(401).json({ message: "Unauthorized" });
 		}
-		const questionJSON = { title, answer1, answer2, creatorId: req.session.userId };
-		const question = Question.build(questionJSON);
-		const questionSaved = await question.save();
-		const questionSavedId = questionSaved.toJSON().id.toString();
+		console.log(req.session.userId);
+		// const questionJSON = { title, answer1, answer2, creatorId: req.session.userId };
+		const question = Question.build({ title, answer1, answer2, creatorId: req.session.userId });
+		await question.save();
 
-		// rabbit
-		// produce a message to the queue "question" => to be refactored/wrapped in a function
-		const q = "questionChannel";
-		const message = await Question.findById(questionSavedId);
-		if (!process.env.RABBIT) {
-			throw new Error("RABBIT must be defined");
-		}
-		const connection = await amqplib.connect(process.env.RABBIT);
-		const channel = await connection.createChannel();
-		await channel.assertExchange(q, "fanout", { durable: true });
-		const response = await channel.assertQueue("questionQueue", { durable: true });
-		await channel.bindQueue(response.queue, q, "");
-		channel.sendToQueue(q, Buffer.from(JSON.stringify(message)));
-		console.log(response);
-
-		// await channel.close();
-		// await connection.close();
+		new QuestionCreatedPublisher(natsWrapper.client).publish({
+			id: question.id,
+			title: question.title,
+			answer1: question.answer1,
+			answer2: question.answer2,
+			creatorId: question.creatorId,
+		});
 
 		return res.status(201).send(question);
 	}

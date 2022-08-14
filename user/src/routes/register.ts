@@ -2,8 +2,7 @@ import bcrypt from "bcryptjs";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { validateRequest } from "../middlewares/validate-results";
-import { User } from "../model/User";
-import { connectRabbit } from "../rabbitChannel";
+import { User } from "../models/User";
 
 const router = express.Router();
 
@@ -27,8 +26,6 @@ export const register = router.post(
 
 			const encryptedPassword = await bcrypt.hash(password, 10);
 
-			const messageChannel = await connectRabbit();
-
 			try {
 				const createdUser = await User.create({
 					username,
@@ -36,7 +33,6 @@ export const register = router.post(
 					password: encryptedPassword,
 				});
 
-				messageChannel.sendToQueue("user", Buffer.from(JSON.stringify(createdUser)));
 
 				return res.json({ user: createdUser });
 			} catch (err) {

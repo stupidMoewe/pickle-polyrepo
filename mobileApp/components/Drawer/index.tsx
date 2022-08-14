@@ -33,7 +33,7 @@ const CustomDrawer = (props: any) => {
 						label="Mon Profile"
 						labelStyle={styles.text}
 						onPress={() => {
-							props.navigation.navigate("Profile");
+							props.navigation.navigate("ProfileStack");
 						}}
 					/>
 					<DrawerItem label="Mes Signets" labelStyle={styles.text} onPress={() => {}} />

@@ -6,11 +6,10 @@ export const validateRequest = (req: Request, res: Response, next: NextFunction)
 	// console.log(errors);
 	//req.body.errors = errors.array();
 
-	// if (!errors.isEmpty()) {
-	// 	throw new RequestValidationError(errors.array());
-	// }
+	if (!errors.isEmpty()) {
+		// throw new RequestValidationError(errors.array());
+		res.status(400).json({ errors: errors.array() });
+	}
 
-	res.status(400).json({ errors: errors.array() });
-
-	// next(errors);
+	next();
 };

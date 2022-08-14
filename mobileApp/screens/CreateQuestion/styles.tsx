@@ -1,16 +1,19 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { fontLarge, fontNormal } from "../../constants/FontSizes";
+import { fontLarge } from "../../constants/FontSizes";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
 	container: {
-		paddingTop: "20%",
+		// paddingTop: "20%",
 		flex: 1,
 		justifyContent: "space-between",
 		alignItems: "center",
 		height: height,
+	},
+	createQuestionContainer: {
+		marginTop: "20%",
 	},
 	inputContainer: {
 		marginBottom: 40,
@@ -34,6 +37,20 @@ const styles = StyleSheet.create({
 	},
 	postQuestionBtn: {
 		marginBottom: 50,
+	},
+	modalExitBtn: {
+		position: "absolute",
+		top: 30,
+		left: 20,
+		backgroundColor: "transparent",
+	},
+	iconCamera: {
+		margin: 10,
+		backgroundColor: "transparent",
+	},
+	imageDisplay: {
+		width: "100%",
+		height: 400,
 	},
 });
 

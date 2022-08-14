@@ -8,15 +8,43 @@ services:
       - "4000:27017"
     restart: always
 
-  rabbit:
-    image: rabbitmq:3.8.1-management
-    container_name: rabbit
+  nats:
+    image: nats-streaming:0.24.6
+    container_name: nats
+    command:
+      - "--cluster"
+      - "nats://0.0.0.0:6222"
+      - "--cluster_id"
+      - nats-streaming
+      - "--clustered"
+      - "--cluster_bootstrap"
+      - "--cluster_log_path"
+      - /data/log
+      - "--cluster_node_id"
+      - nats-streaming-1
+      - "--cluster_raft_logging"
+      - "--debug"
+      - "--dir"
+      - /data/msg
+      - "--http_port"
+      - "8222"
+      - "--port"
+      - "4222"
+      - "--store"
+      - file
+      - "--stan_debug"
+      - "--hb_interval"
+      - 2s
+      - "--hb_fail_count"
+      - "1"
+      - "--hb_timeout"
+      - 5s
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "4222:4222"
+      - "8222:8222"
     expose:
-      - "5672"
-      - "15672"
+      - "4222"
+      - "8222"
     restart: always
 
   redis:
@@ -39,12 +67,14 @@ services:
       - "4001:4001"
     environment:
       - PORT=4001
-      - RABBIT=amqp://guest:guest@rabbit:5672
       - NODE_ENV=development
-      - DBHOST=mongodb://db:27017/user
+      - MONGO_URI=mongodb://db:27017/user
       - REDIS_URL=redis:6379
+      - NATS_CLUSTER_ID=nats-streaming
+      - NATS_CLIENT_ID=agretwg
+      - NATS_URL=nats://nats:4222
     depends_on:
-      - rabbit
+      - nats
       - db
       - redis
     restart: "no"
@@ -62,12 +92,14 @@ services:
       - "4002:4002"
     environment:
       - PORT=4002
-      - RABBIT=amqp://guest:guest@rabbit:5672
       - NODE_ENV=development
-      - DBHOST=mongodb://db:27017/question
+      - MONGO_URI=mongodb://db:27017/question
       - REDIS_URL=redis:6379
+      - NATS_CLUSTER_ID=nats-streaming
+      - NATS_CLIENT_ID=alsdkj
+      - NATS_URL=nats://nats:4222
     depends_on:
-      - rabbit
+      - nats
       - db
       - redis
     restart: "no"

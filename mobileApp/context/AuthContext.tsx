@@ -16,18 +16,18 @@ interface RegisterData {
 	password: string;
 }
 
-interface QuestionType {
-	id: number;
-	title: string;
-	answer1: string;
-	answer2: string;
-}
+// interface QuestionType {
+// 	id: number;
+// 	title: string;
+// 	answer1: string;
+// 	answer2: string;
+// }
 
 interface AuthData {
 	userId: string;
 	username: string;
 	email: string;
-	questions: QuestionType[];
+	questions: string[];
 }
 
 interface AuthContextData {

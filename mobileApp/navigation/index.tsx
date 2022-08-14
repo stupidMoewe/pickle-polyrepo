@@ -19,6 +19,8 @@ import Login from "../screens/Login";
 import OnBoardingScreen from "../screens/OnBoarding";
 import Profile from "../screens/Profile";
 import LinkingConfiguration from "./LinkingConfiguration";
+import SingleQuestion from "../screens/SingleQuestion";
+import ModalScreen from "../screens/ModalScreen";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
 	return (
@@ -38,6 +40,31 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
+function ProfileStack() {
+	return (
+		<Stack.Navigator
+			screenOptions={{
+				headerShown: false,
+			}}
+		>
+			<Stack.Screen name="Profile" component={Profile} />
+			<Stack.Screen name="SingleQuestion" component={SingleQuestion} />
+		</Stack.Navigator>
+	);
+}
+function SuperFeedStack() {
+	return (
+		<Stack.Navigator
+			screenOptions={{
+				headerShown: false,
+			}}
+		>
+			<Stack.Screen name="Feed" component={Feed} />
+			<Stack.Screen name="CreateQuestion" component={CreateQuestion} />
+		</Stack.Navigator>
+	);
+}
+
 function RootNavigator() {
 	const { authData, loading } = useAuth();
 	if (loading) {
@@ -51,35 +78,31 @@ function RootNavigator() {
 		<>
 			{authData ? (
 				<Drawer.Navigator
-					initialRouteName="CreateQuestion"
+					initialRouteName="SuperFeedStack"
 					drawerContent={(props) => <CustomDrawer {...props} />}
 					screenOptions={{
 						headerShown: false,
 					}}
 				>
 					<>
-						{/* <Drawer.Screen name="TestForm" component={TestForm} /> */}
-						<Drawer.Screen name="Feed" component={Feed} />
-						<Drawer.Screen name="Profile" component={Profile} />
-						<Drawer.Screen name="CreateQuestion" component={CreateQuestion} />
+						<Drawer.Screen name="SuperFeedStack" component={SuperFeedStack} />
+						<Drawer.Screen name="ProfileStack" component={ProfileStack} />
 					</>
 				</Drawer.Navigator>
 			) : (
-				<Drawer.Navigator
+				<Stack.Navigator
 					initialRouteName="OnBoardingScreen"
-					drawerContent={(props) => <CustomDrawer {...props} />}
 					screenOptions={{
 						headerShown: false,
 					}}
 				>
-					<Drawer.Screen name="OnBoardingScreen" component={OnBoardingScreen} />
-					<Drawer.Screen name="Login" component={Login} />
+					<Stack.Screen name="OnBoardingScreen" component={OnBoardingScreen} />
+					<Stack.Screen name="Login" component={Login} />
 					{/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
 
 					{/* <Drawer.Group screenOptions={{ presentation: "modal" }}>
-					<Drawer.Screen name="Modal" component={ModalScreen} />
 				</Drawer.Group> */}
-				</Drawer.Navigator>
+				</Stack.Navigator>
 			)}
 		</>
 	);

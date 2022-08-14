@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
 		width: 100,
 		height: 100,
 	},
-	mainContainer: {},
 	text: {
 		fontSize: fontSmall,
 	},
@@ -62,6 +61,12 @@ const styles = StyleSheet.create({
 		marginTop: 30,
 		flexDirection: "row",
 		justifyContent: "space-around",
+	},
+	mainContainer: {
+		marginTop: 20,
+		marginBottom: 20,
+		flexDirection: "row",
+		flexWrap: "wrap",
 	},
 });
 

@@ -25,6 +25,7 @@ interface UserDoc extends mongoose.Document {
 	username: string;
 	email: string;
 	password: string;
+	questions: string[];
 }
 
 const userSchema = new mongoose.Schema(
@@ -52,7 +53,7 @@ const userSchema = new mongoose.Schema(
 		questions: [
 			{
 				type: String,
-				default: []
+				default: [],
 			},
 		],
 	},
