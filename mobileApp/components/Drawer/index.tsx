@@ -25,7 +25,7 @@ const CustomDrawer = (props: any) => {
 						label="Feed"
 						labelStyle={styles.text}
 						onPress={() => {
-							props.navigation.navigate("Feed");
+							props.navigation.navigate("RootStackNavigator", { screen: "Feed" });
 						}}
 					/>
 					<DrawerItem label="Réglages" labelStyle={styles.text} onPress={() => {}} />
@@ -33,7 +33,7 @@ const CustomDrawer = (props: any) => {
 						label="Mon Profile"
 						labelStyle={styles.text}
 						onPress={() => {
-							props.navigation.navigate("ProfileStack");
+							props.navigation.navigate("RootStackNavigator", { screen: "Profile" });
 						}}
 					/>
 					<DrawerItem label="Mes Signets" labelStyle={styles.text} onPress={() => {}} />

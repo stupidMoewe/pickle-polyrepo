@@ -10,6 +10,7 @@ export class QuestionCreatedListener extends Listener<QuestionCreatedEvent> {
 	async onMessage(data: QuestionCreatedEvent["data"], msg: Message) {
 		console.log("inside on message");
 		try {
+			console.log(data, data.creatorId);
 			const user = await User.findById(data.creatorId);
 
 			console.log("user super : ", user);

@@ -1,6 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
-import React, { useState } from "react";
-import { Image, ScrollView, TouchableHighlight } from "react-native";
+import React, { useRef, useState } from "react";
+import { Animated, Image, RefreshControl, ScrollView, TouchableHighlight } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CustomButton } from "../../components/Button";
 import { ProfileQuestionPreview } from "../../components/ProfileQuestionPreview";
 import { Text, View } from "../../components/Themed";
@@ -10,25 +11,47 @@ import { RootTabScreenProps } from "../../types";
 import styles from "./styles";
 const profileImage = require("../../assets/images/profile-picture.jpg");
 
+const HEADER_HEIGHT = 360;
+
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 	const [loading, isLoading] = useState(false);
 	const auth = useAuth();
+	const [activeBtn, setActiveBtn] = useState(0);
+	const [refreshing, setRefreshing] = useState(false);
+	const [positionY, setPositionY] = useState(0);
+	const offset = useRef(new Animated.Value(0)).current;
+	const insets = useSafeAreaInsets();
+
+	const titlePublicationsBtn = `Publications ${auth?.authData?.questions.length}`;
+
+	const onRefresh = () => {
+		setRefreshing(true);
+		setTimeout(() => {
+			setRefreshing(false);
+		}, 2000);
+	};
+
+	const headerHeight = offset.interpolate({
+		inputRange: [0, HEADER_HEIGHT + insets.top],
+		outputRange: [HEADER_HEIGHT + insets.top, insets.top + 200],
+		extrapolate: "clamp",
+	});
 
 	return (
 		<View style={styles.container}>
-			<ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+			<Animated.View style={[styles.animatedHeader, { height: headerHeight }]}>
+				<View style={styles.topIconsLeft}>
+					<TouchableHighlight
+						onPress={() => {
+							navigation.openDrawer();
+						}}
+					>
+						<Text>
+							<FontAwesome name="chevron-left" size={45} color={pinkPickle} />
+						</Text>
+					</TouchableHighlight>
+				</View>
 				<View style={styles.headerContainer}>
-					<View style={styles.topIconsLeft}>
-						<TouchableHighlight
-							onPress={() => {
-								navigation.openDrawer();
-							}}
-						>
-							<Text>
-								<FontAwesome name="chevron-left" size={45} color={pinkPickle} />
-							</Text>
-						</TouchableHighlight>
-					</View>
 					<View style={styles.userView}>
 						<View style={styles.userViewElement}>
 							<Text style={styles.textNumber}>123</Text>
@@ -63,15 +86,44 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 						></CustomButton>
 					</View>
 					<View style={styles.buttonsContainer2}>
-						<CustomButton title="Publications" color="pink"></CustomButton>
-						<CustomButton title="Commentaires" color="blue"></CustomButton>
+						<CustomButton
+							title={titlePublicationsBtn}
+							color="pink"
+							isActive={activeBtn === 0}
+							onPress={() => {
+								setActiveBtn(0);
+							}}
+						></CustomButton>
+						<CustomButton
+							title="Commentaires"
+							color="blue"
+							isActive={activeBtn === 1}
+							onPress={() => {
+								setActiveBtn(1);
+							}}
+						></CustomButton>
 					</View>
 				</View>
-				<View style={styles.mainContainer}>
+			</Animated.View>
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				showsHorizontalScrollIndicator={false}
+				refreshControl={
+					<RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />
+				}
+				onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], {
+					useNativeDriver: false,
+				})}
+				scrollEventThrottle={16}
+			>
+				<View style={[styles.mainContainer, { marginTop: HEADER_HEIGHT + 50 }]}>
 					{!loading &&
-						auth?.authData?.questions.map((questionId: string, index) => (
-							<ProfileQuestionPreview questionId={questionId} key={index} />
-						))}
+						activeBtn === 0 &&
+						auth?.authData?.questions
+							.reverse()
+							.map((questionId: string, index) => (
+								<ProfileQuestionPreview questionId={questionId} key={index} />
+							))}
 				</View>
 			</ScrollView>
 		</View>

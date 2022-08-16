@@ -7,20 +7,11 @@ import Question from "../../components/Question";
 import Constants from "expo-constants";
 import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
-import { RootTabScreenProps } from "../../types";
+import { QuestionType, RootTabScreenProps } from "../../types";
 import styles from "./style";
 
-interface IQuestion {
-	id: number;
-	title: string;
-	questionType: "Text" | "Image";
-	answer1: string; // written answer or image url
-	answer2: string;
-	image?: string;
-}
-
 export default function Feed({ navigation }: RootTabScreenProps<"Feed">) {
-	const [questions, setQuestions] = useState<IQuestion[]>([]);
+	const [questions, setQuestions] = useState<QuestionType[]>([]);
 	const questionAPIUrl = Constants?.manifest?.extra?.questionAPIUrl;
 
 	const getQuestion = async () => {
@@ -31,7 +22,7 @@ export default function Feed({ navigation }: RootTabScreenProps<"Feed">) {
 
 	useEffect(() => {
 		const fetchPost = async () => {
-			const questions = await getQuestion();
+			const questions: QuestionType[] = await getQuestion();
 			setQuestions(questions);
 		};
 
@@ -42,9 +33,9 @@ export default function Feed({ navigation }: RootTabScreenProps<"Feed">) {
 		<View style={styles.container}>
 			<FlatList
 				data={questions}
-				renderItem={({ item }: { item: IQuestion }) => (
-					<Question question={item} key={item.id} navigation={navigation} />
-				)}
+				renderItem={({ item }: { item: QuestionType }) => {
+					return <Question question={item} key={item.id} />;
+				}}
 				showsVerticalScrollIndicator={false}
 				snapToInterval={Dimensions.get("window").height}
 				snapToAlignment={"start"}

@@ -1,16 +1,29 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { fontLarge, fontNormal, fontSmall } from "../../constants/FontSizes";
+import { fontNormal, fontSmall } from "../../constants/FontSizes";
 import { pinkPickle } from "../../constants/ThemeColors";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
+	animatedHeader: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		right: 0,
+		zIndex: 10,
+		overflow: "hidden",
+		display: "flex",
+	},
 	container: {
 		height: height,
 		width: width,
 	},
-	headerContainer: {},
+	headerContainer: {
+		borderBottomWidth: 1,
+		borderBottomColor: "grey",
+		height: "100%",
+	},
 	topIconsLeft: {
 		position: "absolute",
 		top: 60,
@@ -20,12 +33,12 @@ const styles = StyleSheet.create({
 		shadowOffset: { width: 0, height: 0 },
 		shadowOpacity: 10,
 		shadowRadius: 10,
+		elevation: 10,
+		zIndex: 20,
 	},
 	userView: {
 		marginTop: 110,
 		flexDirection: "row",
-		// borderColor: pinkPickle,
-		// borderWidth: 1,
 	},
 	userViewElement: {
 		flex: 1,
@@ -33,7 +46,6 @@ const styles = StyleSheet.create({
 	},
 	userViewPicture: {
 		flex: 1,
-		// minWidth: 100,
 		justifyContent: "center",
 		alignItems: "center",
 	},
@@ -63,7 +75,6 @@ const styles = StyleSheet.create({
 		justifyContent: "space-around",
 	},
 	mainContainer: {
-		marginTop: 20,
 		marginBottom: 20,
 		flexDirection: "row",
 		flexWrap: "wrap",

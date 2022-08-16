@@ -35,16 +35,14 @@ export function ProfileQuestionPreview({ questionId }: ProfileQuestionPreviewPro
 		<TouchableOpacity
 			style={styles.container}
 			onPress={() => {
-				console.log("pressed", question);
 				if (!loading && question) {
-					console.log(question);
 					navigation.navigate("SingleQuestion", { question });
 				}
 			}}
 		>
-			{/* <Text>{question?.title}</Text>
+			<Text>{question?.title}</Text>
 			<Text>{question?.answer1}</Text>
-			<Text>{question?.answer2}</Text> */}
+			<Text>{question?.answer2}</Text>
 		</TouchableOpacity>
 	);
 }

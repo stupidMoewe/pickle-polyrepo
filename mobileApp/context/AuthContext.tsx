@@ -71,10 +71,10 @@ const AuthProvider: React.FC = ({ children }) => {
 				},
 			});
 			const authDataResponse: AuthData = {
-				userId: response.data.user.id,
-				username: response.data.user.username,
-				email: response.data.user.email,
-				questions: response.data.user.questions,
+				userId: response.data.id,
+				username: response.data.username,
+				email: response.data.email,
+				questions: response.data.questions,
 			};
 			setAuthData(authDataResponse);
 			const stringAuthData = JSON.stringify(authDataResponse);

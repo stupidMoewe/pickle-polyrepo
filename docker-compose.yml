@@ -73,6 +73,7 @@ services:
       - NATS_CLUSTER_ID=nats-streaming
       - NATS_CLIENT_ID=agretwg
       - NATS_URL=nats://nats:4222
+      - JWT_KEY=secretbdjeflawhcvdeqafecvrkepqofv
     depends_on:
       - nats
       - db
@@ -98,6 +99,7 @@ services:
       - NATS_CLUSTER_ID=nats-streaming
       - NATS_CLIENT_ID=alsdkj
       - NATS_URL=nats://nats:4222
+      - JWT_KEY=secretbdjeflawhcvdeqafecvrkepqofv
     depends_on:
       - nats
       - db

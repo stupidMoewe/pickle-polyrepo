@@ -42,15 +42,24 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 	DrawerScreenProps<RootDrawerParamList>
 >;
 
-export interface QuestionType {
-	question: {
-		id: string;
-		title: string;
-		answer1: string;
-		answer2: string;
-		answer3?: string;
-		answer4?: string;
-		imageUrl?: string;
-		creatorId: string;
-	};
+// first word is the title's type of content, second of the answers
+// ex: title of type Text, answers of type image => textImage
+export enum QuestionType {
+	TextText,
+	TextImage,
+	ImageText,
+	ImageImage,
+	VideoText,
+	VideoImage,
+}
+
+export interface IQuestion {
+	id: string;
+	questionType: QuestionType;
+	title: string; // whether the text of the title or the url of the image or the video
+	answer1: string;
+	answer2: string;
+	answer3?: string;
+	answer4?: string;
+	creatorId: string;
 }

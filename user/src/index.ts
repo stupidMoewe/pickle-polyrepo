@@ -21,6 +21,9 @@ const start = async () => {
 	if (!process.env.REDIS_URL) {
 		throw new Error("REDIS_URL must be defined");
 	}
+	if (!process.env.JWT_KEY) {
+		throw new Error("JWT_KEY must be defined");
+	}
 
 	try {
 		await natsWrapper.connect(

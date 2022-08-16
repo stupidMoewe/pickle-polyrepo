@@ -1,12 +1,13 @@
+import { BadRequestError, validateRequest } from "@stupidpickle/common";
 import bcrypt from "bcryptjs";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-import { validateRequest } from "../middlewares/validate-results";
+import jwt from "jsonwebtoken";
 import { User } from "../models/User";
 
 const router = express.Router();
 
-export const login = router.post(
+router.post(
 	"/login",
 	[
 		body("email").isEmail().withMessage("Email must be valid"),
@@ -21,17 +22,29 @@ export const login = router.post(
 
 		const existingUser = await User.findOne({ email });
 		if (!existingUser) {
-			return res.status(401).json({ message: "Invalid credentials" });
+			throw new BadRequestError("Invalid credentials");
 		}
 
 		const passwordsMatch = await bcrypt.compare(password, existingUser.password);
 
 		if (!passwordsMatch) {
-			return res.status(401).json({ message: "Invalid credentials" });
+			throw new BadRequestError("Invalid Credentials");
 		}
 
-		req.session.userId = existingUser.id.toString();
+		// Generate JWT
+		const userJwt = jwt.sign(
+			{
+				id: existingUser.id,
+				email: existingUser.email,
+			},
+			process.env.JWT_KEY!
+		);
 
-		return res.status(200).send({ user: existingUser });
+		// Store it on session object
+		req.session = { jwt: userJwt };
+
+		res.status(200).send(existingUser);
 	}
 );
+
+export { router as login };

@@ -26,10 +26,17 @@ const styles = StyleSheet.create({
 		// borderWidth: 1,
 		// width: width,
 	},
+	titleContainer: {
+		display: "flex",
+		flexDirection: "row",
+		marginBottom: 60,
+		justifyContent: "flex-start",
+		alignItems: "center",
+	},
 	title: {
 		fontWeight: "bold",
 		fontSize: 30,
-		marginBottom: 60,
+		marginLeft: 20,
 	},
 	label: {
 		fontSize: fontLarge,

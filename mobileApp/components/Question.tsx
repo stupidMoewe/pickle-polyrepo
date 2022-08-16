@@ -7,18 +7,20 @@ import { pinkPickle } from "../constants/ThemeColors";
 import { QuestionType } from "../types";
 import { AnswerBntText } from "./AnswerBntText";
 import { Text, View } from "./Themed";
+const height = Dimensions.get("window").height;
 
 // type questionComponentProp = DrawerNavigationProp<RootDrawerParamList, "Question">;
 
-export default function Question({ question }: QuestionType) {
+export default function Question({ question }: { question: QuestionType }) {
+	const { title, answer1, answer2 } = question;
 	const navigation = useNavigation();
 	return (
 		<View style={styles.container}>
 			{/* <ImageBackground source={question.imageUrl} style={styles.ImageBackground}> */}
 			<View style={styles.questionContainer}>
-				<Text style={styles.title}>{question.title}</Text>
-				<AnswerBntText styles={styles.answer} text={question.answer1} />
-				<AnswerBntText styles={styles.answer} text={question.answer2} />
+				<Text style={styles.title}>{title}</Text>
+				<AnswerBntText styles={styles.answer} text={answer1} />
+				<AnswerBntText styles={styles.answer} text={answer2} />
 			</View>
 			<View style={styles.questionScreen}>
 				<View style={styles.bottomIcons}>
@@ -47,7 +49,7 @@ export default function Question({ question }: QuestionType) {
 const styles = StyleSheet.create({
 	container: {
 		width: "100%",
-		height: Dimensions.get("window").height,
+		height: height,
 	},
 	ImageBackground: {
 		flex: 1,

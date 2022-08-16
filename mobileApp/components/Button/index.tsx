@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { Pressable, Text, TouchableOpacity } from "react-native";
 import { lightBlue, pinkPickle } from "../../constants/ThemeColors";
 import styles from "./styles";
 
@@ -9,35 +9,47 @@ interface ButtonInterface {
 	onPress?: () => void;
 	propsStyle?: Object;
 	disabled?: boolean;
+	isActive?: boolean;
 }
 
-export function CustomButton({ title, color, onPress, propsStyle, disabled }: ButtonInterface) {
+export function CustomButton({
+	title,
+	color,
+	onPress,
+	propsStyle,
+	disabled,
+	isActive = true,
+}: ButtonInterface) {
 	let buttonColor = "blue";
-	switch (color) {
-		case "blue":
-			buttonColor = lightBlue;
-			break;
-		case "red":
-			buttonColor = "#eee";
-			break;
-		case "green":
-			buttonColor = "#eee";
-			break;
-		case "pink":
-			buttonColor = pinkPickle;
-			break;
-		default:
-			buttonColor = "#eee";
+	if (isActive) {
+		switch (color) {
+			case "blue":
+				buttonColor = lightBlue;
+				break;
+			case "red":
+				buttonColor = "#eee";
+				break;
+			case "green":
+				buttonColor = "#eee";
+				break;
+			case "pink":
+				buttonColor = pinkPickle;
+				break;
+			default:
+				buttonColor = "#eee";
+		}
+	} else {
+		buttonColor = "#eee";
 	}
 
 	return (
-		<TouchableOpacity
+		<Pressable
 			style={[styles.buttonContainer, { backgroundColor: buttonColor }, propsStyle]}
 			onPress={onPress}
 			disabled={disabled}
 		>
 			<Text style={styles.buttonText}>{title}</Text>
 			{/* <MaterialIcons name="arrow-forward-ios" size={22} color="#fff" /> */}
-		</TouchableOpacity>
+		</Pressable>
 	);
 }

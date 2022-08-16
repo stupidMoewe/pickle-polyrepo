@@ -18,9 +18,8 @@ import { useAuth } from "../context/AuthContext";
 import Login from "../screens/Login";
 import OnBoardingScreen from "../screens/OnBoarding";
 import Profile from "../screens/Profile";
-import LinkingConfiguration from "./LinkingConfiguration";
 import SingleQuestion from "../screens/SingleQuestion";
-import ModalScreen from "../screens/ModalScreen";
+import LinkingConfiguration from "./LinkingConfiguration";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
 	return (
@@ -40,19 +39,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-function ProfileStack() {
-	return (
-		<Stack.Navigator
-			screenOptions={{
-				headerShown: false,
-			}}
-		>
-			<Stack.Screen name="Profile" component={Profile} />
-			<Stack.Screen name="SingleQuestion" component={SingleQuestion} />
-		</Stack.Navigator>
-	);
-}
-function SuperFeedStack() {
+function RootStackNavigator() {
 	return (
 		<Stack.Navigator
 			screenOptions={{
@@ -60,6 +47,8 @@ function SuperFeedStack() {
 			}}
 		>
 			<Stack.Screen name="Feed" component={Feed} />
+			<Stack.Screen name="Profile" component={Profile} />
+			<Stack.Screen name="SingleQuestion" component={SingleQuestion} />
 			<Stack.Screen name="CreateQuestion" component={CreateQuestion} />
 		</Stack.Navigator>
 	);
@@ -85,8 +74,10 @@ function RootNavigator() {
 					}}
 				>
 					<>
-						<Drawer.Screen name="SuperFeedStack" component={SuperFeedStack} />
-						<Drawer.Screen name="ProfileStack" component={ProfileStack} />
+						<Drawer.Screen
+							name="RootStackNavigator"
+							component={RootStackNavigator}
+						></Drawer.Screen>
 					</>
 				</Drawer.Navigator>
 			) : (

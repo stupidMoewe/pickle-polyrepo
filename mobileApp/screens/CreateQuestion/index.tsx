@@ -3,11 +3,14 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import Constants from "expo-constants";
 import React, { useState } from "react";
-import { Image, Pressable, ScrollView } from "react-native";
+import { Pressable, ScrollView } from "react-native";
 import { CustomButton } from "../../components/Button";
+import GoBack from "../../components/GoBackIcon";
 import Input from "../../components/Input";
 import { TakePictureFrame } from "../../components/TakePictureFrame";
 import { Text, View } from "../../components/Themed";
+import useAxios from "../../hooks/useAxios";
+import { QuestionType } from "../../types";
 import styles from "./styles";
 
 export default function CreateQuestion() {
@@ -15,26 +18,28 @@ export default function CreateQuestion() {
 	const [title, setTitle] = useState<string>("");
 	const [answer1, setAnswer1] = useState<string>("");
 	const [answer2, setAnswer2] = useState<string>("");
-	const [image, setImage] = useState();
+	const [questionType, setQuestionType] = useState<QuestionType>();
 
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-	const questionAPIUrl = Constants?.manifest?.extra?.questionAPIUrl;
+	const { doRequest, errors } = useAxios({
+		port: "4002",
+		url: "/create-question",
+		method: "post",
+		body: {
+			title,
+			answer1,
+			answer2,
+			questionType: questionType || "TextText",
+		},
+		onSuccess: () => navigation.navigate("Root", { screen: "Profile" }),
+	});
+
 	const postQuestion = async () => {
-		const url = `${questionAPIUrl}/create-question`;
-		await axios
-			.post(url, {
-				title,
-				answer1,
-				answer2,
-			})
-			.then((res) => {
-				console.log(res);
-				navigation.navigate("Feed");
-			})
-			.catch((error) => {
-				console.log(error.response.data.errors);
-			});
+		doRequest();
+		if (errors) {
+			console.log(errors);
+		}
 	};
 
 	return (
@@ -52,7 +57,10 @@ export default function CreateQuestion() {
 				</>
 			) : (
 				<View style={styles.createQuestionContainer}>
-					<Text style={styles.title}>Post a Question</Text>
+					<View style={styles.titleContainer}>
+						<GoBack />
+						<Text style={styles.title}>Post a Question</Text>
+					</View>
 					<ScrollView
 						showsVerticalScrollIndicator={false}
 						showsHorizontalScrollIndicator={false}
@@ -72,18 +80,16 @@ export default function CreateQuestion() {
 								</Pressable>
 							</View>
 						</View>
-						<Image source={{ uri: image }} style={styles.imageDisplay} />
+						{/* <Image source={{ uri: image }} style={styles.imageDisplay} /> */}
 						<Text style={styles.label}>Answers :</Text>
 						<Input
 							placeholder="Answer 1"
 							value={answer1}
-							secureTextEntry={true}
 							onChangeText={(text) => setAnswer1(text)}
 						></Input>
 						<Input
 							placeholder="Answer 2"
 							value={answer2}
-							secureTextEntry={true}
 							onChangeText={(text) => setAnswer2(text)}
 						></Input>
 					</ScrollView>
