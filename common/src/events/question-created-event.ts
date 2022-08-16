@@ -1,6 +1,6 @@
 import { Subjects } from "./subjects";
 
-declare enum questionType {
+declare enum IQuestionType {
 	TextText,
 	TextImage,
 	ImageText,
@@ -12,7 +12,7 @@ export interface QuestionCreatedEvent {
 	subject: Subjects.QuestionCreated;
 	data: {
 		id: string;
-		questionType: questionType;
+		questionType: IQuestionType;
 		creatorId: string;
 		expirationDate: number;
 	};
