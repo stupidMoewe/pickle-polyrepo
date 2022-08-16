@@ -1,18 +1,18 @@
 import { Subjects } from "./subjects";
 
-declare enum IQuestionType {
-	TextText,
-	TextImage,
-	ImageText,
-	ImageImage,
-	VideoText,
-	VideoImage,
-}
+export type QuestionTypeOptions =
+	| "TextText"
+	| "TextImage"
+	| "ImageText"
+	| "ImageImage"
+	| "VideoText"
+	| "VideoImage";
+	
 export interface QuestionCreatedEvent {
 	subject: Subjects.QuestionCreated;
 	data: {
 		id: string;
-		questionType: IQuestionType;
+		questionType: QuestionTypeOptions;
 		creatorId: string;
 		expirationDate: number;
 	};
