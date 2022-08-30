@@ -9,6 +9,7 @@ interface UserAttrs {
 	email: string;
 	password: string;
 	questions: string[];
+	likesCount: number;
 }
 
 // An interface that describes the properties
@@ -26,6 +27,7 @@ interface UserDoc extends mongoose.Document {
 	email: string;
 	password: string;
 	questions: string[];
+	likesCount: number;
 }
 
 const userSchema = new mongoose.Schema(
@@ -56,6 +58,11 @@ const userSchema = new mongoose.Schema(
 				default: [],
 			},
 		],
+		likesCount: {
+			type: Number,
+			default: 0,
+			required: true,
+		},
 	},
 	{
 		toJSON: {

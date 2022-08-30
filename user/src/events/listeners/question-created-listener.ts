@@ -13,15 +13,13 @@ export class QuestionCreatedListener extends Listener<QuestionCreatedEvent> {
 			console.log(data, data.creatorId);
 			const user = await User.findById(data.creatorId);
 
-			console.log("user super : ", user);
-			user.questions.push(data.id);
-			await user.save();
+			if (user) {
+				user.questions.push(data.id);
+				await user.save();
+			}
 		} catch (err) {
 			console.log(err);
 		}
-		// if (!user) {
-		// 	throw new Error("User not found");
-		// }
 
 		msg.ack();
 	}

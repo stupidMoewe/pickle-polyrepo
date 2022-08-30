@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import Constants from "expo-constants";
-import SecureStore from "expo-secure-store";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 const userAPIUrl = Constants?.manifest?.extra?.userAPIUrl;
@@ -28,6 +27,7 @@ interface AuthData {
 	username: string;
 	email: string;
 	questions: string[];
+	likesCount: number;
 }
 
 interface AuthContextData {
@@ -75,6 +75,7 @@ const AuthProvider: React.FC = ({ children }) => {
 				username: response.data.username,
 				email: response.data.email,
 				questions: response.data.questions,
+				likesCount: response.data.likesCount,
 			};
 			setAuthData(authDataResponse);
 			const stringAuthData = JSON.stringify(authDataResponse);

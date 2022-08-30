@@ -97,6 +97,31 @@ services:
       - MONGO_URI=mongodb://db:27017/question
       - REDIS_URL=redis:6379
       - NATS_CLUSTER_ID=nats-streaming
+      - NATS_CLIENT_ID=alsdkjfdne3jkwl1f
+      - NATS_URL=nats://nats:4222
+      - JWT_KEY=secretbdjeflawhcvdeqafecvrkepqofv
+    depends_on:
+      - nats
+      - db
+      - redis
+    restart: "no"
+  
+  fanout:
+    image: fanout
+    build: 
+      context: ./fanout
+      dockerfile: Dockerfile-dev
+    container_name: fanout
+    volumes:
+      - /tmp/fanout/npm-cache:/root/.npm:z
+      - ./fanout/src:/usr/src/app/src:z
+    ports:
+      - "4003:4003"
+    environment:
+      - PORT=4003
+      - NODE_ENV=development
+      - REDIS_URL=redis://redis:6379
+      - NATS_CLUSTER_ID=nats-streaming
       - NATS_CLIENT_ID=alsdkj
       - NATS_URL=nats://nats:4222
       - JWT_KEY=secretbdjeflawhcvdeqafecvrkepqofv
@@ -104,5 +129,26 @@ services:
       - nats
       - db
       - redis
+    restart: "no"
+  
+  timeline:
+    image: timeline
+    build: 
+      context: ./timeline
+      dockerfile: Dockerfile-dev
+    container_name: timeline
+    volumes:
+      - /tmp/timeline/npm-cache:/root/.npm:z
+      - ./timeline/src:/usr/src/app/src:z
+    ports:
+      - "4004:4004"
+    environment:
+      - PORT=4004
+      - NODE_ENV=development
+      - REDIS_URL=redis://redis:6379
+      # - MONGO_URI=mongodb://db:27017/question
+    depends_on:
+      - redis
+      - db
     restart: "no"
   

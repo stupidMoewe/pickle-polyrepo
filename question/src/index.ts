@@ -25,6 +25,9 @@ const start = async () => {
 	// }
 
 	try {
+		await mongoose.connect(process.env.MONGO_URI);
+		console.log("connected to mongo");
+
 		await natsWrapper.connect(
 			process.env.NATS_CLUSTER_ID,
 			process.env.NATS_CLIENT_ID,
@@ -39,9 +42,6 @@ const start = async () => {
 
 		// new OrderCreatedListener(natsWrapper.client).listen();
 		// new OrderCancelledListener(natsWrapper.client).listen();
-
-		await mongoose.connect(process.env.MONGO_URI);
-		console.log("Connected to MongoDb");
 	} catch (err) {
 		console.error(err);
 	}

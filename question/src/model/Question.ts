@@ -5,13 +5,15 @@ import mongoose from "mongoose";
 interface QuestionAttrs {
 	questionType: QuestionTypeOptions;
 	title: string;
-	answer1: string;
-	answer2: string;
-	answer3?: string;
-	answer4?: string;
+	possibleAnswers: string[];
 	creatorId: string;
-	likes: number;
+	// likedCount: number;
+	// commentedCount: number;
+	// commentedByUsers: string[];
+	// likedByUsers: string[];
+	// answeredByUsers: string[];
 	expirationDate: number;
+	// answersCount: number;
 }
 
 // An interface that describes the properties
@@ -34,13 +36,15 @@ interface QuestionDoc extends mongoose.Document {
 	id: string;
 	questionType: QuestionTypeOptions;
 	title: string;
-	answer1: string;
-	answer2: string;
-	answer3?: string;
-	answer4?: string;
+	possibleAnswers: string[];
 	creatorId: string;
-	likes: number;
+	likedCount: number;
+	commentedCount: number;
+	commentedByUsers: string[];
+	likedByUsers: string[];
+	answeredByUsers: string[];
 	expirationDate: number;
+	answeredCount: number;
 }
 
 const questionSchema = new mongoose.Schema(
@@ -49,42 +53,57 @@ const questionSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-
 		title: {
 			type: String,
 			required: true,
 		},
-		answer1: {
-			type: String,
-			required: true,
-		},
-		answer2: {
-			type: String,
-			required: true,
-		},
-		answer3: {
-			type: String,
-			required: false,
-			default: "",
-		},
-		answer4: {
-			type: String,
-			required: false,
-			default: "",
-		},
+		possibleAnswers: [
+			{
+				type: String,
+				required: true,
+			},
+		],
 		creatorId: {
 			type: String,
 			required: true,
 		},
-		likes: {
+		likedCount: {
 			type: Number,
 			required: true,
 			default: 0,
 		},
+		commentedCount: {
+			type: Number,
+			required: true,
+			default: 0,
+		},
+		commentedByUsers: [
+			{
+				type: String,
+				default: [],
+			},
+		],
+		likedByUsers: [
+			{
+				type: String,
+				default: [],
+			},
+		],
+		answeredByUsers: [
+			{
+				type: String,
+				default: [],
+			},
+		],
 		expirationDate: {
 			type: Number,
 			required: true,
 			default: new Date().getSeconds() + 60 * 60 * 24, // 1 day
+		},
+		answeredCount: {
+			type: Number,
+			required: true,
+			default: 0,
 		},
 	},
 	{

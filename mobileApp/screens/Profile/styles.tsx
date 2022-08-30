@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { fontNormal, fontSmall } from "../../constants/FontSizes";
+import { fontLarge, fontNormal, fontSmall } from "../../constants/FontSizes";
 import { pinkPickle } from "../../constants/ThemeColors";
 
 const height = Dimensions.get("window").height;
@@ -23,6 +23,14 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: "grey",
 		height: "100%",
+	},
+	usernameBox: {
+		position: "absolute",
+		top: 65,
+		alignSelf: "center",
+	},
+	textUsername: {
+		fontSize: 24,
 	},
 	topIconsLeft: {
 		position: "absolute",

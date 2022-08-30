@@ -8,7 +8,9 @@ import useCachedResources from "./hooks/useCachedResources";
 import Navigation from "./navigation";
 import styles from "./styles";
 import { AuthProvider } from "./context/AuthContext";
+import { Provider } from "react-redux";
 // import { createDrawerNavigator } from "@react-navigation/drawer";
+import { store } from "./store/app/store";
 
 const Stack = createNativeStackNavigator();
 // const Drawer = createDrawerNavigator();
@@ -22,10 +24,12 @@ export default function App() {
 	} else {
 		return (
 			<AuthProvider>
-				<SafeAreaProvider style={styles.container}>
-					<Navigation colorScheme={colorScheme} />
-					<StatusBar />
-				</SafeAreaProvider>
+				<Provider store={store}>
+					<SafeAreaProvider style={styles.container}>
+						<Navigation colorScheme={colorScheme} />
+						<StatusBar />
+					</SafeAreaProvider>
+				</Provider>
 			</AuthProvider>
 		);
 	}

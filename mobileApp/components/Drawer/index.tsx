@@ -20,6 +20,11 @@ const CustomDrawer = (props: any) => {
 		<View style={styles.container}>
 			<DrawerContentScrollView {...props} contentContainerStyle={styles.containerScroll}>
 				<View style={styles.list}>
+					<DrawerItem
+						label={auth?.authData?.username || "username"}
+						labelStyle={styles.text}
+						onPress={() => {}}
+					/>
 					<DrawerItem label="Recherche" labelStyle={styles.text} onPress={() => {}} />
 					<DrawerItem
 						label="Feed"

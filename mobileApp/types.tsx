@@ -17,7 +17,7 @@ export type RootDrawerParamList = {
 	Root: NavigatorScreenParams<RootTabParamList> | undefined;
 	Question: undefined;
 	Feed: undefined;
-	SingleQuestion: { question: QuestionType };
+	SingleQuestion: { question: IQuestion };
 	CreateQuestion: undefined;
 	Modal: undefined;
 	NotFound: undefined;
@@ -44,22 +44,35 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 
 // first word is the title's type of content, second of the answers
 // ex: title of type Text, answers of type image => textImage
-export enum QuestionType {
-	TextText,
-	TextImage,
-	ImageText,
-	ImageImage,
-	VideoText,
-	VideoImage,
-}
+export type QuestionTypeOptions =
+	| "TextText"
+	| "TextImage"
+	| "ImageText"
+	| "ImageImage"
+	| "VideoText"
+	| "VideoImage";
 
 export interface IQuestion {
 	id: string;
-	questionType: QuestionType;
-	title: string; // whether the text of the title or the url of the image or the video
-	answer1: string;
-	answer2: string;
-	answer3?: string;
-	answer4?: string;
+	questionType: QuestionTypeOptions;
+	title: string;
+	possibleAnswers: string[];
 	creatorId: string;
+	likedCount: number;
+	commentedCount: number;
+	commentedByUsers: string[];
+	likedByUsers: string[];
+	answeredByUser: string[];
+	expirationDate: number;
+}
+
+export type AnswerTypeOptions = "Text" | "Image" | "Video";
+
+export interface AnswerType {
+	id: string;
+	answerType: AnswerTypeOptions;
+	content: string;
+	creatorId: string;
+	answeredCount: number;
+	choozenByUser: string[];
 }

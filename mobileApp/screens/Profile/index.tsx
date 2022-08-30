@@ -15,14 +15,14 @@ const HEADER_HEIGHT = 360;
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 	const [loading, isLoading] = useState(false);
-	const auth = useAuth();
+	const { authData } = useAuth();
 	const [activeBtn, setActiveBtn] = useState(0);
 	const [refreshing, setRefreshing] = useState(false);
 	const [positionY, setPositionY] = useState(0);
 	const offset = useRef(new Animated.Value(0)).current;
 	const insets = useSafeAreaInsets();
 
-	const titlePublicationsBtn = `Publications ${auth?.authData?.questions.length}`;
+	const titlePublicationsBtn = `Publications ${authData?.questions.length}`;
 
 	const onRefresh = () => {
 		setRefreshing(true);
@@ -52,6 +52,9 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 					</TouchableHighlight>
 				</View>
 				<View style={styles.headerContainer}>
+					<View style={styles.usernameBox}>
+						<Text style={styles.textUsername}>{authData?.username}</Text>
+					</View>
 					<View style={styles.userView}>
 						<View style={styles.userViewElement}>
 							<Text style={styles.textNumber}>123</Text>
@@ -69,7 +72,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 						<View style={styles.userViewElement}>
 							<Text style={styles.textNumber}>123</Text>
 							<Text style={styles.text}>réponses</Text>
-							<Text style={styles.textNumber}>123</Text>
+							<Text style={styles.textNumber}>{authData?.likesCount || 0}</Text>
 							<Text style={styles.text}>likes</Text>
 						</View>
 					</View>
@@ -119,7 +122,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 				<View style={[styles.mainContainer, { marginTop: HEADER_HEIGHT + 50 }]}>
 					{!loading &&
 						activeBtn === 0 &&
-						auth?.authData?.questions
+						authData?.questions
 							.reverse()
 							.map((questionId: string, index) => (
 								<ProfileQuestionPreview questionId={questionId} key={index} />

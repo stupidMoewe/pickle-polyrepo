@@ -14,10 +14,17 @@ const styles = StyleSheet.create({
 		borderRadius: 12,
 		fontWeight: "bold",
 		alignSelf: "center",
+		marginTop: "15%",
 	},
 	text: {
 		fontSize: fontNormal,
 		color: "white",
+	},
+	test: {
+		borderColor: "white",
+		borderWidth: 2,
+		padding: 12,
+		width: width * 0.9,
 	},
 });
 

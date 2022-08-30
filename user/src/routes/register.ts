@@ -1,8 +1,10 @@
 import bcrypt from "bcryptjs";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
+import { UserCreatedPublisher } from "../events/publishers/user-created-publisher";
 import { validateRequest } from "../middlewares/validate-results";
 import { User } from "../models/User";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
@@ -33,6 +35,11 @@ export const register = router.post(
 					password: encryptedPassword,
 				});
 
+				new UserCreatedPublisher(natsWrapper.client).publish({
+					id: createdUser.id,
+					username: createdUser.username,
+					email: createdUser.email,
+				});
 
 				return res.json({ user: createdUser });
 			} catch (err) {

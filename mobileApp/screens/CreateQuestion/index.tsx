@@ -1,7 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
-import Constants from "expo-constants";
 import React, { useState } from "react";
 import { Pressable, ScrollView } from "react-native";
 import { CustomButton } from "../../components/Button";
@@ -10,7 +8,7 @@ import Input from "../../components/Input";
 import { TakePictureFrame } from "../../components/TakePictureFrame";
 import { Text, View } from "../../components/Themed";
 import useAxios from "../../hooks/useAxios";
-import { QuestionType } from "../../types";
+import { QuestionTypeOptions } from "../../types";
 import styles from "./styles";
 
 export default function CreateQuestion() {
@@ -18,7 +16,9 @@ export default function CreateQuestion() {
 	const [title, setTitle] = useState<string>("");
 	const [answer1, setAnswer1] = useState<string>("");
 	const [answer2, setAnswer2] = useState<string>("");
-	const [questionType, setQuestionType] = useState<QuestionType>();
+	const [answer3, setAnswer3] = useState<string | null>(null);
+	const [answer4, setAnswer4] = useState<string | null>(null);
+	const [questionType, setQuestionType] = useState<QuestionTypeOptions>();
 
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -28,11 +28,11 @@ export default function CreateQuestion() {
 		method: "post",
 		body: {
 			title,
-			answer1,
-			answer2,
+			answers: [answer1, answer2],
+			answersTypes: ["Text", "Text", answer3 ? "Text" : null, answer4 ? "Text" : null],
 			questionType: questionType || "TextText",
 		},
-		onSuccess: () => navigation.navigate("Root", { screen: "Profile" }),
+		onSuccess: () => navigation.navigate("RootStackNavigator", { screen: "Profile" }),
 	});
 
 	const postQuestion = async () => {

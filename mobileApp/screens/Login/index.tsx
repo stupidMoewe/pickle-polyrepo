@@ -6,6 +6,7 @@ import { Text, View } from "../../components/Themed";
 import { AuthContext, useAuth } from "../../context/AuthContext";
 import { RootTabScreenProps } from "../../types";
 import styles from "./styles";
+import { useLoginMutation } from "../../store/user-api-slice";
 
 export default function Login({ navigation }: RootTabScreenProps<"Login">) {
 	const [email, setEmail] = useState<string>("");
@@ -14,6 +15,7 @@ export default function Login({ navigation }: RootTabScreenProps<"Login">) {
 	const [loading, isLoading] = useState(false);
 	const auth = useAuth();
 	const login = async () => {
+		// useLoginMutation({ email, password });
 		isLoading(true);
 		await auth.login({ email, password });
 	};

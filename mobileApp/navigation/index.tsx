@@ -67,7 +67,7 @@ function RootNavigator() {
 		<>
 			{authData ? (
 				<Drawer.Navigator
-					initialRouteName="SuperFeedStack"
+					initialRouteName="RootStackNavigator"
 					drawerContent={(props) => <CustomDrawer {...props} />}
 					screenOptions={{
 						headerShown: false,

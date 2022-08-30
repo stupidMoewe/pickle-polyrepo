@@ -1,39 +1,25 @@
 import { FontAwesome, Fontisto } from "@expo/vector-icons";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Dimensions, FlatList, TouchableHighlight } from "react-native";
 import Question from "../../components/Question";
-
-import Constants from "expo-constants";
 import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
-import { QuestionType, RootTabScreenProps } from "../../types";
+import { useAuth } from "../../context/AuthContext";
+import { useFetchTimelineQuery } from "../../store/features/timelineApiSlice";
+import { IQuestion, RootTabScreenProps } from "../../types";
 import styles from "./style";
 
 export default function Feed({ navigation }: RootTabScreenProps<"Feed">) {
-	const [questions, setQuestions] = useState<QuestionType[]>([]);
-	const questionAPIUrl = Constants?.manifest?.extra?.questionAPIUrl;
+	const auth = useAuth();
 
-	const getQuestion = async () => {
-		const url = `${questionAPIUrl}/questions`;
-		const response = await axios(url);
-		return response.data;
-	};
-
-	useEffect(() => {
-		const fetchPost = async () => {
-			const questions: QuestionType[] = await getQuestion();
-			setQuestions(questions);
-		};
-
-		fetchPost();
-	}, []);
+	const { data = [], isFetching } = useFetchTimelineQuery(auth!.authData!.userId);
+	console.log(data);
 
 	return (
 		<View style={styles.container}>
 			<FlatList
-				data={questions}
-				renderItem={({ item }: { item: QuestionType }) => {
+				data={data as IQuestion[]}
+				renderItem={({ item }: { item: IQuestion }) => {
 					return <Question question={item} key={item.id} />;
 				}}
 				showsVerticalScrollIndicator={false}
