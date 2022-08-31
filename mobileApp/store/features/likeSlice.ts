@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface LikeState {
-	isQuestionLiked: boolean;
+	isLikedByCurrentUser: boolean;
 }
 
 const initialState: LikeState = {
-	isQuestionLiked: false,
+	isLikedByCurrentUser: false,
 };
 
 const likeSlice = createSlice({
@@ -13,10 +13,10 @@ const likeSlice = createSlice({
 	initialState,
 	reducers: {
 		like: (state, questionId: PayloadAction<number>) => {
-			state.isQuestionLiked = true;
+			state.isLikedByCurrentUser = true;
 		},
 		unlike: (state, questionId: PayloadAction<number>) => {
-			state.isQuestionLiked = false;
+			state.isLikedByCurrentUser = false;
 		},
 	},
 });

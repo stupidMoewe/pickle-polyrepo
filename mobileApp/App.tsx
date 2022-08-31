@@ -10,7 +10,7 @@ import styles from "./styles";
 import { AuthProvider } from "./context/AuthContext";
 import { Provider } from "react-redux";
 // import { createDrawerNavigator } from "@react-navigation/drawer";
-import { store } from "./store/app/store";
+import store from "./store/app/store";
 
 const Stack = createNativeStackNavigator();
 // const Drawer = createDrawerNavigator();

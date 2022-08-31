@@ -4,21 +4,18 @@ import React from "react";
 import { Pressable, TouchableHighlight } from "react-native";
 import { pinkPickle } from "../../constants/ThemeColors";
 import { useLikeQuestionMutation } from "../../store/features/likeApiSlice";
-import { like, unlike } from "../../store/features/likeSlice";
-import { IQuestion } from "../../types";
+import { IQuestionFeed } from "../../types";
 import { AnswerBntText } from "../AnswerBntText";
 import { Text, View } from "../Themed";
 import styles from "./styles";
 
-export const TextText = ({ question }: { question: IQuestion }) => {
+export const TextText = ({ question }: { question: IQuestionFeed }) => {
 	// const questionLiked = useAppSelector((state) => state.like.isQuestionLiked);
 	// const dispatch = useAppDispatch();
 
-	const [likeQuestion, isQuestionLiked] = useLikeQuestionMutation({
-		questionId: question.id,
-	});
+	const [likeQuestion, isQuestionLiked] = useLikeQuestionMutation(question!.id);
 
-	const { title, possibleAnswers, likedByUsers } = question;
+	const { title, possibleAnswers, isLikedByCurrentUser } = question;
 	const navigation = useNavigation();
 	// const [questionLiked, setQuestionLiked] = useState(false);
 	// const auth = useAuth();
@@ -52,11 +49,11 @@ export const TextText = ({ question }: { question: IQuestion }) => {
 			</View>
 			<View style={styles.questionScreen}>
 				<View style={styles.bottomIcons}>
-					<Pressable onPress={() => likeQuestion()} style={styles.iconArea}>
+					<Pressable onPress={() => console.log("liked pressed")} style={styles.iconArea}>
 						<AntDesign
 							name="heart"
 							size={45}
-							color={isQuestionLiked ? pinkPickle : "gray"}
+							color={isLikedByCurrentUser ? pinkPickle : "gray"}
 						/>
 					</Pressable>
 					<TouchableHighlight

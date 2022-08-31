@@ -1,25 +1,35 @@
 import { FontAwesome, Fontisto } from "@expo/vector-icons";
-import React from "react";
+import React, { useEffect } from "react";
 import { Dimensions, FlatList, TouchableHighlight } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import Question from "../../components/Question";
 import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
 import { useAuth } from "../../context/AuthContext";
+import { AppDispatch } from "../../store/app/store";
+import { getUserTimeline } from "../../store/features/timeline/timelineSlice";
 import { useFetchTimelineQuery } from "../../store/features/timelineApiSlice";
-import { IQuestion, RootTabScreenProps } from "../../types";
+import { IQuestionFeed, RootTabScreenProps } from "../../types";
 import styles from "./style";
 
 export default function Feed({ navigation }: RootTabScreenProps<"Feed">) {
 	const auth = useAuth();
 
 	const { data = [], isFetching } = useFetchTimelineQuery(auth!.authData!.userId);
-	console.log(data);
+
+	// const dispatch = useDispatch<AppDispatch>();
+	// const { questions } = useSelector((state: any) => state.questions);
+	// console.log(questions);
+
+	// useEffect(() => {
+	// 	dispatch(getUserTimeline(auth!.authData!.userId));
+	// }, []);
 
 	return (
 		<View style={styles.container}>
 			<FlatList
-				data={data as IQuestion[]}
-				renderItem={({ item }: { item: IQuestion }) => {
+				data={data as IQuestionFeed[]}
+				renderItem={({ item }: { item: IQuestionFeed }) => {
 					return <Question question={item} key={item.id} />;
 				}}
 				showsVerticalScrollIndicator={false}

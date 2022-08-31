@@ -7,7 +7,7 @@ export const likeQuestionSlice = createApi({
 	}),
 	endpoints(builder) {
 		return {
-			likeQuestion: builder.mutation<boolean, number>({
+			likeQuestion: builder.mutation<boolean, string>({
 				query(questionId) {
 					return `/like/:${questionId}`;
 				},

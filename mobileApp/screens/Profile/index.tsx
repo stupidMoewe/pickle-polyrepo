@@ -1,12 +1,15 @@
 import { FontAwesome } from "@expo/vector-icons";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, RefreshControl, ScrollView, TouchableHighlight } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
 import { CustomButton } from "../../components/Button";
 import { ProfileQuestionPreview } from "../../components/ProfileQuestionPreview";
 import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
 import { useAuth } from "../../context/AuthContext";
+import { AppDispatch } from "../../store/app/store";
+import { getUsers } from "../../store/features/usersSlice";
 import { RootTabScreenProps } from "../../types";
 import styles from "./styles";
 const profileImage = require("../../assets/images/profile-picture.jpg");
@@ -36,6 +39,13 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 		outputRange: [HEADER_HEIGHT + insets.top, insets.top + 200],
 		extrapolate: "clamp",
 	});
+
+	const dispatch = useDispatch<AppDispatch>();
+	const { users } = useSelector((state: any) => state.users);
+
+	useEffect(() => {
+		dispatch(getUsers());
+	}, []);
 
 	return (
 		<View style={styles.container}>

@@ -1,9 +1,9 @@
 import React from "react";
-import { IQuestion } from "../../types";
-import { View, Text } from "../Themed";
+import { IQuestionFeed } from "../../types";
+import { Text, View } from "../Themed";
 import { TextText } from "./TextText";
 
-export default function Question({ question }: { question: IQuestion }) {
+export default function Question({ question }: { question: IQuestionFeed }) {
 	const { questionType } = question;
 
 	const QuestionToRender = () => {

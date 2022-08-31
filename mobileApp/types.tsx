@@ -66,6 +66,20 @@ export interface IQuestion {
 	expirationDate: number;
 }
 
+export interface IQuestionFeed {
+	id: string;
+	questionType: QuestionTypeOptions;
+	title: string;
+	possibleAnswers: string[];
+	creatorId: string;
+	likedCount: number;
+	commentedCount: number;
+	commentedByUsers: string[];
+	isLikedByCurrentUser: boolean;
+	answeredByUser: string[];
+	expirationDate: number;
+}
+
 export type AnswerTypeOptions = "Text" | "Image" | "Video";
 
 export interface AnswerType {
