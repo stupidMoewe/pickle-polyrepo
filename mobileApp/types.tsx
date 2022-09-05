@@ -14,11 +14,13 @@ declare global {
 }
 
 export type RootDrawerParamList = {
-	Root: NavigatorScreenParams<RootTabParamList> | undefined;
+	RootStackNavigator: NavigatorScreenParams<RootTabParamList> | undefined;
 	Question: undefined;
 	Feed: undefined;
 	SingleQuestion: { question: IQuestion };
 	CreateQuestion: undefined;
+	OnBoardingScreen: undefined;
+	Login: undefined;
 	Modal: undefined;
 	NotFound: undefined;
 };

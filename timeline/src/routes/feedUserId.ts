@@ -12,13 +12,14 @@ export const feedUserId = router.get("/:userId", async (req: Request, res: Respo
 		const questionsFetched = Array();
 		for (const questionId of feed) {
 			if (questionId !== "first") {
-				await axios
-					.get("http://192.168.1.36:4002/questions/" + questionId)
+				const test = await axios
+					.get("http://question:4002/questions/" + questionId)
 					.then((response) => {
 						questionsFetched.push(response.data);
 					})
 					.catch((error) => {
 						console.log(error);
+						// res.status(500).send(error);
 					});
 			}
 		}

@@ -1,4 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, RefreshControl, ScrollView, TouchableHighlight } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -10,13 +11,13 @@ import { pinkPickle } from "../../constants/ThemeColors";
 import { useAuth } from "../../context/AuthContext";
 import { AppDispatch } from "../../store/app/store";
 import { getUsers } from "../../store/features/usersSlice";
-import { RootTabScreenProps } from "../../types";
 import styles from "./styles";
 const profileImage = require("../../assets/images/profile-picture.jpg");
 
 const HEADER_HEIGHT = 360;
 
-export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
+export default function Profile() {
+	const navigation = useNavigation();
 	const [loading, isLoading] = useState(false);
 	const { authData } = useAuth();
 	const [activeBtn, setActiveBtn] = useState(0);
@@ -53,7 +54,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 				<View style={styles.topIconsLeft}>
 					<TouchableHighlight
 						onPress={() => {
-							navigation.openDrawer();
+							navigation.dispatch(DrawerActions.openDrawer());
 						}}
 					>
 						<Text>

@@ -18,6 +18,7 @@ router.post(
 	],
 	validateRequest,
 	async (req: Request, res: Response) => {
+		console.log("inside login");
 		const { email, password } = req.body;
 
 		const existingUser = await User.findOne({ email });
@@ -26,10 +27,12 @@ router.post(
 		}
 
 		const passwordsMatch = await bcrypt.compare(password, existingUser.password);
+		console.log("inside login2");
 
 		if (!passwordsMatch) {
 			throw new BadRequestError("Invalid Credentials");
 		}
+		console.log("inside login3");
 
 		// Generate JWT
 		const userJwt = jwt.sign(
@@ -39,6 +42,7 @@ router.post(
 			},
 			process.env.JWT_KEY!
 		);
+		console.log("inside login4");
 
 		// Store it on session object
 		req.session = { jwt: userJwt };

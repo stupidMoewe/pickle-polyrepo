@@ -1,14 +1,15 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Input from "../../components/Input";
 import { Text, View } from "../../components/Themed";
-import { AuthContext, useAuth } from "../../context/AuthContext";
-import { RootTabScreenProps } from "../../types";
+import { useAuth } from "../../context/AuthContext";
 import styles from "./styles";
-import { useLoginMutation } from "../../store/user-api-slice";
 
-export default function Login({ navigation }: RootTabScreenProps<"Login">) {
+export default function Login() {
+	const navigation = useNavigation();
+
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 

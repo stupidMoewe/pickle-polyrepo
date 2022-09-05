@@ -3,35 +3,20 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Pressable, TouchableHighlight } from "react-native";
 import { pinkPickle } from "../../constants/ThemeColors";
-import { useLikeQuestionMutation } from "../../store/features/likeApiSlice";
+import { useAppDispatch, useAppSelector } from "../../store/app/hooks";
 import { IQuestionFeed } from "../../types";
 import { AnswerBntText } from "../AnswerBntText";
 import { Text, View } from "../Themed";
 import styles from "./styles";
 
 export const TextText = ({ question }: { question: IQuestionFeed }) => {
-	// const questionLiked = useAppSelector((state) => state.like.isQuestionLiked);
-	// const dispatch = useAppDispatch();
+	const questionLiked = useAppSelector((state) => state.like.isQuestionLiked);
+	const dispatch = useAppDispatch();
 
-	const [likeQuestion, isQuestionLiked] = useLikeQuestionMutation(question!.id);
-
-	const { title, possibleAnswers, isLikedByCurrentUser } = question;
+	const { id, title, possibleAnswers, isLikedByCurrentUser } = question;
 	const navigation = useNavigation();
-	// const [questionLiked, setQuestionLiked] = useState(false);
-	// const auth = useAuth();
 
-	// const { doRequest: doRequestLikeQuestion, errors } = useLikeQuestion({
-	// 	questionId: question.id,
-	// 	onSuccess: () => {
-	// 		console.log("success");
-	// 	},
-	// });
-
-	// useEffect(() => {
-	// 	return likedByUsers.includes(auth!.authData!.userId)
-	// 		? setQuestionLiked(true)
-	// 		: setQuestionLiked(false);
-	// }, [likedByUsers]);
+	console.log(isLikedByCurrentUser, questionLiked);
 
 	return (
 		<View style={styles.container}>
@@ -49,11 +34,14 @@ export const TextText = ({ question }: { question: IQuestionFeed }) => {
 			</View>
 			<View style={styles.questionScreen}>
 				<View style={styles.bottomIcons}>
-					<Pressable onPress={() => console.log("liked pressed")} style={styles.iconArea}>
+					<Pressable
+						onPress={() => dispatch(likeQuestion({ questionId: id }))}
+						style={styles.iconArea}
+					>
 						<AntDesign
 							name="heart"
 							size={45}
-							color={isLikedByCurrentUser ? pinkPickle : "gray"}
+							color={questionLiked ? pinkPickle : "gray"}
 						/>
 					</Pressable>
 					<TouchableHighlight

@@ -67,7 +67,7 @@ export default function CreateQuestion() {
 					>
 						<View style={styles.inputContainer}>
 							<Text style={styles.label}>Titre :</Text>
-							<View style={styles.inputView}>
+							<View>
 								<Input
 									placeholder="Titre de la question"
 									value={title}

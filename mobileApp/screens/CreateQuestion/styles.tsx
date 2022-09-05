@@ -18,14 +18,6 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		marginBottom: 40,
 	},
-	inputView: {
-		// flexDirection: "column",
-		// alignItems: "center",
-		// justifyContent: "space-between",
-		// borderColor: "#fff",
-		// borderWidth: 1,
-		// width: width,
-	},
 	titleContainer: {
 		display: "flex",
 		flexDirection: "row",

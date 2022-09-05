@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://192.168.1.36:4002";
+axios.defaults.baseURL = "http://localhost:4002";
 
 interface IProps {
 	port: "4001" | "4002" | "4003" | "4004";

@@ -1,29 +1,20 @@
 import { FontAwesome, Fontisto } from "@expo/vector-icons";
-import React, { useEffect } from "react";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
+import React from "react";
 import { Dimensions, FlatList, TouchableHighlight } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import Question from "../../components/Question";
 import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
 import { useAuth } from "../../context/AuthContext";
-import { AppDispatch } from "../../store/app/store";
-import { getUserTimeline } from "../../store/features/timeline/timelineSlice";
 import { useFetchTimelineQuery } from "../../store/features/timelineApiSlice";
-import { IQuestionFeed, RootTabScreenProps } from "../../types";
+import { IQuestionFeed } from "../../types";
 import styles from "./style";
 
-export default function Feed({ navigation }: RootTabScreenProps<"Feed">) {
+export default function Feed() {
 	const auth = useAuth();
+	const navigation = useNavigation();
 
 	const { data = [], isFetching } = useFetchTimelineQuery(auth!.authData!.userId);
-
-	// const dispatch = useDispatch<AppDispatch>();
-	// const { questions } = useSelector((state: any) => state.questions);
-	// console.log(questions);
-
-	// useEffect(() => {
-	// 	dispatch(getUserTimeline(auth!.authData!.userId));
-	// }, []);
 
 	return (
 		<View style={styles.container}>
@@ -40,7 +31,7 @@ export default function Feed({ navigation }: RootTabScreenProps<"Feed">) {
 			<View style={styles.topIconsLeft}>
 				<TouchableHighlight
 					onPress={() => {
-						navigation.openDrawer();
+						navigation.dispatch(DrawerActions.openDrawer());
 					}}
 				>
 					<Text>

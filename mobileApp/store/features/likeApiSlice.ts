@@ -3,13 +3,19 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const likeQuestionSlice = createApi({
 	reducerPath: "like",
 	baseQuery: fetchBaseQuery({
-		baseUrl: "http://192.168.1.36:4002",
+		baseUrl: "http://localhost:4002",
 	}),
 	endpoints(builder) {
+		// console.log(builder.);
 		return {
 			likeQuestion: builder.mutation<boolean, string>({
 				query(questionId) {
-					return `/like/:${questionId}`;
+					// const { questionId } = data;
+					console.log("here", questionId);
+					return {
+						url: `/like/:${questionId}`,
+						method: "POST",
+					};
 				},
 			}),
 		};

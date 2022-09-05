@@ -1,19 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { likeQuestionSlice } from "../features/likeApiSlice";
-import usersReducer from "../features/usersSlice";
-import timelineReducer from "../features/timeline/timelineSlice";
 import { timelineSlice } from "../features/timelineApiSlice";
 
 const store = configureStore({
 	reducer: {
 		[likeQuestionSlice.reducerPath]: likeQuestionSlice.reducer,
 		[timelineSlice.reducerPath]: timelineSlice.reducer,
-		users: usersReducer,
+		// users: usersReducer,
 		// timeline: timelineReducer,
 	},
-	// middleware: (getDefaultMiddleware) => {
-	// 	return getDefaultMiddleware().concat(timelineSlice.middleware);
-	// },
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware().concat(likeQuestionSlice.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

@@ -13,32 +13,16 @@ const linking: LinkingOptions<RootDrawerParamList> = {
 	prefixes: [Linking.makeUrl("/")],
 	config: {
 		screens: {
-			Root: {
-				// screens: {
-				// 	// OnBoardingScreen: {
-				// 	// 	screens: {
-				// 	// 		OnBoardingScreen: "one",
-				// 	// 	},
-				// 	// },
-				// 	Feed: {
-				// 		screens: {
-				// 			FeedScreen: "one",
-				// 		},
-				// 	},
-				// 	Profile: {
-				// 		screens: {
-				// 			Profile: "one",
-				// 		},
-				// 	},
-				// 	CreateQuestion: {
-				// 		screens: {
-				// 			CreateQuestion: "two",
-				// 		},
-				// 	},
-				// },
-				// Modal: "modal",
-				// NotFound: "*",
+			RootStackNavigator: {
+				screens: {
+					Feed: "Feed",
+					Profile: "Profile",
+					SingleQuestion: "SingleQuestion",
+					CreateQuestion: "CreateQuestion",
+				},
 			},
+			OnBoardingScreen: "OnBoardingScreen",
+			Login: "Login",
 		},
 	},
 };

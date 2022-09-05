@@ -1,12 +1,11 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { RootTabScreenProps } from "../../types";
 import styles from "./styles";
-// import Gaming from "../assets/images/misc/gaming.svg";
 
-const OnBoarding = ({ navigation }: RootTabScreenProps<"OnBoarding">) => {
+const OnBoarding = () => {
+	const navigation = useNavigation();
 	return (
 		<View style={styles.container}>
 			<View style={styles.titleView}>
@@ -17,8 +16,8 @@ const OnBoarding = ({ navigation }: RootTabScreenProps<"OnBoarding">) => {
 					Bienvenue sur la Version Alpha de Pickle !
 				</Text>
 				<Text style={styles.descriptionTextSmall}>
-					Pourt notifier un bug ou conseiller une nouvelle functionnalité, vous pouvez me
-					contacter par mél: martintefra@gmail.com
+					Pour notifier un bug ou conseiller une nouvelle functionnalité, vous pouvez me
+					contacter par mail: martintefra@gmail.com
 				</Text>
 			</View>
 			<TouchableOpacity

@@ -63,6 +63,7 @@ const AuthProvider: React.FC = ({ children }) => {
 	const login = async ({ email, password }: LoginData) => {
 		try {
 			const url = `${userAPIUrl}/login`;
+			console.log(url);
 			const response = await axios(url, {
 				method: "POST",
 				data: {
@@ -70,6 +71,7 @@ const AuthProvider: React.FC = ({ children }) => {
 					password,
 				},
 			});
+			console.log(response);
 			const authDataResponse: AuthData = {
 				userId: response.data.id,
 				username: response.data.username,
