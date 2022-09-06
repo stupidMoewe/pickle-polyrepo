@@ -17,3 +17,4 @@ export * from "./events/subjects";
 export * from "./events/question-created-event";
 export * from "./events/question-liked-event";
 export * from "./events/user-created-event";
+export * from "./events/question-answer-choozen";
