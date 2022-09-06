@@ -1,19 +1,22 @@
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { DrawerActions } from "@react-navigation/native";
-import React, { useState } from "react";
+import React from "react";
 import { TouchableOpacity } from "react-native";
 import { useAuth } from "../../context/AuthContext";
-
+import { useAppDispatch, useAppSelector } from "../../store/app/hooks";
+import { logout } from "../../store/features/auth/authSlice";
 import { Text, View } from "../Themed";
 import styles from "./styles";
 
 const CustomDrawer = (props: any) => {
-	const [loading, isLoading] = useState(false);
-	const auth = useAuth();
-	const logout = async () => {
-		isLoading(true);
+	// const auth = useAuth();
+	const dispatch = useAppDispatch();
+
+	const { user, loading } = useAppSelector((state) => state.auth);
+
+	const logoutHandler = async () => {
 		await props.navigation.dispatch(DrawerActions.closeDrawer());
-		auth.logout();
+		dispatch(logout());
 	};
 
 	return (
@@ -21,7 +24,7 @@ const CustomDrawer = (props: any) => {
 			<DrawerContentScrollView {...props} contentContainerStyle={styles.containerScroll}>
 				<View style={styles.list}>
 					<DrawerItem
-						label={auth?.authData?.username || "username"}
+						label={user.username || "username"}
 						labelStyle={styles.text}
 						onPress={() => {}}
 					/>
@@ -47,7 +50,7 @@ const CustomDrawer = (props: any) => {
 				</View>
 			</DrawerContentScrollView>
 			<View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}>
-				<TouchableOpacity onPress={logout}>
+				<TouchableOpacity onPress={logoutHandler}>
 					<View style={{ flexDirection: "row", alignItems: "center" }}>
 						<Text style={styles.text}>Logout</Text>
 					</View>

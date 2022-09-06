@@ -31,8 +31,8 @@
 			"favicon": "./assets/images/favicon.png"
 		},
 		"extra": {
-			"userAPIUrl": "http://localhost:4001",
-			"questionAPIUrl": "http://localhost:4002"
+			"userAPIUrl": "http://192.168.0.31:4001",
+			"questionAPIUrl": "http://192.168.0.31:4002"
 		}
 	}
 }

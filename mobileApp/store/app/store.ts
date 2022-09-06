@@ -1,19 +1,23 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { likeQuestionSlice } from "../features/likeApiSlice";
-import { timelineSlice } from "../features/timelineApiSlice";
+import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
+import userFeedReducer from "../features/feed/userFeedSlice";
+import userQuestionsPreviewReducer from "../features/profile/userQuestionsPreviewSlice";
+import questionToogleLikeReducer from "../features/question/likeSlice";
+import authReducer from "../features/auth/authSlice";
 
-const store = configureStore({
+export const store = configureStore({
 	reducer: {
-		[likeQuestionSlice.reducerPath]: likeQuestionSlice.reducer,
-		[timelineSlice.reducerPath]: timelineSlice.reducer,
-		// users: usersReducer,
-		// timeline: timelineReducer,
+		userFeed: userFeedReducer,
+		userQuestionsPreview: userQuestionsPreviewReducer,
+		questionToogleLike: questionToogleLikeReducer,
+		auth: authReducer,
 	},
-	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware().concat(likeQuestionSlice.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;
-// export type RootState = ReturnType<typeof store.getState>;
-
-export default store;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+	ReturnType,
+	RootState,
+	unknown,
+	Action<string>
+>;

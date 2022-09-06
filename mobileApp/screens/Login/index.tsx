@@ -4,21 +4,19 @@ import { ScrollView, TouchableOpacity } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Input from "../../components/Input";
 import { Text, View } from "../../components/Themed";
-import { useAuth } from "../../context/AuthContext";
+import { useAppDispatch } from "../../store/app/hooks";
+import { login } from "../../store/features/auth/authSlice";
 import styles from "./styles";
 
 export default function Login() {
 	const navigation = useNavigation();
+	const dispatch = useAppDispatch();
 
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 
-	const [loading, isLoading] = useState(false);
-	const auth = useAuth();
-	const login = async () => {
-		// useLoginMutation({ email, password });
-		isLoading(true);
-		await auth.login({ email, password });
+	const loginHandler = async () => {
+		dispatch(login({ email, password }));
 	};
 
 	return (
@@ -41,7 +39,7 @@ export default function Login() {
 					onChangeText={(text) => setPassword(text)}
 				></Input>
 			</ScrollView>
-			<TouchableOpacity style={styles.buttonContainer} onPress={login}>
+			<TouchableOpacity style={styles.buttonContainer} onPress={loginHandler}>
 				<Text style={styles.buttonText}>Login</Text>
 				<MaterialIcons name="arrow-forward-ios" size={22} color="#fff" />
 			</TouchableOpacity>

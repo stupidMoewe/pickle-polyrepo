@@ -1,32 +1,28 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Animated, Image, RefreshControl, ScrollView, TouchableHighlight } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
 import { CustomButton } from "../../components/Button";
 import { ProfileQuestionPreview } from "../../components/ProfileQuestionPreview";
 import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
-import { useAuth } from "../../context/AuthContext";
-import { AppDispatch } from "../../store/app/store";
-import { getUsers } from "../../store/features/usersSlice";
+import { useAppDispatch, useAppSelector } from "../../store/app/hooks";
+import { getUserQuestionsPreview } from "../../store/features/profile/userQuestionsPreviewSlice";
 import styles from "./styles";
+
 const profileImage = require("../../assets/images/profile-picture.jpg");
 
 const HEADER_HEIGHT = 360;
 
-export default function Profile() {
+const ProfileScreen = () => {
 	const navigation = useNavigation();
-	const [loading, isLoading] = useState(false);
-	const { authData } = useAuth();
 	const [activeBtn, setActiveBtn] = useState(0);
 	const [refreshing, setRefreshing] = useState(false);
-	const [positionY, setPositionY] = useState(0);
 	const offset = useRef(new Animated.Value(0)).current;
 	const insets = useSafeAreaInsets();
 
-	const titlePublicationsBtn = `Publications ${authData?.questions.length}`;
+	const { user, loading } = useAppSelector((state) => state.auth);
 
 	const onRefresh = () => {
 		setRefreshing(true);
@@ -41,12 +37,17 @@ export default function Profile() {
 		extrapolate: "clamp",
 	});
 
-	const dispatch = useDispatch<AppDispatch>();
-	const { users } = useSelector((state: any) => state.users);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(getUsers());
-	}, []);
+		dispatch(getUserQuestionsPreview(user!.id));
+	}, [dispatch]);
+
+	const userQuestionsPreview = useAppSelector(
+		(state) => state.userQuestionsPreview.userQuestionsPreview
+	);
+
+	const titlePublicationsBtn = `Publications ${userQuestionsPreview.length}`;
 
 	return (
 		<View style={styles.container}>
@@ -64,7 +65,7 @@ export default function Profile() {
 				</View>
 				<View style={styles.headerContainer}>
 					<View style={styles.usernameBox}>
-						<Text style={styles.textUsername}>{authData?.username}</Text>
+						<Text style={styles.textUsername}>{user!.username}</Text>
 					</View>
 					<View style={styles.userView}>
 						<View style={styles.userViewElement}>
@@ -83,7 +84,7 @@ export default function Profile() {
 						<View style={styles.userViewElement}>
 							<Text style={styles.textNumber}>123</Text>
 							<Text style={styles.text}>réponses</Text>
-							<Text style={styles.textNumber}>{authData?.likesCount || 0}</Text>
+							<Text style={styles.textNumber}>{user?.likesCount || 0}</Text>
 							<Text style={styles.text}>likes</Text>
 						</View>
 					</View>
@@ -133,13 +134,13 @@ export default function Profile() {
 				<View style={[styles.mainContainer, { marginTop: HEADER_HEIGHT + 50 }]}>
 					{!loading &&
 						activeBtn === 0 &&
-						authData?.questions
-							.reverse()
-							.map((questionId: string, index) => (
-								<ProfileQuestionPreview questionId={questionId} key={index} />
-							))}
+						userQuestionsPreview.map((data: any, index: any) => {
+							return <ProfileQuestionPreview questionId={data.id} key={index} />;
+						})}
 				</View>
 			</ScrollView>
 		</View>
 	);
-}
+};
+
+export default ProfileScreen;

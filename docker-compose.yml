@@ -146,6 +146,7 @@ services:
       - PORT=4004
       - NODE_ENV=development
       - REDIS_URL=redis://redis:6379
+      - JWT_KEY=secretbdjeflawhcvdeqafecvrkepqofv
       # - MONGO_URI=mongodb://db:27017/question
     depends_on:
       - redis

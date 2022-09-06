@@ -4,7 +4,7 @@ import Constants from "expo-constants";
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { Text } from "../../components/Themed";
-import { QuestionType } from "../../types";
+import { IQuestion } from "../../types";
 import styles from "./styles";
 
 interface ProfileQuestionPreviewProps {
@@ -12,7 +12,7 @@ interface ProfileQuestionPreviewProps {
 }
 
 export function ProfileQuestionPreview({ questionId }: ProfileQuestionPreviewProps) {
-	const [question, setQuestion] = useState<QuestionType>();
+	const [question, setQuestion] = useState<IQuestion>();
 	const [loading, setLoading] = useState<Boolean>(true);
 	const questionAPIUrl = Constants?.manifest?.extra?.questionAPIUrl;
 	const navigation = useNavigation();
@@ -41,8 +41,9 @@ export function ProfileQuestionPreview({ questionId }: ProfileQuestionPreviewPro
 			}}
 		>
 			<Text>{question?.title}</Text>
-			<Text>{question?.answer1}</Text>
-			<Text>{question?.answer2}</Text>
+			{question?.possibleAnswers.map((answer, key) => (
+				<Text key={key}>{answer}</Text>
+			))}
 		</TouchableOpacity>
 	);
 }

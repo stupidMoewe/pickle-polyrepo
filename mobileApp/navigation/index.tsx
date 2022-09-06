@@ -14,11 +14,11 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import CustomDrawer from "../components/Drawer";
 import { Text, View } from "../components/Themed";
-import { useAuth } from "../context/AuthContext";
 import Login from "../screens/Login";
 import OnBoardingScreen from "../screens/OnBoarding";
 import Profile from "../screens/Profile";
 import SingleQuestion from "../screens/SingleQuestion";
+import { useAppSelector } from "../store/app/hooks";
 import LinkingConfiguration from "./LinkingConfiguration";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -65,7 +65,8 @@ function RootStackNavigator() {
 }
 
 function RootNavigator() {
-	const { authData, loading } = useAuth();
+	const { user, loading } = useAppSelector((state) => state.auth);
+
 	if (loading) {
 		return (
 			<View>
@@ -75,7 +76,7 @@ function RootNavigator() {
 	}
 	return (
 		<>
-			{authData ? (
+			{user ? (
 				<Drawer.Navigator
 					initialRouteName="RootStackNavigator"
 					drawerContent={(props) => <CustomDrawer {...props} />}

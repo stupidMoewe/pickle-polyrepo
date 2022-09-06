@@ -11,6 +11,7 @@ import {
 	questionLiked,
 	questions,
 	questionsByUser,
+	questionUnliked,
 } from "./routes";
 
 const app = express();
@@ -34,6 +35,7 @@ app.use(questions);
 app.use(createQuestion);
 app.use(questionById);
 app.use(questionLiked);
+app.use(questionUnliked);
 app.use(answers);
 app.use(answerById);
 

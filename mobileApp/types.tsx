@@ -4,8 +4,8 @@
  */
 
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/native";
 import { DrawerScreenProps } from "@react-navigation/drawer";
+import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/native";
 
 declare global {
 	namespace ReactNavigation {
@@ -91,4 +91,12 @@ export interface AnswerType {
 	creatorId: string;
 	answeredCount: number;
 	choozenByUser: string[];
+}
+
+export interface IAuth {
+	id: string;
+	username: string;
+	email: string;
+	questions: string[];
+	likesCount: number;
 }

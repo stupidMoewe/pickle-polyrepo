@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		alignSelf: "center",
 		marginTop: "15%",
+		zIndex: 100,
 	},
 	text: {
 		fontSize: fontNormal,

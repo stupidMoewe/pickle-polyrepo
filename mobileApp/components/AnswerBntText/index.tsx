@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { Pressable, TouchableOpacity } from "react-native";
 import { Text, View } from "../../components/Themed";
 import useAxios from "../../hooks/useAxios";
 import { AnswerType } from "../../types";
@@ -32,10 +32,10 @@ export function AnswerBntText({ answerId }: any) {
 	};
 
 	return loaded ? (
-		<View>
-			<TouchableOpacity onPress={onPressedHandler} style={styles.container}>
+		<View style={styles.container}>
+			<Pressable onPress={onPressedHandler}>
 				<Text style={styles.text}>{answer!.content}</Text>
-			</TouchableOpacity>
+			</Pressable>
 		</View>
 	) : (
 		<></>

@@ -1,25 +1,30 @@
 import { FontAwesome, Fontisto } from "@expo/vector-icons";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Dimensions, FlatList, TouchableHighlight } from "react-native";
 import Question from "../../components/Question";
 import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
-import { useAuth } from "../../context/AuthContext";
-import { useFetchTimelineQuery } from "../../store/features/timelineApiSlice";
+import { useAppDispatch, useAppSelector } from "../../store/app/hooks";
+import { getUserFeed } from "../../store/features/feed/userFeedSlice";
 import { IQuestionFeed } from "../../types";
 import styles from "./style";
 
 export default function Feed() {
-	const auth = useAuth();
 	const navigation = useNavigation();
 
-	const { data = [], isFetching } = useFetchTimelineQuery(auth!.authData!.userId);
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(getUserFeed());
+	}, [dispatch]);
+
+	const userFeedQuestion = useAppSelector((state) => state.userFeed.questions);
 
 	return (
 		<View style={styles.container}>
 			<FlatList
-				data={data as IQuestionFeed[]}
+				data={userFeedQuestion as IQuestionFeed[]}
 				renderItem={({ item }: { item: IQuestionFeed }) => {
 					return <Question question={item} key={item.id} />;
 				}}

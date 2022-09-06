@@ -9,8 +9,8 @@ import Navigation from "./navigation";
 import styles from "./styles";
 import { AuthProvider } from "./context/AuthContext";
 import { Provider } from "react-redux";
+import { store } from "./store/app/store";
 // import { createDrawerNavigator } from "@react-navigation/drawer";
-import store from "./store/app/store";
 
 const Stack = createNativeStackNavigator();
 // const Drawer = createDrawerNavigator();
@@ -23,14 +23,14 @@ export default function App() {
 		return null;
 	} else {
 		return (
-			<AuthProvider>
-				<Provider store={store}>
-					<SafeAreaProvider style={styles.container}>
-						<Navigation colorScheme={colorScheme} />
-						<StatusBar />
-					</SafeAreaProvider>
-				</Provider>
-			</AuthProvider>
+			// <AuthProvider>
+			<Provider store={store}>
+				<SafeAreaProvider style={styles.container}>
+					<Navigation colorScheme={colorScheme} />
+					<StatusBar />
+				</SafeAreaProvider>
+			</Provider>
+			// </AuthProvider>
 		);
 	}
 }
