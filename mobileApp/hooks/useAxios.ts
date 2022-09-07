@@ -7,7 +7,7 @@ interface IProps {
 	port: "4001" | "4002" | "4003" | "4004";
 	url: string;
 	method: Methods;
-	body: Object;
+	body: object;
 	onSuccess?: (data: any) => void;
 }
 

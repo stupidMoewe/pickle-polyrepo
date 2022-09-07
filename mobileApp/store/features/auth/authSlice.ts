@@ -19,7 +19,7 @@ export const logout = createAsyncThunk(LOGOUT, async () => {
 
 interface IInitialState {
 	user: null | IAuth;
-	loading: Boolean;
+	loading: boolean;
 	error: SerializedError;
 }
 
@@ -35,7 +35,7 @@ const authSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		builder
-			.addCase(login.pending, (state, action) => {
+			.addCase(login.pending, (state) => {
 				state.loading = true;
 			})
 			.addCase(login.fulfilled, (state, action) => {
@@ -46,12 +46,12 @@ const authSlice = createSlice({
 				state.loading = false;
 				state.error = action.error;
 			})
-			.addCase(logout.pending, (state, action) => {
+			.addCase(logout.pending, (state) => {
 				state.loading = true;
 			})
-			.addCase(logout.fulfilled, (state, action) => {
+			.addCase(logout.fulfilled, (state) => {
 				state.loading = false;
-				state.user = null;
+				state.user = null;	``
 			})
 			.addCase(logout.rejected, (state, action) => {
 				state.loading = false;

@@ -27,6 +27,14 @@ const styles = StyleSheet.create({
 		padding: 12,
 		width: width * 0.9,
 	},
+	isAnswered: {
+		borderColor: "red",
+		backgroundColor: "red",
+	},
+	questionAnswered: {
+		borderColor: "red",
+		borderWidth: 2,
+	},
 });
 
 export default styles;

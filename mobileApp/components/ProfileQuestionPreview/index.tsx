@@ -13,7 +13,7 @@ interface ProfileQuestionPreviewProps {
 
 export function ProfileQuestionPreview({ questionId }: ProfileQuestionPreviewProps) {
 	const [question, setQuestion] = useState<IQuestion>();
-	const [loading, setLoading] = useState<Boolean>(true);
+	const [loading, setLoading] = useState<boolean>(true);
 	const questionAPIUrl = Constants?.manifest?.extra?.questionAPIUrl;
 	const navigation = useNavigation();
 

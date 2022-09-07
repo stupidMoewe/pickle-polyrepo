@@ -66,17 +66,15 @@ function RootStackNavigator() {
 
 function RootNavigator() {
 	const { user, loading } = useAppSelector((state) => state.auth);
+	console.log(user, loading);
 
-	if (loading) {
-		return (
-			<View>
-				<Text>Loading</Text>
-			</View>
-		);
-	}
-	return (
+	const returnElement = loading ? (
+		<View>
+			<Text>Loading</Text>
+		</View>
+	) : (
 		<>
-			{user ? (
+			{user?.id ? (
 				<Drawer.Navigator
 					initialRouteName="RootStackNavigator"
 					drawerContent={(props) => <CustomDrawer {...props} />}
@@ -108,4 +106,6 @@ function RootNavigator() {
 			)}
 		</>
 	);
+
+	return returnElement;
 }

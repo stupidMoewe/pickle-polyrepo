@@ -20,7 +20,7 @@ app.use(function (_req, res, next) {
 	next();
 });
 
-app.use(feedUserId)
+app.use(feedUserId);
 
 app.use("*", (_req, _res) => {
 	throw new NotFoundError();

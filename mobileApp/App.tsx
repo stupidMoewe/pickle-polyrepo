@@ -1,16 +1,17 @@
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import { useColorScheme, Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useColorScheme } from "react-native";
+import { PersistGate } from "redux-persist/integration/react";
 import useCachedResources from "./hooks/useCachedResources";
 import Navigation from "./navigation";
-import styles from "./styles";
-import { AuthProvider } from "./context/AuthContext";
-import { Provider } from "react-redux";
 import { store } from "./store/app/store";
-// import { createDrawerNavigator } from "@react-navigation/drawer";
+import styles from "./styles";
+import { Provider } from "react-redux";
+import { persistStore } from "redux-persist";
+
+let persistor = persistStore(store);
 
 const Stack = createNativeStackNavigator();
 // const Drawer = createDrawerNavigator();
@@ -25,10 +26,12 @@ export default function App() {
 		return (
 			// <AuthProvider>
 			<Provider store={store}>
-				<SafeAreaProvider style={styles.container}>
-					<Navigation colorScheme={colorScheme} />
-					<StatusBar />
-				</SafeAreaProvider>
+				<PersistGate loading={null} persistor={persistor}>
+					<SafeAreaProvider style={styles.container}>
+						<Navigation colorScheme={colorScheme} />
+						<StatusBar />
+					</SafeAreaProvider>
+				</PersistGate>
 			</Provider>
 			// </AuthProvider>
 		);

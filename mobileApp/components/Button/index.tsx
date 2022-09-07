@@ -7,7 +7,7 @@ interface ButtonInterface {
 	title: string;
 	color?: "blue" | "red" | "green" | "pink";
 	onPress?: () => void;
-	propsStyle?: Object;
+	propsStyle?: object;
 	disabled?: boolean;
 	isActive?: boolean;
 }

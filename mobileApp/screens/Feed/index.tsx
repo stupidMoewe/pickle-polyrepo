@@ -6,7 +6,8 @@ import Question from "../../components/Question";
 import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
 import { useAppDispatch, useAppSelector } from "../../store/app/hooks";
-import { getUserFeed } from "../../store/features/feed/userFeedSlice";
+import { useGetUserFeedQuery } from "../../store/features/feed/userFeedApi";
+import { getUserFeed } from "../../store/features/question/questionSlice";
 import { IQuestionFeed } from "../../types";
 import styles from "./style";
 
@@ -19,7 +20,12 @@ export default function Feed() {
 		dispatch(getUserFeed());
 	}, [dispatch]);
 
-	const userFeedQuestion = useAppSelector((state) => state.userFeed.questions);
+	// const userFeedQuestion = useAppSelector((state) => state.userFeed.questions);
+	const { data: userFeedQuestion = [], error } = useGetUserFeedQuery("");
+
+	if (error) {
+		console.log("error userFeed", error);
+	}
 
 	return (
 		<View style={styles.container}>

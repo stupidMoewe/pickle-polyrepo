@@ -10,7 +10,6 @@ export const feedUserId = router.get(
 	currentUser,
 	requireAuth,
 	async (req: Request, res: Response) => {
-		console.log("feedUserId", req.currentUser);
 		const userId = req.currentUser!.id.toString();
 		try {
 			const redisClient = await connectRedis();
@@ -18,7 +17,7 @@ export const feedUserId = router.get(
 			const questionsFetched = Array();
 			for (const questionId of feed) {
 				if (questionId !== "first") {
-					const test = await axios
+					await axios
 						.get("http://question:4002/questions/" + questionId)
 						.then((response) => {
 							questionsFetched.push(response.data);
@@ -30,12 +29,32 @@ export const feedUserId = router.get(
 				}
 			}
 			// filter the question to custumize it to the user
-			// change liked by user by isLikedByCurrentUser
-			questionsFetched.forEach((question) => {
+			for (const question of questionsFetched) {
 				const hasTheUserLikedTheQuestion: boolean = question.likedByUsers.includes(userId);
 				question.isLikedByCurrentUser = hasTheUserLikedTheQuestion;
 				delete question.likedByUsers;
-			});
+
+				const hasTheUserAnsweredTheQuestion: boolean =
+					question.answeredByUsers.includes(userId);
+				question.isAnsweredByCurrentUser = hasTheUserAnsweredTheQuestion;
+				delete question.answeredByUsers;
+
+				let answerChoozenId: string | null = null;
+
+				for (const answerId of question.possibleAnswers) {
+					await axios
+						.get("http://question:4002/answers/" + answerId)
+						.then((response) => {
+							if (response.data.choozenByUser.includes(userId)) {
+								answerChoozenId = answerId;
+							}
+						})
+						.catch((error) => {
+							console.log(error);
+						});
+				}
+				question.answerChoozenId = answerChoozenId;
+			}
 
 			res.status(200).send(questionsFetched);
 		} catch (err) {

@@ -69,6 +69,7 @@ export interface IQuestion {
 }
 
 export interface IQuestionFeed {
+	answeredCount: number;
 	id: string;
 	questionType: QuestionTypeOptions;
 	title: string;
@@ -78,8 +79,10 @@ export interface IQuestionFeed {
 	commentedCount: number;
 	commentedByUsers: string[];
 	isLikedByCurrentUser: boolean;
+	isAnsweredByCurrentUser: boolean;
 	answeredByUser: string[];
 	expirationDate: number;
+	answerChoozenId: string;
 }
 
 export type AnswerTypeOptions = "Text" | "Image" | "Video";

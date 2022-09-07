@@ -6,3 +6,4 @@ export { questionLiked } from "./questionLiked";
 export { questionUnliked } from "./questionUnliked";
 export { questions } from "./questions";
 export { questionsByUser } from "./questionsByUser";
+export { questionAnswered } from "./answerChoozen";

@@ -147,7 +147,9 @@ services:
       - NODE_ENV=development
       - REDIS_URL=redis://redis:6379
       - JWT_KEY=secretbdjeflawhcvdeqafecvrkepqofv
-      # - MONGO_URI=mongodb://db:27017/question
+      - NATS_CLUSTER_ID=nats-streaming
+      - NATS_CLIENT_ID=alsdkjfdne3jkwl1f
+      - NATS_URL=nats://nats:4222
     depends_on:
       - redis
       - db

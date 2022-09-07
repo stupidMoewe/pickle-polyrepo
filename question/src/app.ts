@@ -7,6 +7,7 @@ import {
 	answerById,
 	answers,
 	createQuestion,
+	questionAnswered,
 	questionById,
 	questionLiked,
 	questions,
@@ -38,6 +39,7 @@ app.use(questionLiked);
 app.use(questionUnliked);
 app.use(answers);
 app.use(answerById);
+app.use(questionAnswered);
 
 app.use("*", (_req, _res) => {
 	throw new NotFoundError();

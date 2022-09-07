@@ -7,7 +7,7 @@ export const timelineSlice = createApi({
 	}),
 	endpoints(builder) {
 		return {
-			fetchTimeline: builder.query<Object[], string>({
+			fetchTimeline: builder.query<object[], string>({
 				query(userId) {
 					return `/${userId}`;
 				},

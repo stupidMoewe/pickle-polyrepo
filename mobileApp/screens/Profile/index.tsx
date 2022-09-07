@@ -134,6 +134,7 @@ const ProfileScreen = () => {
 				<View style={[styles.mainContainer, { marginTop: HEADER_HEIGHT + 50 }]}>
 					{!loading &&
 						activeBtn === 0 &&
+						userQuestionsPreview &&
 						userQuestionsPreview.map((data: any, index: any) => {
 							return <ProfileQuestionPreview questionId={data.id} key={index} />;
 						})}

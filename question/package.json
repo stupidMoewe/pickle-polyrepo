@@ -20,7 +20,7 @@
 	"author": "Martin Tefra",
 	"license": "ISC",
 	"dependencies": {
-		"@stupidpickle/common": "^1.0.22",
+		"@stupidpickle/common": "^1.0.25",
 		"mongoose": "^6.5.2",
 		"typescript": "^4.7.4"
 	},

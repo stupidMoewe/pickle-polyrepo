@@ -3,23 +3,29 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { Pressable, TouchableHighlight } from "react-native";
 import { pinkPickle } from "../../constants/ThemeColors";
-import { useAppDispatch, useAppSelector } from "../../store/app/hooks";
+import { useAppDispatch } from "../../store/app/hooks";
 import { toogleLikeAsync } from "../../store/features/question/likeSlice";
 import { IQuestionFeed } from "../../types";
-import { AnswerBntText } from "../AnswerBntText";
+import { Answer } from "../Answer";
 import { Text, View } from "../Themed";
 import styles from "./styles";
 
 export const TextText = ({ question }: { question: IQuestionFeed }) => {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation();
-	const { id, title, possibleAnswers, isLikedByCurrentUser } = question;
+
+	const {
+		id,
+		title,
+		possibleAnswers,
+		isAnsweredByCurrentUser,
+		isLikedByCurrentUser,
+		answerChoozenId,
+	} = question;
+
+	const [isQuestionAnsweredHook, setIsQuestionAnsweredHook] = useState(isAnsweredByCurrentUser);
+
 	const [isQuestionLiked, setIsQuestionLiked] = useState(isLikedByCurrentUser);
-
-	const result = useAppSelector((state) => state.questionToogleLike);
-
-	const likeStatus = useAppSelector((state) => state.questionToogleLike.questionLiked);
-
 	const likeQuestionHandler = () => {
 		// update sync redux state of the like state
 		setIsQuestionLiked(!isQuestionLiked);
@@ -33,12 +39,14 @@ export const TextText = ({ question }: { question: IQuestionFeed }) => {
 			<View style={styles.questionContainer}>
 				<Text style={styles.title}>{title}</Text>
 				{possibleAnswers.map((answerId, index) => (
-					<AnswerBntText
+					<Answer
 						answerId={answerId}
+						questionId={question.id}
 						key={index}
-						onPress={() => {
-							console.log("answer btn pressed");
-						}}
+						isQuestionAnsweredHook={isQuestionAnsweredHook}
+						setIsQuestionAnsweredHook={setIsQuestionAnsweredHook}
+						isAnswerChoozen={answerChoozenId === answerId}
+						questionCount={question.answeredCount}
 					/>
 				))}
 			</View>
