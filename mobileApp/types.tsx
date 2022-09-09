@@ -96,10 +96,19 @@ export interface AnswerType {
 	choozenByUser: string[];
 }
 
-export interface IAuth {
+export interface IUser {
 	id: string;
 	username: string;
 	email: string;
 	questions: string[];
 	likesCount: number;
+}
+
+export interface IAnswer {
+	id: string;
+	answerType: AnswerTypeOptions;
+	content: string;
+	creatorId: string;
+	answeredCount: number;
+	choozenByUser: string[];
 }

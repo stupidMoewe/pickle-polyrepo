@@ -1,52 +1,52 @@
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React from "react";
 import { Pressable, TouchableHighlight } from "react-native";
 import { pinkPickle } from "../../constants/ThemeColors";
-import { useAppDispatch } from "../../store/app/hooks";
-import { toogleLikeAsync } from "../../store/features/question/likeSlice";
+import {
+	useAnswerQuestionMutation,
+	useGetAnswersQuestionQuery,
+	useLikeMutation,
+} from "../../store/features/feed/userFeedApi";
 import { IQuestionFeed } from "../../types";
 import { Answer } from "../Answer";
 import { Text, View } from "../Themed";
 import styles from "./styles";
 
 export const TextText = ({ question }: { question: IQuestionFeed }) => {
-	const dispatch = useAppDispatch();
 	const navigation = useNavigation();
 
-	const {
-		id,
-		title,
-		possibleAnswers,
-		isAnsweredByCurrentUser,
-		isLikedByCurrentUser,
-		answerChoozenId,
-	} = question;
+	const [like] = useLikeMutation();
+	const [answerQuestion] = useAnswerQuestionMutation();
 
-	const [isQuestionAnsweredHook, setIsQuestionAnsweredHook] = useState(isAnsweredByCurrentUser);
+	const { id, title, isAnsweredByCurrentUser, isLikedByCurrentUser, answerChoozenId } = question;
 
-	const [isQuestionLiked, setIsQuestionLiked] = useState(isLikedByCurrentUser);
 	const likeQuestionHandler = () => {
-		// update sync redux state of the like state
-		setIsQuestionLiked(!isQuestionLiked);
-		// update async
-		dispatch(toogleLikeAsync({ questionId: id, isLiked: isQuestionLiked }));
-		// update redux state depending on request result
+		like(id);
+	};
+
+	const { data: answers, error, isLoading } = useGetAnswersQuestionQuery(question.id);
+	const answerQuestionHandler = (answerId: string) => {
+		answerQuestion({
+			questionId: id,
+			answerId,
+		});
 	};
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.questionContainer}>
 				<Text style={styles.title}>{title}</Text>
-				{possibleAnswers.map((answerId, index) => (
+				<Text>Likes: {question.likedCount}</Text>
+				<Text>Answers: {question.answeredCount}</Text>
+				{answers?.map((answer, index) => (
 					<Answer
-						answerId={answerId}
-						questionId={question.id}
+						answer={answer}
 						key={index}
-						isQuestionAnsweredHook={isQuestionAnsweredHook}
-						setIsQuestionAnsweredHook={setIsQuestionAnsweredHook}
-						isAnswerChoozen={answerChoozenId === answerId}
 						questionCount={question.answeredCount}
+						answerQuestionHandler={answerQuestionHandler}
+						isAnswerChoozen={answerChoozenId === answer.id}
+						isQuestionAnswered={isAnsweredByCurrentUser}
 					/>
 				))}
 			</View>
@@ -56,7 +56,7 @@ export const TextText = ({ question }: { question: IQuestionFeed }) => {
 						<AntDesign
 							name="heart"
 							size={45}
-							color={isQuestionLiked ? pinkPickle : "gray"}
+							color={isLikedByCurrentUser ? pinkPickle : "gray"}
 						/>
 					</Pressable>
 					<TouchableHighlight

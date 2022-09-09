@@ -23,8 +23,7 @@ export const feedUserId = router.get(
 							questionsFetched.push(response.data);
 						})
 						.catch((error) => {
-							console.log(error);
-							// res.status(500).send(error);
+							res.status(500).send(error);
 						});
 				}
 			}

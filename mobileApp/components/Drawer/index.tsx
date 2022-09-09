@@ -2,21 +2,21 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { DrawerActions } from "@react-navigation/native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { useAuth } from "../../context/AuthContext";
 import { useAppDispatch, useAppSelector } from "../../store/app/hooks";
-import { logout } from "../../store/features/auth/authSlice";
+import { useGetMeQuery, useLogoutMutation } from "../../store/features/auth/authApi";
 import { Text, View } from "../Themed";
 import styles from "./styles";
 
 const CustomDrawer = (props: any) => {
-	// const auth = useAuth();
 	const dispatch = useAppDispatch();
 
-	const { user, loading } = useAppSelector((state) => state.auth);
+	const { data: user, isLoading, isError } = useGetMeQuery();
+
+	const [logout] = useLogoutMutation();
 
 	const logoutHandler = async () => {
 		await props.navigation.dispatch(DrawerActions.closeDrawer());
-		dispatch(logout());
+		logout();
 	};
 
 	return (
@@ -24,9 +24,18 @@ const CustomDrawer = (props: any) => {
 			<DrawerContentScrollView {...props} contentContainerStyle={styles.containerScroll}>
 				<View style={styles.list}>
 					<DrawerItem
-						label={user.username || "username"}
+						label={user!.username || "username"}
 						labelStyle={styles.text}
 						onPress={() => {}}
+					/>
+					<DrawerItem
+						label={"Create Question"}
+						labelStyle={styles.text}
+						onPress={() => {
+							props.navigation.navigate("RootStackNavigator", {
+								screen: "CreateQuestion",
+							});
+						}}
 					/>
 					<DrawerItem label="Recherche" labelStyle={styles.text} onPress={() => {}} />
 					<DrawerItem

@@ -22,6 +22,7 @@ interface UserModel extends mongoose.Model<UserDoc> {
 // that a User Document has
 interface UserDoc extends mongoose.Document {
 	id: string;
+	password: string;
 	firstname: string;
 	lastName: string;
 	username: string;

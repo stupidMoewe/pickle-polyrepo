@@ -3,22 +3,20 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { ColorSchemeName } from "react-native";
-import CreateQuestion from "../screens/CreateQuestion";
-import Feed from "../screens/Feed";
-
-import { createDrawerNavigator } from "@react-navigation/drawer";
-
 import CustomDrawer from "../components/Drawer";
 import { Text, View } from "../components/Themed";
+import CreateQuestion from "../screens/CreateQuestion";
+import Feed from "../screens/Feed";
 import Login from "../screens/Login";
 import OnBoardingScreen from "../screens/OnBoarding";
 import Profile from "../screens/Profile";
 import SingleQuestion from "../screens/SingleQuestion";
-import { useAppSelector } from "../store/app/hooks";
+import { useGetMeQuery } from "../store/features/auth/authApi";
 import LinkingConfiguration from "./LinkingConfiguration";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -65,10 +63,9 @@ function RootStackNavigator() {
 }
 
 function RootNavigator() {
-	const { user, loading } = useAppSelector((state) => state.auth);
-	console.log(user, loading);
+	const { data: user, isError, isLoading } = useGetMeQuery();
 
-	const returnElement = loading ? (
+	const returnElement = isLoading ? (
 		<View>
 			<Text>Loading</Text>
 		</View>

@@ -11,32 +11,46 @@ export const questionLiked = router.post(
 	currentUser,
 	requireAuth,
 	async (req: Request, res: Response) => {
-		console.log("inside question liked");
 		const questionId: string = req.params.questionId;
 		const userId: string = req.currentUser!.id;
 		const question = await Question.findById(questionId);
-		if (question?.likedByUsers.includes(userId)) {
-			return res.status(400).send({ message: "You have already liked this question" });
-		}
+
+		let isLiked: boolean;
+
+		// if question already liked => unlike
 		if (question) {
-			question.likedCount += 1;
-			question.likedByUsers.push(userId);
-			await question.save();
+			if (question.likedByUsers.includes(userId)) {
+				question.likedCount -= 1;
+				question.likedByUsers.splice(question.likedByUsers.indexOf(userId), 1);
+				await question.save();
+				isLiked = false;
 
-			// emit event to STAN
-			// question:liked
-			// -> User => increment nb of likes
+				// new QuestionUnLikedPublisher(natsWrapper.client).publish({
+				// 	questionId: question.id,
+				// 	userId: userId, // the one who liked the question
+				// 	creatorId: question.creatorId, // the creator of the question
+				// });
+			} else {
+				question.likedCount += 1;
+				question.likedByUsers.push(userId);
+				await question.save();
 
-			new QuestionLikedPublisher(natsWrapper.client).publish({
-				questionId: question.id,
-				userId: userId, // the one who liked the question
-				creatorId: question.creatorId, // the creator of the question
-			});
+				// emit event to STAN
+				// question:liked
+				// -> User => increment nb of likes
+
+				new QuestionLikedPublisher(natsWrapper.client).publish({
+					questionId: question.id,
+					userId: userId, // the one who liked the question
+					creatorId: question.creatorId, // the creator of the question
+				});
+				isLiked = true;
+			}
 		} else {
 			return res.status(404).send({
 				message: "Question not found",
 			});
 		}
-		res.send({});
+		res.send({ isLiked });
 	}
 );

@@ -6,13 +6,13 @@ import { NotFoundError } from "./errors";
 import {
 	answerById,
 	answers,
+	answersByQuestionId,
 	createQuestion,
 	questionAnswered,
 	questionById,
 	questionLiked,
 	questions,
 	questionsByUser,
-	questionUnliked,
 } from "./routes";
 
 const app = express();
@@ -36,10 +36,10 @@ app.use(questions);
 app.use(createQuestion);
 app.use(questionById);
 app.use(questionLiked);
-app.use(questionUnliked);
 app.use(answers);
 app.use(answerById);
 app.use(questionAnswered);
+app.use(answersByQuestionId);
 
 app.use("*", (_req, _res) => {
 	throw new NotFoundError();

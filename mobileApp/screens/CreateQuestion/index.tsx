@@ -7,7 +7,7 @@ import GoBack from "../../components/GoBackIcon";
 import Input from "../../components/Input";
 import { TakePictureFrame } from "../../components/TakePictureFrame";
 import { Text, View } from "../../components/Themed";
-import useAxios from "../../hooks/useAxios";
+import { useCreateQuestionMutation } from "../../store/features/feed/userFeedApi";
 import { QuestionTypeOptions } from "../../types";
 import styles from "./styles";
 
@@ -22,24 +22,17 @@ export default function CreateQuestion() {
 
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-	const { doRequest, errors } = useAxios({
-		port: "4002",
-		url: "/create-question",
-		method: "post",
-		body: {
+	const [createQuestion, { isLoading, error, data, isSuccess }] = useCreateQuestionMutation();
+
+	const postQuestion = async () => {
+		await createQuestion({
 			title,
 			answers: [answer1, answer2],
 			answersTypes: ["Text", "Text", answer3 ? "Text" : null, answer4 ? "Text" : null],
 			questionType: questionType || "TextText",
-		},
-		onSuccess: () => navigation.navigate("RootStackNavigator", { screen: "Profile" }),
-	});
-
-	const postQuestion = async () => {
-		doRequest();
-		if (errors) {
-			console.log(errors);
-		}
+		})
+			.unwrap()
+			.then((isSuccess) => navigation.navigate("RootStackNavigator", { screen: "Profile" }));
 	};
 
 	return (
@@ -98,6 +91,7 @@ export default function CreateQuestion() {
 							title={"Post"}
 							onPress={postQuestion}
 							color="pink"
+							isActive={!isLoading}
 						></CustomButton>
 					</View>
 				</View>

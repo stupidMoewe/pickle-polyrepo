@@ -8,16 +8,13 @@ export class QuestionCreatedListener extends Listener<QuestionCreatedEvent> {
 	queueGroupName = queueGroupName;
 
 	async onMessage(data: QuestionCreatedEvent["data"], msg: Message) {
-		console.log("Feed Question Created Event Received");
 		try {
 			const redisClient = await connectRedis();
 			const questionId = data.id;
 			const usersId = await redisClient.keys("*");
-			console.log(usersId);
 			for (const userId of usersId) {
 				await redisClient.lPush(userId, questionId);
 			}
-			console.log("Feed Question Created Event Processed");
 		} catch (err) {
 			console.log(err);
 		}

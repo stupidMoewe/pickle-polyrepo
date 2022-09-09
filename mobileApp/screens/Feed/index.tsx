@@ -1,36 +1,38 @@
 import { FontAwesome, Fontisto } from "@expo/vector-icons";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React from "react";
 import { Dimensions, FlatList, TouchableHighlight } from "react-native";
 import Question from "../../components/Question";
 import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
-import { useAppDispatch, useAppSelector } from "../../store/app/hooks";
 import { useGetUserFeedQuery } from "../../store/features/feed/userFeedApi";
-import { getUserFeed } from "../../store/features/question/questionSlice";
 import { IQuestionFeed } from "../../types";
 import styles from "./style";
 
 export default function Feed() {
 	const navigation = useNavigation();
 
-	const dispatch = useAppDispatch();
+	const { data: questions, error, isLoading } = useGetUserFeedQuery();
 
-	useEffect(() => {
-		dispatch(getUserFeed());
-	}, [dispatch]);
-
-	// const userFeedQuestion = useAppSelector((state) => state.userFeed.questions);
-	const { data: userFeedQuestion = [], error } = useGetUserFeedQuery("");
-
-	if (error) {
-		console.log("error userFeed", error);
+	if (isLoading || questions === undefined) {
+		return (
+			<View style={styles.container}>
+				<Text>Loading...</Text>
+			</View>
+		);
+	} else if (error) {
+		return (
+			<View style={styles.container}>
+				<Text>Error</Text>
+				<Text>{error}</Text>
+			</View>
+		);
 	}
 
 	return (
 		<View style={styles.container}>
 			<FlatList
-				data={userFeedQuestion as IQuestionFeed[]}
+				data={questions as IQuestionFeed[]}
 				renderItem={({ item }: { item: IQuestionFeed }) => {
 					return <Question question={item} key={item.id} />;
 				}}

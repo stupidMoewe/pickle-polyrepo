@@ -1,14 +1,14 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-import React, { useRef, useState, useEffect } from "react";
-import { Animated, Image, RefreshControl, ScrollView, TouchableHighlight } from "react-native";
+import React, { useRef, useState } from "react";
+import { Animated, Image, ScrollView, TouchableHighlight } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CustomButton } from "../../components/Button";
 import { ProfileQuestionPreview } from "../../components/ProfileQuestionPreview";
 import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
-import { useAppDispatch, useAppSelector } from "../../store/app/hooks";
-import { getUserQuestionsPreview } from "../../store/features/profile/userQuestionsPreviewSlice";
+import { useGetMeQuery } from "../../store/features/auth/authApi";
+import { useGetUserQuestionsQuery } from "../../store/features/feed/userFeedApi";
 import styles from "./styles";
 
 const profileImage = require("../../assets/images/profile-picture.jpg");
@@ -18,18 +18,27 @@ const HEADER_HEIGHT = 360;
 const ProfileScreen = () => {
 	const navigation = useNavigation();
 	const [activeBtn, setActiveBtn] = useState(0);
-	const [refreshing, setRefreshing] = useState(false);
 	const offset = useRef(new Animated.Value(0)).current;
 	const insets = useSafeAreaInsets();
 
-	const { user, loading } = useAppSelector((state) => state.auth);
+	const { data: user, error: userError, isLoading: userLoading } = useGetMeQuery();
 
-	const onRefresh = () => {
-		setRefreshing(true);
-		setTimeout(() => {
-			setRefreshing(false);
-		}, 2000);
-	};
+	const { data: questions, error, isLoading } = useGetUserQuestionsQuery(user!.id);
+
+	if (isLoading || questions === undefined) {
+		return (
+			<View style={styles.container}>
+				<Text>Loading...</Text>
+			</View>
+		);
+	} else if (error) {
+		return (
+			<View style={styles.container}>
+				<Text>Error</Text>
+				<Text>{error}</Text>
+			</View>
+		);
+	}
 
 	const headerHeight = offset.interpolate({
 		inputRange: [0, HEADER_HEIGHT + insets.top],
@@ -37,17 +46,7 @@ const ProfileScreen = () => {
 		extrapolate: "clamp",
 	});
 
-	const dispatch = useAppDispatch();
-
-	useEffect(() => {
-		dispatch(getUserQuestionsPreview(user!.id));
-	}, [dispatch]);
-
-	const userQuestionsPreview = useAppSelector(
-		(state) => state.userQuestionsPreview.userQuestionsPreview
-	);
-
-	const titlePublicationsBtn = `Publications ${userQuestionsPreview.length}`;
+	const titlePublicationsBtn = `Publications ${questions.length}`;
 
 	return (
 		<View style={styles.container}>
@@ -123,19 +122,19 @@ const ProfileScreen = () => {
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				showsHorizontalScrollIndicator={false}
-				refreshControl={
-					<RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />
-				}
+				// refreshControl={
+				// 	<RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />
+				// }
 				onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], {
 					useNativeDriver: false,
 				})}
 				scrollEventThrottle={16}
 			>
 				<View style={[styles.mainContainer, { marginTop: HEADER_HEIGHT + 50 }]}>
-					{!loading &&
+					{!isLoading &&
 						activeBtn === 0 &&
-						userQuestionsPreview &&
-						userQuestionsPreview.map((data: any, index: any) => {
+						questions &&
+						questions.map((data: any, index: any) => {
 							return <ProfileQuestionPreview questionId={data.id} key={index} />;
 						})}
 				</View>

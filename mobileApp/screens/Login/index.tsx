@@ -1,22 +1,19 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Input from "../../components/Input";
 import { Text, View } from "../../components/Themed";
-import { useAppDispatch } from "../../store/app/hooks";
-import { login } from "../../store/features/auth/authSlice";
+import { useLoginMutation } from "../../store/features/auth/authApi";
 import styles from "./styles";
 
 export default function Login() {
-	const navigation = useNavigation();
-	const dispatch = useAppDispatch();
-
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 
+	const [login] = useLoginMutation();
+
 	const loginHandler = async () => {
-		dispatch(login({ email, password }));
+		login({ email, password });
 	};
 
 	return (

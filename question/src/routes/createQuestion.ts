@@ -33,9 +33,7 @@ export const createQuestion = router.post(
 	],
 	validateRequest,
 	async (req: Request, res: Response) => {
-		console.log("createQuestion", req.currentUser);
 		const { questionType, title, answers, answersTypes }: IReq = req.body;
-		console.log("createQuestion", questionType, title, answers, answersTypes);
 
 		const answersCreatedIds: string[] = [];
 

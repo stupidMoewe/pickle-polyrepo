@@ -21,36 +21,6 @@ app.use(function (_req, res, next) {
 	next();
 });
 
-// let RedisStore = require("connect-redis")(session);
-// if (!process.env.REDIS_URL) {
-// 	throw new Error("REDIS_URL must be defined");
-// }
-// let redisClient = new Redis(process.env.REDIS_URL.toString());
-// redisClient.on("connect", () => {
-// 	console.log("Redis client connected");
-// });
-// redisClient.on("error", (err) => {
-// 	console.log(err);
-// });
-
-// app.set("proxy", 1);
-
-// app.use(
-// 	session({
-// 		name: "qid",
-// 		store: new RedisStore({ client: redisClient, disableTouch: true }),
-// 		cookie: {
-// 			maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
-// 			httpOnly: true,
-// 			sameSite: "lax",
-// 			secure: __prod__,
-// 		},
-// 		saveUninitialized: false,
-// 		secret: "hfrdigyouugipgihjk",
-// 		resave: false,
-// 	})
-// );
-
 app.use(register);
 app.use(users);
 app.use(me);
