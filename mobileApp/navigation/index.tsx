@@ -6,10 +6,12 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { TransitionSpecs } from "@react-navigation/stack";
 import React from "react";
-import { ColorSchemeName } from "react-native";
+import { ColorSchemeName, Dimensions } from "react-native";
 import CustomDrawer from "../components/Drawer";
 import { Text, View } from "../components/Themed";
+import AuthChoice from "../screens/AuthChoice";
 import CreateQuestion from "../screens/CreateQuestion";
 import Feed from "../screens/Feed";
 import Login from "../screens/Login";
@@ -18,6 +20,8 @@ import Profile from "../screens/Profile";
 import SingleQuestion from "../screens/SingleQuestion";
 import { useGetMeQuery } from "../store/features/auth/authApi";
 import LinkingConfiguration from "./LinkingConfiguration";
+
+const width = Dimensions.get("window").width;
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
 	return (
@@ -41,26 +45,12 @@ export type RootStackParamList = {
 	SingleQuestion: undefined;
 	CreateQuestion: undefined;
 	OnBoardingScreen: undefined;
+	AuthChoice: undefined;
 	Login: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator();
-
-function RootStackNavigator() {
-	return (
-		<Stack.Navigator
-			screenOptions={{
-				headerShown: false,
-			}}
-		>
-			<Stack.Screen name="Feed" component={Feed} />
-			<Stack.Screen name="Profile" component={Profile} />
-			<Stack.Screen name="SingleQuestion" component={SingleQuestion} />
-			<Stack.Screen name="CreateQuestion" component={CreateQuestion} />
-		</Stack.Navigator>
-	);
-}
 
 function RootNavigator() {
 	const { data: user, isError, isLoading } = useGetMeQuery();
@@ -73,17 +63,21 @@ function RootNavigator() {
 		<>
 			{user?.id ? (
 				<Drawer.Navigator
-					initialRouteName="RootStackNavigator"
+					initialRouteName="Feed"
 					drawerContent={(props) => <CustomDrawer {...props} />}
 					screenOptions={{
 						headerShown: false,
+						drawerStyle: {
+							width: "100%",
+						},
+						swipeEdgeWidth: width,
 					}}
 				>
 					<>
-						<Drawer.Screen
-							name="RootStackNavigator"
-							component={RootStackNavigator}
-						></Drawer.Screen>
+						<Drawer.Screen name="Feed" component={Feed} />
+						<Drawer.Screen name="Profile" component={Profile} />
+						<Drawer.Screen name="SingleQuestion" component={SingleQuestion} />
+						<Drawer.Screen name="CreateQuestion" component={CreateQuestion} />
 					</>
 				</Drawer.Navigator>
 			) : (
@@ -94,6 +88,7 @@ function RootNavigator() {
 					}}
 				>
 					<Stack.Screen name="OnBoardingScreen" component={OnBoardingScreen} />
+					<Stack.Screen name="AuthChoice" component={AuthChoice} />
 					<Stack.Screen name="Login" component={Login} />
 					{/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
 

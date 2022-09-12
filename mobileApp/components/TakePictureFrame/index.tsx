@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Image, Pressable } from "react-native";
 import styles from "./styles";
-import * as MediaLibrary from "expo-media-library";
 import { Camera } from "expo-camera";
 import { Feather, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
 
-export function TakePictureFrame() {
+interface TakePictureFrameProps {
+	image: string | null;
+	setImage: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+interface CameraType {
+	front: number;
+	back: number;
+}
+
+const camStatus = Camera.Constants.Type as unknown as CameraType;
+
+export const TakePictureFrame = ({ image, setImage }: TakePictureFrameProps) => {
 	const [hasCameraPermission, setHasCameraPermission] = useState(false);
 	const [camera, setCamera] = useState<any>();
-	const [image, setImage] = useState();
-	const [type, setType] = useState(Camera.Constants.Type.back);
+	const [type, setType] = useState(camStatus.back);
 	const isFocused = useIsFocused();
 
 	useEffect(() => {
@@ -19,15 +29,14 @@ export function TakePictureFrame() {
 			setHasCameraPermission(cameraStatus.granted);
 		})();
 	}, []);
+
 	const takePicture = async () => {
 		if (camera) {
 			const data = await camera.takePictureAsync(null);
-			console.log(data.uri);
-			MediaLibrary.saveToLibraryAsync(data.uri);
+			// MediaLibrary.saveToLibraryAsync(data.uri); // to change
 			setImage(data.uri);
 		}
 	};
-	console.log(image);
 
 	if (hasCameraPermission === false || !isFocused) {
 		return <Text>No access to camera</Text>;
@@ -45,11 +54,7 @@ export function TakePictureFrame() {
 			<View style={styles.photoBtns}>
 				<Pressable
 					onPress={() => {
-						setType(
-							type === Camera.Constants.Type.back
-								? Camera.Constants.Type.front
-								: Camera.Constants.Type.back
-						);
+						setType(type === camStatus.back ? camStatus.front : camStatus.back);
 					}}
 				>
 					<MaterialCommunityIcons
@@ -67,4 +72,4 @@ export function TakePictureFrame() {
 			</View>
 		</View>
 	);
-}
+};

@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: "grey",
 		height: "100%",
+		justifyContent: "space-between",
 	},
 	usernameBox: {
 		position: "absolute",
@@ -37,10 +38,6 @@ const styles = StyleSheet.create({
 		top: 60,
 		left: 20,
 		backgroundColor: "transparent",
-		shadowColor: "#555",
-		shadowOffset: { width: 0, height: 0 },
-		shadowOpacity: 10,
-		shadowRadius: 10,
 		elevation: 10,
 		zIndex: 20,
 	},
@@ -79,6 +76,7 @@ const styles = StyleSheet.create({
 	buttonsContainer2: {
 		width: "100%",
 		marginTop: 30,
+		marginBottom: 10,
 		flexDirection: "row",
 		justifyContent: "space-around",
 	},

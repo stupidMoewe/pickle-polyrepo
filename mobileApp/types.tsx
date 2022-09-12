@@ -17,9 +17,11 @@ export type RootDrawerParamList = {
 	RootStackNavigator: NavigatorScreenParams<RootTabParamList> | undefined;
 	Question: undefined;
 	Feed: undefined;
-	SingleQuestion: { question: IQuestion };
+	Profile: undefined;
+	SingleQuestion: { question: IQuestionFeed };
 	CreateQuestion: undefined;
 	OnBoardingScreen: undefined;
+	AuthChoice: undefined;
 	Login: undefined;
 	Modal: undefined;
 	NotFound: undefined;
@@ -35,6 +37,7 @@ export type RootTabParamList = {
 	CreateQuestion: undefined;
 	Profile: undefined;
 	OnBoarding: undefined;
+	AuthChoice: undefined;
 	Login: undefined;
 	SingleQuestion: undefined;
 };
@@ -74,7 +77,6 @@ export interface IQuestionFeed {
 	questionType: QuestionTypeOptions;
 	title: string;
 	possibleAnswers: string[];
-	creatorId: string;
 	likedCount: number;
 	commentedCount: number;
 	commentedByUsers: string[];
@@ -83,6 +85,11 @@ export interface IQuestionFeed {
 	answeredByUser: string[];
 	expirationDate: number;
 	answerChoozenId: string;
+	creator: {
+		id: string;
+		username: string;
+		imageUrl: string;
+	};
 }
 
 export type AnswerTypeOptions = "Text" | "Image" | "Video";
@@ -97,6 +104,7 @@ export interface AnswerType {
 }
 
 export interface IUser {
+	imageUrl: string | undefined;
 	id: string;
 	username: string;
 	email: string;

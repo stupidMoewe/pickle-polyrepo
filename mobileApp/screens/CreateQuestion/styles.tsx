@@ -6,22 +6,19 @@ const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
 	container: {
-		// paddingTop: "20%",
 		flex: 1,
 		justifyContent: "space-between",
 		alignItems: "center",
 		height: height,
 	},
 	createQuestionContainer: {
-		marginTop: "20%",
-	},
-	inputContainer: {
-		marginBottom: 40,
+		height: height,
+		width: width * 0.9,
 	},
 	titleContainer: {
+		marginTop: "20%",
 		display: "flex",
 		flexDirection: "row",
-		marginBottom: 60,
 		justifyContent: "flex-start",
 		alignItems: "center",
 	},
@@ -31,21 +28,31 @@ const styles = StyleSheet.create({
 		marginLeft: 20,
 	},
 	label: {
+		marginTop: 60,
 		fontSize: fontLarge,
 		marginBottom: 10,
 	},
 	postQuestionBtn: {
 		marginBottom: 50,
 	},
-	modalExitBtn: {
-		position: "absolute",
-		top: 30,
-		left: 20,
+	topBtns: {
 		backgroundColor: "transparent",
+		width: width * 0.9,
+		position: "absolute",
+		top: 50,
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "space-between",
+	},
+	inputContainer: {
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 	},
 	iconCamera: {
-		margin: 10,
 		backgroundColor: "transparent",
+		width: 40,
 	},
 	imageDisplay: {
 		width: "100%",

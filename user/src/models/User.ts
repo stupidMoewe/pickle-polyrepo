@@ -10,6 +10,8 @@ interface UserAttrs {
 	password: string;
 	questions: string[];
 	likesCount: number;
+	bio: string;
+	imageUrl: string;
 }
 
 // An interface that describes the properties
@@ -29,6 +31,8 @@ interface UserDoc extends mongoose.Document {
 	email: string;
 	questions: string[];
 	likesCount: number;
+	bio: string;
+	imageUrl: string;
 }
 
 const userSchema = new mongoose.Schema(
@@ -63,6 +67,15 @@ const userSchema = new mongoose.Schema(
 			type: Number,
 			default: 0,
 			required: true,
+		},
+		bio: {
+			type: String,
+			required: false,
+		},
+		imageUrl: {
+			type: String,
+			required: false,
+			default: "https://picsum.photos/200/200",
 		},
 	},
 	{

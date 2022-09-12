@@ -1,40 +1,50 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { fontLarge, fontNormal } from "../../constants/FontSizes";
+import { fontLarge, fontNormal, fontSmall } from "../../constants/FontSizes";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
 	container: {
-		width: width * 0.9,
+		width: "100%",
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "center",
+		marginTop: "15%",
+	},
+	containerAnswer: {
+		width: width * 0.8,
 		maxHeight: 140,
-		padding: 12,
-		borderWidth: 2,
 		borderColor: "white",
-		borderRadius: 12,
 		fontWeight: "bold",
 		alignSelf: "center",
-		marginTop: "15%",
 		zIndex: 100,
+	},
+	backgroundBox: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		width: "10%",
+		height: "100%",
+		backgroundColor: "red",
+		zIndex: -1,
+		borderRadius: 12,
+	},
+	containerResult: {
+		width: width * 0.15,
+		textAlign: "center",
+	},
+	textResult: {
+		fontSize: 18,
+		textAlign: "right",
 	},
 	text: {
 		fontSize: fontNormal,
 		color: "white",
+		margin: 14,
 	},
-	test: {
-		borderColor: "white",
-		borderWidth: 2,
-		padding: 12,
-		width: width * 0.9,
-	},
-	isAnswered: {
-		borderColor: "red",
-		backgroundColor: "red",
-	},
-	questionAnswered: {
-		borderColor: "red",
-		borderWidth: 2,
-	},
+	isAnswered: {},
+	answerNotChoozen: {},
 });
 
 export default styles;

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { Dimensions, ScrollView, TouchableOpacity } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { CustomButton } from "../../components/Button";
 import Input from "../../components/Input";
 import { Text, View } from "../../components/Themed";
 import { useLoginMutation } from "../../store/features/auth/authApi";
 import styles from "./styles";
+
+const width = Dimensions.get("window").width;
 
 export default function Login() {
 	const [email, setEmail] = useState<string>("");
@@ -13,7 +16,7 @@ export default function Login() {
 	const [login] = useLoginMutation();
 
 	const loginHandler = async () => {
-		login({ email, password });
+		await login({ email, password });
 	};
 
 	return (
@@ -26,6 +29,7 @@ export default function Login() {
 						placeholder="Email"
 						value={email}
 						onChangeText={(text) => setEmail(text)}
+						width={width * 0.8}
 					></Input>
 				</View>
 				<Text style={styles.label}>Password :</Text>
@@ -36,10 +40,19 @@ export default function Login() {
 					onChangeText={(text) => setPassword(text)}
 				></Input>
 			</ScrollView>
-			<TouchableOpacity style={styles.buttonContainer} onPress={loginHandler}>
+			{/* <TouchableOpacity style={styles.buttonContainer} onPress={loginHandler}>
 				<Text style={styles.buttonText}>Login</Text>
 				<MaterialIcons name="arrow-forward-ios" size={22} color="#fff" />
-			</TouchableOpacity>
+			</TouchableOpacity> */}
+			<CustomButton
+				title={"Login"}
+				color="purple"
+				propsStyle={{
+					width: "80%",
+					marginBottom: 50,
+				}}
+				onPress={loginHandler}
+			/>
 		</View>
 	);
 }

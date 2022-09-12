@@ -9,6 +9,7 @@ import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
 import { useGetMeQuery } from "../../store/features/auth/authApi";
 import { useGetUserQuestionsQuery } from "../../store/features/feed/userFeedApi";
+import { IQuestionFeed } from "../../types";
 import styles from "./styles";
 
 const profileImage = require("../../assets/images/profile-picture.jpg");
@@ -25,13 +26,13 @@ const ProfileScreen = () => {
 
 	const { data: questions, error, isLoading } = useGetUserQuestionsQuery(user!.id);
 
-	if (isLoading || questions === undefined) {
+	if (isLoading || userLoading) {
 		return (
 			<View style={styles.container}>
 				<Text>Loading...</Text>
 			</View>
 		);
-	} else if (error) {
+	} else if (error || questions === undefined || userError || user === undefined) {
 		return (
 			<View style={styles.container}>
 				<Text>Error</Text>
@@ -39,12 +40,21 @@ const ProfileScreen = () => {
 			</View>
 		);
 	}
+	const questionsToDisplay = [...questions].reverse();
 
 	const headerHeight = offset.interpolate({
 		inputRange: [0, HEADER_HEIGHT + insets.top],
 		outputRange: [HEADER_HEIGHT + insets.top, insets.top + 200],
 		extrapolate: "clamp",
 	});
+
+	const getNbOfAnswers = (): number => {
+		let nbOfAnswers: number = 0;
+		questions.forEach((question) => {
+			nbOfAnswers += question.answeredCount as number;
+		});
+		return nbOfAnswers;
+	};
 
 	const titlePublicationsBtn = `Publications ${questions.length}`;
 
@@ -68,26 +78,26 @@ const ProfileScreen = () => {
 					</View>
 					<View style={styles.userView}>
 						<View style={styles.userViewElement}>
-							<Text style={styles.textNumber}>123</Text>
+							<Text style={styles.textNumber}>X</Text>
 							<Text style={styles.text}>abonnés</Text>
-							<Text style={styles.textNumber}>123</Text>
+							<Text style={styles.textNumber}>X</Text>
 							<Text style={styles.text}>abonnements</Text>
 						</View>
 						<View style={styles.userViewPicture}>
 							<Image
-								source={profileImage}
+								source={user.imageUrl ? { uri: user.imageUrl } : profileImage}
 								resizeMode="cover"
 								style={styles.profileImage}
 							></Image>
 						</View>
 						<View style={styles.userViewElement}>
-							<Text style={styles.textNumber}>123</Text>
+							<Text style={styles.textNumber}>{getNbOfAnswers()}</Text>
 							<Text style={styles.text}>réponses</Text>
 							<Text style={styles.textNumber}>{user?.likesCount || 0}</Text>
 							<Text style={styles.text}>likes</Text>
 						</View>
 					</View>
-					<View style={styles.buttonsContainer1}>
+					{/* <View style={styles.buttonsContainer1}>
 						<CustomButton
 							title="Bio"
 							color="pink"
@@ -98,7 +108,7 @@ const ProfileScreen = () => {
 							color="blue"
 							propsStyle={{ borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }}
 						></CustomButton>
-					</View>
+					</View> */}
 					<View style={styles.buttonsContainer2}>
 						<CustomButton
 							title={titlePublicationsBtn}
@@ -122,9 +132,6 @@ const ProfileScreen = () => {
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				showsHorizontalScrollIndicator={false}
-				// refreshControl={
-				// 	<RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />
-				// }
 				onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], {
 					useNativeDriver: false,
 				})}
@@ -133,9 +140,8 @@ const ProfileScreen = () => {
 				<View style={[styles.mainContainer, { marginTop: HEADER_HEIGHT + 50 }]}>
 					{!isLoading &&
 						activeBtn === 0 &&
-						questions &&
-						questions.map((data: any, index: any) => {
-							return <ProfileQuestionPreview questionId={data.id} key={index} />;
+						questionsToDisplay.map((q: IQuestionFeed, index: number) => {
+							return <ProfileQuestionPreview question={q} key={index} />;
 						})}
 				</View>
 			</ScrollView>

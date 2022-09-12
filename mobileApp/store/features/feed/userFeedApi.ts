@@ -1,4 +1,3 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IAnswer, IQuestionFeed } from "../../../types";
 import { apiSlice } from "../../app/apiSlice";
 import { questionServiceBaseUrl, timelineServiceBaseUrl } from "../baseUrl";
@@ -8,25 +7,31 @@ interface IAnswerQuestion {
 	answerId: string;
 }
 
+function providesList<R extends { id: string | number }[], T extends string>(
+	resultsWithIds: R | undefined,
+	tagType: T
+) {
+	return resultsWithIds
+		? [
+				{ type: tagType, id: "LIST" },
+				...resultsWithIds.map(({ id }) => ({ type: tagType, id })),
+		  ]
+		: [{ type: tagType, id: "LIST" }];
+}
+
 // Define a service using a base URL and expected endpoints
 export const questionApi = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get user profile questions
 		getUserQuestions: builder.query<IQuestionFeed[], string>({
 			query: (userId) => `${questionServiceBaseUrl}/questions/user/${userId}`,
-			providesTags: (result, error, arg) =>
-				result
-					? [...result.map(({ id }) => ({ type: "Question" as const, id })), "Question"]
-					: ["Question"],
+			providesTags: (result) => providesList(result, "Question"),
 		}),
 
 		// get user feed
 		getUserFeed: builder.query<IQuestionFeed[], void>({
 			query: () => `${timelineServiceBaseUrl}/`,
-			providesTags: (result, error, arg) =>
-				result
-					? [...result.map(({ id }) => ({ type: "Timeline" as const, id })), "Timeline"]
-					: ["Timeline"],
+			providesTags: (result) => providesList(result, "Timeline"),
 		}),
 
 		// get question
@@ -38,10 +43,7 @@ export const questionApi = apiSlice.injectEndpoints({
 		// get answer
 		getAnswersQuestion: builder.query<IAnswer[], string>({
 			query: (questionId) => `${questionServiceBaseUrl}/answers/question/${questionId}`,
-			providesTags: (result, error, arg) =>
-				result
-					? [...result.map(({ id }) => ({ type: "Answer" as const, id })), "Answer"]
-					: ["Answer"],
+			providesTags: (result) => providesList(result, "Answer"),
 		}),
 
 		// get answer
@@ -84,7 +86,7 @@ export const questionApi = apiSlice.injectEndpoints({
 					patchResult.undo();
 				}
 			},
-			invalidatesTags: ["Timeline", "Answer"],
+			invalidatesTags: ["Timeline", "Answer", "Question"],
 		}),
 
 		// like a question
@@ -113,7 +115,7 @@ export const questionApi = apiSlice.injectEndpoints({
 					patchResult.undo();
 				}
 			},
-			invalidatesTags: ["Timeline"],
+			invalidatesTags: ["Timeline", "Question"],
 		}),
 	}),
 	overrideExisting: true,

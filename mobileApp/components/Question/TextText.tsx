@@ -1,7 +1,7 @@
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Pressable, TouchableHighlight } from "react-native";
+import { Pressable, TouchableHighlight, Image } from "react-native";
 import { pinkPickle } from "../../constants/ThemeColors";
 import {
 	useAnswerQuestionMutation,
@@ -10,8 +10,11 @@ import {
 } from "../../store/features/feed/userFeedApi";
 import { IQuestionFeed } from "../../types";
 import { Answer } from "../Answer";
+import GoBack from "../GoBackIcon";
 import { Text, View } from "../Themed";
 import styles from "./styles";
+
+const profileImage = require("../../assets/images/profile-picture.jpg");
 
 export const TextText = ({ question }: { question: IQuestionFeed }) => {
 	const navigation = useNavigation();
@@ -26,6 +29,7 @@ export const TextText = ({ question }: { question: IQuestionFeed }) => {
 	};
 
 	const { data: answers, error, isLoading } = useGetAnswersQuestionQuery(question.id);
+
 	const answerQuestionHandler = (answerId: string) => {
 		answerQuestion({
 			questionId: id,
@@ -37,8 +41,6 @@ export const TextText = ({ question }: { question: IQuestionFeed }) => {
 		<View style={styles.container}>
 			<View style={styles.questionContainer}>
 				<Text style={styles.title}>{title}</Text>
-				<Text>Likes: {question.likedCount}</Text>
-				<Text>Answers: {question.answeredCount}</Text>
 				{answers?.map((answer, index) => (
 					<Answer
 						answer={answer}
@@ -49,6 +51,12 @@ export const TextText = ({ question }: { question: IQuestionFeed }) => {
 						isQuestionAnswered={isAnsweredByCurrentUser}
 					/>
 				))}
+				{isAnsweredByCurrentUser && (
+					<Text style={styles.textNbOfAnswers}>
+						{question.answeredCount}{" "}
+						{question.answeredCount > 1 ? "réponses" : "réponse"}
+					</Text>
+				)}
 			</View>
 			<View style={styles.questionScreen}>
 				<View style={styles.bottomIcons}>
@@ -56,7 +64,7 @@ export const TextText = ({ question }: { question: IQuestionFeed }) => {
 						<AntDesign
 							name="heart"
 							size={45}
-							color={isLikedByCurrentUser ? pinkPickle : "gray"}
+							color={isLikedByCurrentUser ? pinkPickle : "lightgray"}
 						/>
 					</Pressable>
 					<TouchableHighlight
@@ -73,6 +81,20 @@ export const TextText = ({ question }: { question: IQuestionFeed }) => {
 						style={styles.iconArea}
 					/>
 				</View>
+			</View>
+			<View style={styles.topIconsContainer}>
+				<GoBack />
+				<Pressable onPress={() => navigation.navigate("Profile")}>
+					<Image
+						source={
+							question.creator.imageUrl
+								? { uri: question.creator.imageUrl }
+								: profileImage
+						}
+						resizeMode="cover"
+						style={styles.profileImage}
+					></Image>
+				</Pressable>
 			</View>
 		</View>
 	);

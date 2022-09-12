@@ -18,6 +18,7 @@ interface IInput {
 	onSubmitEditing?: (text: string) => void;
 	onBlur?: () => void;
 	value?: string;
+	width?: number | string;
 }
 
 export default function InputField({
@@ -26,17 +27,21 @@ export default function InputField({
 	secureTextEntry = false,
 	onChangeText,
 	value = "",
+	width = "100%",
 }: IInput) {
 	return (
-		<View style={styles.inputContainer}>
-			<TextInput
-				placeholder={placeholder}
-				keyboardType={keyboardType}
-				style={styles.input}
-				secureTextEntry={secureTextEntry}
-				value={value}
-				onChangeText={onChangeText}
-			/>
-		</View>
+		<TextInput
+			placeholder={placeholder}
+			keyboardType={keyboardType}
+			style={[
+				styles.input,
+				{
+					width,
+				},
+			]}
+			secureTextEntry={secureTextEntry}
+			value={value}
+			onChangeText={onChangeText}
+		/>
 	);
 }

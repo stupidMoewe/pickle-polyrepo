@@ -1,22 +1,26 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { TouchableHighlight } from "react-native";
-import { View, Text } from "../../components/Themed";
+import { Text, View } from "../../components/Themed";
 import { pinkPickle } from "../../constants/ThemeColors";
 import styles from "./styles";
 
-const GoBack = () => {
+const GoBack = ({ style }: { style?: object }) => {
 	const navigation = useNavigation();
 	return (
-		<View style={styles.container}>
+		<View style={[styles.topIconsLeft, style]}>
 			<TouchableHighlight
 				onPress={() => {
-					navigation.goBack();
+					if (navigation.canGoBack()) {
+						navigation.goBack();
+					} else {
+						navigation.dispatch(DrawerActions.openDrawer());
+					}
 				}}
 			>
 				<Text>
-					<FontAwesome name="chevron-left" size={25} color="#fff" />
+					<FontAwesome name="chevron-left" size={45} color={pinkPickle} />
 				</Text>
 			</TouchableHighlight>
 		</View>

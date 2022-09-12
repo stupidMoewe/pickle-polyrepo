@@ -8,13 +8,16 @@ export const authApi = apiSlice.injectEndpoints({
 			query: () => `${userServiceBaseUrl}/me`,
 			providesTags: ["User"],
 		}),
+		getUserInfo: builder.query<IUser, string>({
+			query: (userId) => `${userServiceBaseUrl}/${userId}`,
+		}),
 		login: builder.mutation<object, object>({
 			query: (body) => ({
 				url: `${userServiceBaseUrl}/login`,
 				method: "POST",
 				body,
 			}),
-			invalidatesTags: ["User"],
+			invalidatesTags: ["User", "Timeline"],
 		}),
 		register: builder.mutation<object, object>({
 			query: (body) => ({
@@ -29,10 +32,16 @@ export const authApi = apiSlice.injectEndpoints({
 				url: `${userServiceBaseUrl}/logout`,
 				method: "POST",
 			}),
-			invalidatesTags: ["User"],
+			invalidatesTags: ["User", "Answer", "Question", "Timeline"],
 		}),
 	}),
 	overrideExisting: true,
 });
 
-export const { useGetMeQuery, useLoginMutation, useRegisterMutation, useLogoutMutation } = authApi;
+export const {
+	useGetMeQuery,
+	useGetUserInfoQuery,
+	useLoginMutation,
+	useRegisterMutation,
+	useLogoutMutation,
+} = authApi;

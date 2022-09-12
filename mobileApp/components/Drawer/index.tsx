@@ -2,21 +2,23 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { DrawerActions } from "@react-navigation/native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { useAppDispatch, useAppSelector } from "../../store/app/hooks";
-import { useGetMeQuery, useLogoutMutation } from "../../store/features/auth/authApi";
+import { useLogoutMutation } from "../../store/features/auth/authApi";
 import { Text, View } from "../Themed";
+import { CustomButton } from "../Button";
 import styles from "./styles";
+import { pinkPickle } from "../../constants/ThemeColors";
 
 const CustomDrawer = (props: any) => {
-	const dispatch = useAppDispatch();
-
-	const { data: user, isLoading, isError } = useGetMeQuery();
-
-	const [logout] = useLogoutMutation();
+	const [logout, { isLoading, isError }] = useLogoutMutation();
 
 	const logoutHandler = async () => {
-		await props.navigation.dispatch(DrawerActions.closeDrawer());
-		logout();
+		await logout()
+			.unwrap()
+			.then(() => {
+				props.navigation.dispatch(DrawerActions.closeDrawer());
+			});
+		// if (!isError && !isLoading) {
+		// }
 	};
 
 	return (
@@ -24,46 +26,31 @@ const CustomDrawer = (props: any) => {
 			<DrawerContentScrollView {...props} contentContainerStyle={styles.containerScroll}>
 				<View style={styles.list}>
 					<DrawerItem
-						label={user!.username || "username"}
-						labelStyle={styles.text}
-						onPress={() => {}}
-					/>
-					<DrawerItem
-						label={"Create Question"}
+						label="Create Question"
 						labelStyle={styles.text}
 						onPress={() => {
-							props.navigation.navigate("RootStackNavigator", {
-								screen: "CreateQuestion",
-							});
+							props.navigation.navigate("CreateQuestion");
 						}}
 					/>
-					<DrawerItem label="Recherche" labelStyle={styles.text} onPress={() => {}} />
 					<DrawerItem
 						label="Feed"
 						labelStyle={styles.text}
 						onPress={() => {
-							props.navigation.navigate("RootStackNavigator", { screen: "Feed" });
+							props.navigation.navigate("Feed");
 						}}
 					/>
-					<DrawerItem label="Réglages" labelStyle={styles.text} onPress={() => {}} />
 					<DrawerItem
 						label="Mon Profile"
 						labelStyle={styles.text}
 						onPress={() => {
-							props.navigation.navigate("RootStackNavigator", { screen: "Profile" });
+							props.navigation.navigate("Profile");
 						}}
 					/>
-					<DrawerItem label="Mes Signets" labelStyle={styles.text} onPress={() => {}} />
-					<DrawerItem label="Assistance" labelStyle={styles.text} onPress={() => {}} />
-					<DrawerItem label="Pigeon" labelStyle={styles.text} onPress={() => {}} />
+					<DrawerItem label="Réglages" labelStyle={styles.text} onPress={() => {}} />
 				</View>
 			</DrawerContentScrollView>
-			<View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}>
-				<TouchableOpacity onPress={logoutHandler}>
-					<View style={{ flexDirection: "row", alignItems: "center" }}>
-						<Text style={styles.text}>Logout</Text>
-					</View>
-				</TouchableOpacity>
+			<View style={{ padding: 35 }}>
+				<CustomButton title={"Logout"} color="pink" onPress={logoutHandler} />
 			</View>
 		</View>
 	);

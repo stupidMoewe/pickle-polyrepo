@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { fontLarge } from "../../constants/FontSizes";
+import { pinkPickle } from "../../constants/ThemeColors";
 
 const height = Dimensions.get("window").height;
 
@@ -18,10 +19,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		height: "100%",
 		display: "flex",
-		// flexDirection: "column",
-		// position: "absolute",
 		alignItems: "center",
-		// backgroundColor: "transparent",
 		paddingTop: "20%",
 	},
 	title: {
@@ -48,10 +46,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 		position: "absolute",
 		bottom: 25,
-		shadowColor: "#555",
-		shadowOffset: { width: 0, height: 0 },
-		shadowOpacity: 10,
-		shadowRadius: 10,
 	},
 	iconArea: {
 		padding: 10,
@@ -60,6 +54,35 @@ const styles = StyleSheet.create({
 		borderColor: "white",
 		borderWidth: 1,
 		padding: 10,
+	},
+	textNbOfAnswers: {
+		textAlign: "right",
+		alignSelf: "flex-end",
+		marginTop: 20,
+		marginRight: 20,
+		fontSize: 16,
+		color: "gray",
+	},
+	topIconsContainer: {
+		width: "90%",
+		alignSelf: "center",
+		justifyContent: "space-between",
+		// borderColor: "white",
+		// borderWidth: 1,
+		alignItems: "center",
+		position: "absolute",
+		flexDirection: "row",
+		marginTop: "12%",
+		// top: "6%",
+		// right: "2%",
+		backgroundColor: "transparent",
+	},
+	profileImage: {
+		borderColor: pinkPickle,
+		borderWidth: 2,
+		borderRadius: 20,
+		width: 60,
+		height: 60,
 	},
 });
 

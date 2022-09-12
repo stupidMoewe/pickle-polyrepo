@@ -9,10 +9,6 @@ const styles = StyleSheet.create({
 		top: 60,
 		left: 20,
 		backgroundColor: "transparent",
-		shadowColor: "#555",
-		shadowOffset: { width: 0, height: 0 },
-		shadowOpacity: 10,
-		shadowRadius: 10,
 	},
 });
 

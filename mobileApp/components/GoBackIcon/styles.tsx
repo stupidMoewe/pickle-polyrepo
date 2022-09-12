@@ -5,6 +5,9 @@ const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
 	container: {},
+	topIconsLeft: {
+		backgroundColor: "transparent",
+	},
 });
 
 export default styles;

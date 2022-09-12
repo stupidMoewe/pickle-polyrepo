@@ -1,7 +1,7 @@
+import { currentUser, requireAuth } from "@stupidpickle/common";
 import express, { Request, Response } from "express";
 import { connectRedis } from "../redisClient";
 const axios = require("axios").default;
-import { currentUser, requireAuth } from "@stupidpickle/common";
 
 const router = express.Router();
 
@@ -18,41 +18,14 @@ export const feedUserId = router.get(
 			for (const questionId of feed) {
 				if (questionId !== "first") {
 					await axios
-						.get("http://question:4002/questions/" + questionId)
+						.get("http://question:4002/questions/formated/" + questionId + "/" + userId)
 						.then((response) => {
 							questionsFetched.push(response.data);
 						})
 						.catch((error) => {
-							res.status(500).send(error);
+							return res.status(500).send(error);
 						});
 				}
-			}
-			// filter the question to custumize it to the user
-			for (const question of questionsFetched) {
-				const hasTheUserLikedTheQuestion: boolean = question.likedByUsers.includes(userId);
-				question.isLikedByCurrentUser = hasTheUserLikedTheQuestion;
-				delete question.likedByUsers;
-
-				const hasTheUserAnsweredTheQuestion: boolean =
-					question.answeredByUsers.includes(userId);
-				question.isAnsweredByCurrentUser = hasTheUserAnsweredTheQuestion;
-				delete question.answeredByUsers;
-
-				let answerChoozenId: string | null = null;
-
-				for (const answerId of question.possibleAnswers) {
-					await axios
-						.get("http://question:4002/answers/" + answerId)
-						.then((response) => {
-							if (response.data.choozenByUser.includes(userId)) {
-								answerChoozenId = answerId;
-							}
-						})
-						.catch((error) => {
-							console.log(error);
-						});
-				}
-				question.answerChoozenId = answerChoozenId;
 			}
 
 			res.status(200).send(questionsFetched);

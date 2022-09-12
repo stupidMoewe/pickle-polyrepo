@@ -22,7 +22,7 @@ const OnBoarding = () => {
 			</View>
 			<TouchableOpacity
 				style={styles.buttonContainer}
-				onPress={() => navigation.navigate("Login")}
+				onPress={() => navigation.navigate("AuthChoice")}
 			>
 				<Text style={styles.buttonText}>C'est parti !</Text>
 				<MaterialIcons name="arrow-forward-ios" size={22} color="#fff" />

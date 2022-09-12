@@ -10,6 +10,7 @@ import {
 	createQuestion,
 	questionAnswered,
 	questionById,
+	questionByIdFormated,
 	questionLiked,
 	questions,
 	questionsByUser,
@@ -35,6 +36,7 @@ app.use(questionsByUser);
 app.use(questions);
 app.use(createQuestion);
 app.use(questionById);
+app.use(questionByIdFormated);
 app.use(questionLiked);
 app.use(answers);
 app.use(answerById);

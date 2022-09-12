@@ -22,6 +22,7 @@ const linking: LinkingOptions<RootDrawerParamList> = {
 				},
 			},
 			OnBoardingScreen: "OnBoardingScreen",
+			AuthChoice: "AuthChoice",
 			Login: "Login",
 		},
 	},

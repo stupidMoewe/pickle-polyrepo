@@ -5,7 +5,7 @@ import styles from "./styles";
 
 interface ButtonInterface {
 	title: string;
-	color?: "blue" | "red" | "green" | "pink";
+	color?: "blue" | "red" | "green" | "pink" | "purple";
 	onPress?: () => void;
 	propsStyle?: object;
 	disabled?: boolean;
@@ -35,6 +35,9 @@ export function CustomButton({
 			case "pink":
 				buttonColor = pinkPickle;
 				break;
+			case "purple":
+				buttonColor = "#AD40AF";
+				break;
 			default:
 				buttonColor = "#eee";
 		}
@@ -49,7 +52,6 @@ export function CustomButton({
 			disabled={disabled}
 		>
 			<Text style={styles.buttonText}>{title}</Text>
-			{/* <MaterialIcons name="arrow-forward-ios" size={22} color="#fff" /> */}
 		</Pressable>
 	);
 }

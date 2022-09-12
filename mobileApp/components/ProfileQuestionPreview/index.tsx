@@ -1,48 +1,44 @@
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
-import Constants from "expo-constants";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { TouchableOpacity } from "react-native";
-import { Text } from "../../components/Themed";
-import { IQuestion } from "../../types";
+import { Text, View } from "../../components/Themed";
+import { useGetAnswersQuestionQuery } from "../../store/features/feed/userFeedApi";
+import { IQuestionFeed } from "../../types";
 import styles from "./styles";
 
 interface ProfileQuestionPreviewProps {
-	questionId: string;
+	question: IQuestionFeed;
 }
 
-export function ProfileQuestionPreview({ questionId }: ProfileQuestionPreviewProps) {
-	const [question, setQuestion] = useState<IQuestion>();
-	const [loading, setLoading] = useState<boolean>(true);
-	const questionAPIUrl = Constants?.manifest?.extra?.questionAPIUrl;
+export function ProfileQuestionPreview({ question }: ProfileQuestionPreviewProps) {
 	const navigation = useNavigation();
+	const { data: answers, isError, isLoading } = useGetAnswersQuestionQuery(question.id);
 
-	useEffect(() => {
-		const fetchQuestion = async () => {
-			axios(`${questionAPIUrl}/questions/${questionId}`)
-				.then((res) => {
-					setQuestion(res.data);
-					setLoading(false);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		};
-		fetchQuestion();
-	}, []);
-
+	if (isLoading) {
+		return <Text>Loading...</Text>;
+	} else if (isError || answers === undefined) {
+		return <Text>Error</Text>;
+	}
 	return (
 		<TouchableOpacity
-			style={styles.container}
+			style={[styles.container, question.isAnsweredByCurrentUser && styles.containerAnswered]}
 			onPress={() => {
-				if (!loading && question) {
+				if (question) {
 					navigation.navigate("SingleQuestion", { question });
 				}
 			}}
 		>
-			<Text>{question?.title}</Text>
-			{question?.possibleAnswers.map((answer, key) => (
-				<Text key={key}>{answer}</Text>
+			<Text style={styles.title}>{question?.title}</Text>
+			{answers.map((answer, key) => (
+				<View
+					style={[
+						styles.answerBox,
+						question.answerChoozenId == answer.id && styles.answerBoxAnswered,
+					]}
+					key={key}
+				>
+					<Text style={styles.answer}>{answer.content}</Text>
+				</View>
 			))}
 		</TouchableOpacity>
 	);

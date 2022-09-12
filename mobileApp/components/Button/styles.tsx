@@ -6,10 +6,8 @@ const width = Dimensions.get("window").width;
 const styles = StyleSheet.create({
 	buttonContainer: {
 		backgroundColor: "#AD40AF",
-		padding: 16,
-		// width: "90%",
+		padding: 20,
 		borderRadius: 10,
-		// marginBottom: 50,
 		flexDirection: "row",
 		justifyContent: "center",
 	},
@@ -18,7 +16,6 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		textAlign: "center",
 		fontWeight: "bold",
-		// fontFamily: "Roboto-MediumItalic",
 	},
 });
 
