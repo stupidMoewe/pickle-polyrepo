@@ -14,6 +14,7 @@ import {
 	questionLiked,
 	questions,
 	questionsByUser,
+	uploadImage,
 } from "./routes";
 
 const app = express();
@@ -42,6 +43,7 @@ app.use(answers);
 app.use(answerById);
 app.use(questionAnswered);
 app.use(answersByQuestionId);
+app.use(uploadImage);
 
 app.use("*", (_req, _res) => {
 	throw new NotFoundError();

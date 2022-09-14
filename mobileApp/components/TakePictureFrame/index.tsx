@@ -4,10 +4,11 @@ import styles from "./styles";
 import { Camera } from "expo-camera";
 import { Feather, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
+import { ImageObject } from "../../screens/CreateQuestion";
 
 interface TakePictureFrameProps {
-	image: string | null;
-	setImage: React.Dispatch<React.SetStateAction<string | null>>;
+	image: ImageObject | null;
+	setImage: React.Dispatch<React.SetStateAction<ImageObject | null>>;
 }
 
 interface CameraType {
@@ -32,9 +33,17 @@ export const TakePictureFrame = ({ image, setImage }: TakePictureFrameProps) => 
 
 	const takePicture = async () => {
 		if (camera) {
-			const data = await camera.takePictureAsync(null);
+			const data = await camera.takePictureAsync({
+				type: "image/jpg",
+				// quality: 0.5,
+			});
+			const img = {
+				uri: data.uri,
+				type: "image/jpg",
+				name: data.uri.substr(data.uri.lastIndexOf("/") + 1),
+			};
 			// MediaLibrary.saveToLibraryAsync(data.uri); // to change
-			setImage(data.uri);
+			setImage(img);
 		}
 	};
 
@@ -45,7 +54,7 @@ export const TakePictureFrame = ({ image, setImage }: TakePictureFrameProps) => 
 	return (
 		<View style={styles.container}>
 			{image ? (
-				<Image source={{ uri: image }} style={styles.imageDisplay} />
+				<Image source={{ uri: image.uri }} style={styles.imageDisplay} />
 			) : (
 				<View style={styles.cameraContainer}>
 					<Camera ref={(ref) => setCamera(ref)} type={type} style={styles.cameraFrame} />

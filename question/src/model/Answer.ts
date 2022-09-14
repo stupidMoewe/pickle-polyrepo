@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 // An interface that describes the properties
 // that are requried to create a new Answer
 interface AnswerAttrs {
-	answerType: AnswerTypeOptions;
 	content: string;
 	creatorId: string;
 	answeredCount: number;
@@ -22,7 +21,6 @@ export type AnswerTypeOptions = "Text" | "Image" | "Video";
 // that a Answer Document has
 interface AnswerDoc extends mongoose.Document {
 	id: string;
-	answerType: AnswerTypeOptions;
 	content: string;
 	creatorId: string;
 	answeredCount: number;
@@ -31,11 +29,6 @@ interface AnswerDoc extends mongoose.Document {
 
 const AnswerSchema = new mongoose.Schema(
 	{
-		answerType: {
-			type: String,
-			required: true,
-		},
-
 		content: {
 			type: String,
 			required: true,

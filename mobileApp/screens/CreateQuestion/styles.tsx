@@ -13,14 +13,19 @@ const styles = StyleSheet.create({
 	},
 	createQuestionContainer: {
 		height: height,
-		width: width * 0.9,
+		width: width,
 	},
 	titleContainer: {
-		marginTop: "20%",
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "flex-start",
+		position: "absolute",
 		alignItems: "center",
+		top: 40,
+		left: 20,
+		zIndex: 1,
+		// borderColor: "white",
+		// borderWidth: 1,
 	},
 	title: {
 		fontWeight: "bold",
@@ -35,15 +40,6 @@ const styles = StyleSheet.create({
 	postQuestionBtn: {
 		marginBottom: 50,
 	},
-	topBtns: {
-		backgroundColor: "transparent",
-		width: width * 0.9,
-		position: "absolute",
-		top: 50,
-		display: "flex",
-		flexDirection: "row",
-		justifyContent: "space-between",
-	},
 	inputContainer: {
 		display: "flex",
 		flexDirection: "row",
@@ -54,9 +50,13 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 		width: 40,
 	},
-	imageDisplay: {
-		width: "100%",
-		height: 400,
+	containerQuestions: {
+		width: width,
+		height: height,
+		position: "absolute",
+		bottom: 0,
+		display: "flex",
+		justifyContent: "space-between",
 	},
 });
 

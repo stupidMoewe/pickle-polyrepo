@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Dimensions, ScrollView, TouchableOpacity } from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { Dimensions, ScrollView } from "react-native";
 import { CustomButton } from "../../components/Button";
-import Input from "../../components/Input";
+import { Input } from "../../components/Input";
 import { Text, View } from "../../components/Themed";
 import { useLoginMutation } from "../../store/features/auth/authApi";
 import styles from "./styles";
@@ -40,10 +39,6 @@ export default function Login() {
 					onChangeText={(text) => setPassword(text)}
 				></Input>
 			</ScrollView>
-			{/* <TouchableOpacity style={styles.buttonContainer} onPress={loginHandler}>
-				<Text style={styles.buttonText}>Login</Text>
-				<MaterialIcons name="arrow-forward-ios" size={22} color="#fff" />
-			</TouchableOpacity> */}
 			<CustomButton
 				title={"Login"}
 				color="purple"

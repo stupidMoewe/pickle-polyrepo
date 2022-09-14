@@ -57,6 +57,23 @@ export const questionApi = apiSlice.injectEndpoints({
 			query: (body) => ({
 				url: `${questionServiceBaseUrl}/create-question`,
 				method: "POST",
+				prepareHeaders: (headers: any) => {
+					headers.set("Content-Type", "multipart/form-data");
+					return headers;
+				},
+				body,
+			}),
+			invalidatesTags: ["Timeline", "Question"],
+		}),
+
+		uploadImage: builder.mutation<Partial<boolean>, object>({
+			query: (body) => ({
+				url: `${questionServiceBaseUrl}/upload-image`,
+				method: "POST",
+				prepareHeaders: (headers: any) => {
+					headers.set("Content-Type", "multipart/form-data");
+					return headers;
+				},
 				body,
 			}),
 			invalidatesTags: ["Timeline", "Question"],
@@ -129,4 +146,5 @@ export const {
 	useLikeMutation,
 	useGetAnswerQuery,
 	useGetAnswersQuestionQuery,
+	useUploadImageMutation,
 } = questionApi;

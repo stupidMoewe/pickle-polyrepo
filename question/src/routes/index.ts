@@ -8,3 +8,4 @@ export { questionLiked } from "./questionLiked";
 export { questions } from "./questions";
 export { questionsByUser } from "./questionsByUser";
 export { questionAnswered } from "./answerChoozen";
+export { uploadImage } from "./uploadImage";

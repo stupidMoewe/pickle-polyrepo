@@ -10,6 +10,7 @@ export const feedUserId = router.get(
 	currentUser,
 	requireAuth,
 	async (req: Request, res: Response) => {
+		console.log("inside user feed");
 		const userId = req.currentUser!.id.toString();
 		try {
 			const redisClient = await connectRedis();

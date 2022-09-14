@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 // An interface that describes the properties
 // that are requried to create a new Question
 interface QuestionAttrs {
-	questionType: QuestionTypeOptions;
 	title: string;
 	possibleAnswers: string[];
 	creatorId: string;
@@ -34,7 +33,6 @@ export type QuestionTypeOptions =
 // that a Question Document has
 interface QuestionDoc extends mongoose.Document {
 	id: string;
-	questionType: QuestionTypeOptions;
 	title: string;
 	possibleAnswers: string[];
 	creatorId: string;
@@ -49,10 +47,6 @@ interface QuestionDoc extends mongoose.Document {
 
 const questionSchema = new mongoose.Schema(
 	{
-		questionType: {
-			type: String,
-			required: true,
-		},
 		title: {
 			type: String,
 			required: true,
