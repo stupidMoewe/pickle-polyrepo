@@ -1,5 +1,5 @@
-import React from "react";
-import { Pressable } from "react-native";
+import React, { useEffect } from "react";
+import { Image, Pressable } from "react-native";
 import { pinkPickle } from "../../constants/ThemeColors";
 import { AnswerType } from "../../types";
 import { Text, View } from "../Themed";
@@ -21,20 +21,25 @@ export function Answer({
 	answer,
 }: IProps) {
 	const percentage = (answer.answeredCount / questionCount) * 100;
-	const width = () => {
-		if(!isQuestionAnswered){
+	const height = () => {
+		if (!isQuestionAnswered) {
 			return {
-				width: "100%",
 				backgroundColor: "transparent",
 				borderColor: "white",
-				borderWidth: 2,
-			}
+				height: 0,
+				borderWidth: 0,
+			};
 		}
 		return {
-			width: `${percentage}%`,
+			height: `${percentage}%`,
 			backgroundColor: isAnswerChoozen ? pinkPickle : "gray",
 		};
 	};
+
+	if (answer.answerType == "Image") {
+		console.log(answer.content);
+	}
+
 	return (
 		<View style={styles.container}>
 			<View
@@ -47,16 +52,25 @@ export function Answer({
 						: null,
 				]}
 			>
-				<View style={[styles.backgroundBox, width()]}></View>
-				<Pressable onPress={() => answerQuestionHandler(answer.id)}>
-					<Text style={styles.text}>{answer.content}</Text>
+				<View style={[styles.backgroundBox, height()]}></View>
+				<Pressable
+					onPress={() => answerQuestionHandler(answer.id)}
+					style={{ width: "100%" }}
+				>
+					{answer.answerType == "Text" ? (
+						<>
+							<Text style={styles.text}>{answer.content} </Text>
+							{isQuestionAnswered ? (
+								<View style={styles.containerResult}>
+									<Text style={styles.textResult}>{percentage}%</Text>
+								</View>
+							) : null}
+						</>
+					) : (
+						<Image source={{ uri: answer.content }} style={styles.imageStyle}></Image>
+					)}
 				</Pressable>
 			</View>
-			{isQuestionAnswered ? (
-				<View style={styles.containerResult}>
-					<Text style={styles.textResult}>{percentage}%</Text>
-				</View>
-			) : null}
 		</View>
 	);
 }

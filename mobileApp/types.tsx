@@ -49,17 +49,9 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 
 // first word is the title's type of content, second of the answers
 // ex: title of type Text, answers of type image => textImage
-export type QuestionTypeOptions =
-	| "TextText"
-	| "TextImage"
-	| "ImageText"
-	| "ImageImage"
-	| "VideoText"
-	| "VideoImage";
 
 export interface IQuestion {
 	id: string;
-	questionType: QuestionTypeOptions;
 	title: string;
 	possibleAnswers: string[];
 	creatorId: string;
@@ -74,8 +66,8 @@ export interface IQuestion {
 export interface IQuestionFeed {
 	answeredCount: number;
 	id: string;
-	questionType: QuestionTypeOptions;
 	title: string;
+	titleType: "Text" | "Image" | "Video";
 	possibleAnswers: string[];
 	likedCount: number;
 	commentedCount: number;

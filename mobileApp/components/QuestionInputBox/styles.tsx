@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
+import { darkBlue, darkPurple } from "../../constants/ThemeColors";
 
 const height = Dimensions.get("window").height;
 
@@ -7,14 +8,16 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		borderColor: "#666",
-		borderWidth: 3,
+		borderColor: "#aaa",
+		borderWidth: 1,
 		borderRadius: 10,
+		margin: 4,
+		backgroundColor: darkBlue,
 	},
 	icon: {
 		borderColor: "white",
 		borderWidth: 1,
-		paddingVertical: 6,
+		paddingVertical: 10,
 		paddingHorizontal: 10,
 		borderRadius: 12,
 		marginHorizontal: 4,
@@ -37,9 +40,11 @@ const styles = StyleSheet.create({
 	imageContainer: {
 		height: "100%",
 		width: "100%",
+		backgroundColor: "transparent",
 	},
 	imageDisplay: {
 		height: "100%",
+		borderRadius: 8,
 	},
 	trashButtonContainer: {
 		backgroundColor: "rgba(52, 52, 52, 0.55)",
@@ -49,6 +54,7 @@ const styles = StyleSheet.create({
 		height: "100%",
 		justifyContent: "center",
 		alignItems: "center",
+		borderRadius: 8,
 	},
 	trashIcon: {
 		backgroundColor: "transparent",

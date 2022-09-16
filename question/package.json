@@ -20,7 +20,8 @@
 	"author": "Martin Tefra",
 	"license": "ISC",
 	"dependencies": {
-		"@stupidpickle/common": "^1.0.25",
+		"@stupidpickle/common": "^1.0.26",
+		"aws-sdk": "^2.1216.0",
 		"axios": "^0.27.2",
 		"mongoose": "^6.5.2",
 		"multer": "^1.4.5-lts.1",

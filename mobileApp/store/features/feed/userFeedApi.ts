@@ -52,6 +52,17 @@ export const questionApi = apiSlice.injectEndpoints({
 			providesTags: (result, error, id) => [{ type: "Timeline", id }],
 		}),
 
+		// // get answer
+		// getImage: builder.query<any, string>({
+		// 	query: (imageName) => ({
+		// 		url: `${questionServiceBaseUrl}/image/${imageName}`,
+		// 		prepareHeaders: (headers: any) => {
+		// 			headers.set("Content-Type", "image/png");
+		// 			return headers;
+		// 		},
+		// 	}),
+		// }),
+
 		// create question
 		createQuestion: builder.mutation<Partial<IQuestionFeed>, object>({
 			query: (body) => ({
@@ -66,7 +77,7 @@ export const questionApi = apiSlice.injectEndpoints({
 			invalidatesTags: ["Timeline", "Question"],
 		}),
 
-		uploadImage: builder.mutation<Partial<boolean>, object>({
+		uploadImage: builder.mutation<object, object>({
 			query: (body) => ({
 				url: `${questionServiceBaseUrl}/upload-image`,
 				method: "POST",
@@ -76,7 +87,8 @@ export const questionApi = apiSlice.injectEndpoints({
 				},
 				body,
 			}),
-			invalidatesTags: ["Timeline", "Question"],
+
+			// invalidatesTags: ["Timeline", "Question"],
 		}),
 
 		// answer a question

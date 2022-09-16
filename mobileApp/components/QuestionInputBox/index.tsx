@@ -2,9 +2,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { Camera } from "expo-camera";
 import React, { useEffect, useState } from "react";
 import { Image, Pressable } from "react-native";
+import { red } from "../../constants/ThemeColors";
 import { ImageObject } from "../../screens/CreateQuestion";
 import { LightInput } from "../Input";
-import { View, Text } from "../Themed";
+import { View } from "../Themed";
 import styles from "./styles";
 
 type InputType = "text" | "image";
@@ -13,14 +14,15 @@ interface Props {
 	isActive: boolean;
 	setActive: () => void;
 	placeholder: string;
-	setValue: (value: string) => void;
+	value: string | null;
+	setValue: (value: string | null) => void;
 	boxType: "title" | "answer";
 	contentType: InputType;
 	setCamera: React.Dispatch<React.SetStateAction<Camera | null>>;
 	image: ImageObject | null;
 	setImage: React.Dispatch<React.SetStateAction<ImageObject | null>>;
-	focused: number;
-	setFocused: React.Dispatch<React.SetStateAction<number>>;
+	focused: number | null;
+	setFocused: React.Dispatch<React.SetStateAction<number | null>>;
 	number: number;
 }
 
@@ -36,6 +38,7 @@ export const QuestionInputBox = ({
 	isActive,
 	setActive,
 	placeholder,
+	value,
 	setValue,
 	boxType,
 	contentType,
@@ -62,7 +65,7 @@ export const QuestionInputBox = ({
 				styles.container,
 				isActive
 					? {
-							borderColor: "red",
+							borderColor: red,
 					  }
 					: null,
 			]}
@@ -98,7 +101,10 @@ export const QuestionInputBox = ({
 						{inputSelected != "image" && (
 							<Pressable
 								style={styles.icon}
-								onPress={() => setInputSelected("image")}
+								onPress={() => {
+									setInputSelected("image");
+									setValue(null);
+								}}
 							>
 								<Ionicons name="image" color={"white"} size={30}></Ionicons>
 							</Pressable>

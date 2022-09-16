@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Text, TouchableOpacity } from "react-native";
-import { lightBlue, pinkPickle } from "../../constants/ThemeColors";
+import { lightBlue, pinkPickle, purple } from "../../constants/ThemeColors";
 import styles from "./styles";
 
 interface ButtonInterface {
@@ -26,9 +26,6 @@ export function CustomButton({
 			case "blue":
 				buttonColor = lightBlue;
 				break;
-			case "red":
-				buttonColor = "#eee";
-				break;
 			case "green":
 				buttonColor = "#eee";
 				break;
@@ -36,7 +33,10 @@ export function CustomButton({
 				buttonColor = pinkPickle;
 				break;
 			case "purple":
-				buttonColor = "#AD40AF";
+				buttonColor = purple;
+				break;
+			case "red":
+				buttonColor = "#E94560";
 				break;
 			default:
 				buttonColor = "#eee";

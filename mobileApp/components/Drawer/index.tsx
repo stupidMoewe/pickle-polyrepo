@@ -50,7 +50,7 @@ const CustomDrawer = (props: any) => {
 				</View>
 			</DrawerContentScrollView>
 			<View style={{ padding: 35 }}>
-				<CustomButton title={"Logout"} color="pink" onPress={logoutHandler} />
+				<CustomButton title={"Logout"} color="red" onPress={logoutHandler} />
 			</View>
 		</View>
 	);

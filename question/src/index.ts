@@ -23,6 +23,12 @@ const start = async () => {
 	if (!process.env.JWT_KEY) {
 		throw new Error("JWT_KEY must be defined");
 	}
+	if (!process.env.AWS_S3_ACCESS_KEY_ID) {
+		throw new Error("AWS_S3_ACCESS_KEY_ID must be defined");
+	}
+	if (!process.env.AWS_S3_SECRET_ACCESS_KEY) {
+		throw new Error("AWS_S3_SECRET_ACCESS_KEY must be defined");
+	}
 
 	try {
 		await mongoose.connect(process.env.MONGO_URI);

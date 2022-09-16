@@ -7,7 +7,6 @@ import { useGetUserFeedQuery } from "../../store/features/feed/userFeedApi";
 import { IQuestionFeed } from "../../types";
 import styles from "./style";
 
-
 export default function Feed() {
 	const { data: questions, isError, error, isLoading } = useGetUserFeedQuery();
 

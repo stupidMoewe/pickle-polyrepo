@@ -4,15 +4,10 @@ import mongoose from "mongoose";
 // that are requried to create a new Question
 interface QuestionAttrs {
 	title: string;
+	titleType: "Text" | "Image" | "Video";
 	possibleAnswers: string[];
 	creatorId: string;
-	// likedCount: number;
-	// commentedCount: number;
-	// commentedByUsers: string[];
-	// likedByUsers: string[];
-	// answeredByUsers: string[];
 	expirationDate: number;
-	// answersCount: number;
 }
 
 // An interface that describes the properties
@@ -48,6 +43,10 @@ interface QuestionDoc extends mongoose.Document {
 const questionSchema = new mongoose.Schema(
 	{
 		title: {
+			type: String,
+			required: true,
+		},
+		titleType: {
 			type: String,
 			required: true,
 		},

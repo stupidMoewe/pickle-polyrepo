@@ -1,4 +1,3 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { useColorScheme } from "react-native";
@@ -8,8 +7,6 @@ import useCachedResources from "./hooks/useCachedResources";
 import Navigation from "./navigation";
 import { store } from "./store/app/store";
 import styles from "./styles";
-
-const Stack = createNativeStackNavigator();
 
 export default function App() {
 	const isLoadingComplete = useCachedResources();

@@ -1,34 +1,41 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { fontLarge } from "../../constants/FontSizes";
-import { pinkPickle } from "../../constants/ThemeColors";
+import { darkBlue, pinkPickle } from "../../constants/ThemeColors";
 
 const height = Dimensions.get("window").height;
+const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
 	container: {
 		width: "100%",
 		height: height,
-	},
-	ImageBackground: {
-		flex: 1,
-		resizeMode: "center",
-		alignItems: "center",
-		justifyContent: "center",
+		paddingTop: 35,
+		paddingBottom: 20,
 	},
 	questionContainer: {
 		width: "100%",
 		height: "100%",
 		display: "flex",
 		alignItems: "center",
-		paddingTop: "20%",
+		borderColor: "blue",
+		borderWidth: 3,
+		borderRadius: 12,
+	},
+	rowContainer: {
+		width: "100%",
+		flex: 1,
+		flexDirection: "row",
+		justifyContent: "center",
+		alignContent: "center",
+		backgroundColor: darkBlue,
+		// padding: 4,
 	},
 	title: {
 		fontSize: fontLarge,
 		textAlign: "center",
 		fontWeight: "bold",
 		color: "white",
-		padding: 10,
-		marginTop: "10%",
+		alignSelf: "center",
 	},
 	questionScreen: {
 		position: "absolute",

@@ -33,6 +33,7 @@ app.use(function (_req, res, next) {
 	next();
 });
 
+app.use(express.static("uploads"));
 app.use(questionsByUser);
 app.use(questions);
 app.use(createQuestion);

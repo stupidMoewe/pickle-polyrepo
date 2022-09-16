@@ -61,8 +61,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 	},
 	lightInputContainer: {
-		// borderColor: "white",
-		// borderWidth: 1,
+		backgroundColor: "transparent",
 	},
 	lightInput: {
 		fontSize: 30,

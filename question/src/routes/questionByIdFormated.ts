@@ -1,23 +1,12 @@
-import { currentUser, requireAuth } from "@stupidpickle/common";
 import express, { Request, Response } from "express";
-import { Question } from "../model/Question";
 import { formatQuestion } from "../service/formatQuestion";
 const axios = require("axios").default;
 
 const router = express.Router();
 
-export type QuestionTypeOptions =
-	| "TextText"
-	| "TextImage"
-	| "ImageText"
-	| "ImageImage"
-	| "VideoText"
-	| "VideoImage";
-
 export interface IQuestionFeed {
 	answeredCount: number;
 	id: string;
-	questionType: QuestionTypeOptions;
 	title: string;
 	possibleAnswers: string[];
 	likedCount: number;

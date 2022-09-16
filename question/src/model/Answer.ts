@@ -5,8 +5,7 @@ import mongoose from "mongoose";
 interface AnswerAttrs {
 	content: string;
 	creatorId: string;
-	answeredCount: number;
-	choozenByUser: string[];
+	answerType: "Text" | "Image" | "Video";
 }
 
 // An interface that describes the properties
@@ -30,6 +29,10 @@ interface AnswerDoc extends mongoose.Document {
 const AnswerSchema = new mongoose.Schema(
 	{
 		content: {
+			type: String,
+			required: true,
+		},
+		answerType: {
 			type: String,
 			required: true,
 		},

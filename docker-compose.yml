@@ -100,6 +100,8 @@ services:
       - NATS_CLIENT_ID=alsdkjfdne3jkwl1f
       - NATS_URL=nats://nats:4222
       - JWT_KEY=secretbdjeflawhcvdeqafecvrkepqofv
+      - AWS_S3_ACCESS_KEY_ID=AKIAU3YQM63APCCF7SWQ
+      - AWS_S3_SECRET_ACCESS_KEY=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
     depends_on:
       - nats
       - db
