@@ -1,5 +1,6 @@
 import React from "react";
-import { TextInput, View } from "react-native";
+import { TextInput } from "react-native";
+import { Text } from "../Themed";
 import styles from "./styles";
 
 interface IInput {
@@ -13,35 +14,43 @@ interface IInput {
 		| "decimal-pad"
 		| "visible-password";
 	secureTextEntry?: boolean;
-	onChangeText?: (text: string) => void;
 	onEndEditing?: (text: string) => void;
 	onSubmitEditing?: (text: string) => void;
 	onBlur?: () => void;
-	value?: string;
+	value: string;
+	setValue: (text: string) => void;
 	width?: number | string;
+	style?: object;
+	label?: string;
 }
 
 export const Input = ({
 	placeholder = "Enter your text",
 	keyboardType = "default",
 	secureTextEntry = false,
-	onChangeText,
-	value = "",
+	setValue,
+	value,
 	width = "100%",
+	style,
+	label,
 }: IInput) => {
 	return (
-		<TextInput
-			placeholder={placeholder}
-			keyboardType={keyboardType}
-			style={[
-				styles.input,
-				{
-					width,
-				},
-			]}
-			secureTextEntry={secureTextEntry}
-			value={value}
-			onChangeText={onChangeText}
-		/>
+		<>
+			{label && <Text style={styles.label}>{label}</Text>}
+			<TextInput
+				placeholder={placeholder}
+				keyboardType={keyboardType}
+				style={[
+					style,
+					styles.input,
+					{
+						width,
+					},
+				]}
+				secureTextEntry={secureTextEntry}
+				value={value}
+				onChangeText={(text) => setValue(text)}
+			/>
+		</>
 	);
 };

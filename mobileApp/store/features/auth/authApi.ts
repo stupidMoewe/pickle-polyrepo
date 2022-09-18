@@ -11,6 +11,14 @@ export const authApi = apiSlice.injectEndpoints({
 		getUserInfo: builder.query<IUser, string>({
 			query: (userId) => `${userServiceBaseUrl}/${userId}`,
 		}),
+		editProfile: builder.mutation<object, object>({
+			query: (body) => ({
+				url: `${userServiceBaseUrl}/edit-profile`,
+				method: "PUT",
+				body,
+			}),
+			invalidatesTags: ["User"],
+		}),
 		login: builder.mutation<object, object>({
 			query: (body) => ({
 				url: `${userServiceBaseUrl}/login`,
@@ -44,4 +52,5 @@ export const {
 	useLoginMutation,
 	useRegisterMutation,
 	useLogoutMutation,
+	useEditProfileMutation,
 } = authApi;

@@ -1,6 +1,5 @@
 import React from "react";
 import { Dimensions, FlatList } from "react-native";
-import GoBack from "../../components/GoBackIcon";
 import Question from "../../components/Question";
 import { Text, View } from "../../components/Themed";
 import { useGetUserFeedQuery } from "../../store/features/feed/userFeedApi";
@@ -27,14 +26,6 @@ export default function Feed() {
 
 	return (
 		<View style={styles.container}>
-			{/* <GoBack
-				style={{
-					position: "absolute",
-					top: 60,
-					left: 20,
-					zIndex: 1,
-				}}
-			/> */}
 			<FlatList
 				data={questions as IQuestionFeed[]}
 				renderItem={({ item }: { item: IQuestionFeed }) => {

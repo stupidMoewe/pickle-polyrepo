@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { fontNormal } from "../../constants/FontSizes";
+import { fontLarge, fontNormal } from "../../constants/FontSizes";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
@@ -30,15 +30,17 @@ const styles = StyleSheet.create({
 	},
 	imageContainer: {
 		borderColor: "white",
-		borderWidth: 2,
-		padding: 10,
+		borderWidth: 1,
+		padding: 4,
 		marginVertical: 10,
 		borderRadius: 8,
-		width: width * 0.9,
+		width: width * 0.4,
+		height: width * 0.5,
+		alignSelf: "center",
 	},
 	imageDisplay: {
-		// width: "100%",
-		height: 300,
+		width: "100%",
+		height: "100%",
 	},
 	modalContainer: {
 		borderColor: "white",
@@ -66,6 +68,11 @@ const styles = StyleSheet.create({
 	lightInput: {
 		fontSize: 30,
 		color: "white",
+	},
+	label: {
+		fontSize: 20,
+		fontWeight: "bold",
+		marginBottom: 10,
 	},
 });
 

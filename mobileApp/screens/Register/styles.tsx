@@ -1,33 +1,28 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { fontLarge, fontNormal } from "../../constants/FontSizes";
+import { fontLarge } from "../../constants/FontSizes";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
 	container: {
+		paddingTop: "20%",
 		flex: 1,
-		justifyContent: "center",
+		justifyContent: "space-between",
 		alignItems: "center",
+		height: height,
 	},
-	titleView: {
-		marginTop: 100,
+	inputContainer: {
+		marginBottom: 40,
 	},
 	title: {
 		fontWeight: "bold",
 		fontSize: 30,
+		marginBottom: 60,
 	},
-	containerView: { flex: 1, justifyContent: "center", alignItems: "center" },
-	descriptionText: {
+	label: {
 		fontSize: fontLarge,
-		textAlign: "center",
-		marginHorizontal: "10%",
-	},
-	descriptionTextSmall: {
-		marginTop: "10%",
-		fontSize: fontNormal,
-		textAlign: "center",
-		marginHorizontal: "10%",
+		marginBottom: 10,
 	},
 	buttonContainer: {
 		backgroundColor: "#AD40AF",
@@ -43,7 +38,10 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		textAlign: "center",
 		fontWeight: "bold",
-		// fontFamily: "Roboto-MediumItalic",
+	},
+	errorText: {
+		color: "red",
+		marginTop: 4,
 	},
 });
 

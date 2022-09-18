@@ -23,20 +23,20 @@ export default function Login() {
 			<Text style={styles.title}>Login</Text>
 			<ScrollView>
 				<View style={styles.inputContainer}>
-					<Text style={styles.label}>Email :</Text>
 					<Input
 						placeholder="Email"
 						value={email}
-						onChangeText={(text) => setEmail(text)}
+						setValue={setEmail}
 						width={width * 0.8}
+						label="Email :"
 					></Input>
 				</View>
-				<Text style={styles.label}>Password :</Text>
 				<Input
 					placeholder="Password"
 					value={password}
 					secureTextEntry={true}
-					onChangeText={(text) => setPassword(text)}
+					setValue={setPassword}
+					label="Password :"
 				></Input>
 			</ScrollView>
 			<CustomButton

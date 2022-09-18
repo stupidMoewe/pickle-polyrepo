@@ -5,7 +5,7 @@ import { CustomButton } from "../../components/Button";
 import { Text, View } from "../../components/Themed";
 import styles from "./styles";
 
-const icon = require("../../assets/images/School_Outline.jpg");
+const icon = require("../../assets/images/choice.png");
 
 const AuthChoice = () => {
 	const navigation = useNavigation();
@@ -33,7 +33,7 @@ const AuthChoice = () => {
 						width: "80%",
 						marginBottom: 30,
 					}}
-					onPress={() => navigation.navigate("Login")}
+					onPress={() => navigation.navigate("Register")}
 				/>
 			</View>
 		</View>

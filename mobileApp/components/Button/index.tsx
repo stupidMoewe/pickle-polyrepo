@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, Text, TouchableOpacity } from "react-native";
+import { Pressable, Text, Touchable, TouchableOpacity } from "react-native";
 import { lightBlue, pinkPickle, purple } from "../../constants/ThemeColors";
 import styles from "./styles";
 
@@ -46,12 +46,17 @@ export function CustomButton({
 	}
 
 	return (
-		<Pressable
-			style={[styles.buttonContainer, { backgroundColor: buttonColor }, propsStyle]}
+		<TouchableOpacity
+			style={[
+				styles.buttonContainer,
+				{ backgroundColor: buttonColor },
+				propsStyle,
+				disabled && styles.disabled,
+			]}
 			onPress={onPress}
 			disabled={disabled}
 		>
-			<Text style={styles.buttonText}>{title}</Text>
-		</Pressable>
+			{disabled ? <Text>Loading...</Text> : <Text style={styles.buttonText}>{title}</Text>}
+		</TouchableOpacity>
 	);
 }

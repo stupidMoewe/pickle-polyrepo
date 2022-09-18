@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 // that are requried to create a new Question
 interface QuestionAttrs {
 	title: string;
-	titleType: "Text" | "Image" | "Video";
+	backgroundImageName?: string;
 	possibleAnswers: string[];
 	creatorId: string;
 	expirationDate: number;
@@ -29,6 +29,7 @@ export type QuestionTypeOptions =
 interface QuestionDoc extends mongoose.Document {
 	id: string;
 	title: string;
+	backgroundImageName: string;
 	possibleAnswers: string[];
 	creatorId: string;
 	likedCount: number;
@@ -46,9 +47,9 @@ const questionSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		titleType: {
+		backgroundImageName: {
 			type: String,
-			required: true,
+			required: false,
 		},
 		possibleAnswers: [
 			{

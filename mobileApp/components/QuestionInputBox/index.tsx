@@ -3,7 +3,7 @@ import { Camera } from "expo-camera";
 import React, { useEffect, useState } from "react";
 import { Image, Pressable } from "react-native";
 import { red } from "../../constants/ThemeColors";
-import { ImageObject } from "../../screens/CreateQuestion";
+import { ImageObject } from "../../screens/AdvancedCreateQuestion";
 import { LightInput } from "../Input";
 import { View } from "../Themed";
 import styles from "./styles";
@@ -49,14 +49,16 @@ export const QuestionInputBox = ({
 	setFocused,
 	number,
 }: Props) => {
-	const [inputSelected, setInputSelected] = React.useState<InputType | null>("text");
+	const [inputSelected, setInputSelected] = React.useState<InputType | null>("image");
 	const [hasCameraPermission, setHasCameraPermission] = useState(false);
 
 	useEffect(() => {
-		(async () => {
-			const cameraStatus = await Camera.requestCameraPermissionsAsync();
-			setHasCameraPermission(cameraStatus.granted);
-		})();
+		hasCameraPermission
+			? (async () => {
+					const cameraStatus = await Camera.requestCameraPermissionsAsync();
+					setHasCameraPermission(cameraStatus.granted);
+			  })()
+			: null;
 	}, []);
 
 	return (
@@ -80,7 +82,7 @@ export const QuestionInputBox = ({
 					{inputSelected == "text" && (
 						<LightInput placeholder={placeholder} setValue={setValue} />
 					)}
-					{inputSelected == "image" && (
+					{inputSelected == "image" && isActive && (
 						<View style={styles.cameraContainer}>
 							<Camera
 								ref={(ref) => {

@@ -1,7 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { Dimensions, Image, Modal, Pressable } from "react-native";
-import { ImageObject } from "../../screens/CreateQuestion";
+import { ImageObject } from "../../screens/AdvancedCreateQuestion";
 import { TakePictureFrame } from "../TakePictureFrame";
 import { View } from "../Themed";
 import { Input } from "./Input";
@@ -25,6 +25,7 @@ export const InputWithPhoto = ({
 	setImageValue,
 }: InputWithPhotoProps) => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [isModalViewPictureOpen, setIsModalViewPictureOpen] = useState<boolean>(false);
 	const openModal = () => {
 		setImageValue(null);
 		setIsModalOpen(true);
@@ -38,29 +39,39 @@ export const InputWithPhoto = ({
 	return (
 		<View>
 			<Modal visible={isModalOpen} animationType="slide">
-				<>
-					<TakePictureFrame image={image} setImage={setImageValue} />
+				<TakePictureFrame image={image} setImage={setImageValue} />
+				<View style={styles.topBtns}>
+					<Pressable onPress={closeModelWithoutSaving}>
+						<View style={styles.iconCamera}>
+							<MaterialIcons name="close" size={35} color="#fff" />
+						</View>
+					</Pressable>
+					{image && (
+						<Pressable onPress={() => setIsModalOpen(false)}>
+							<View style={styles.iconCamera}>
+								<MaterialIcons name="arrow-forward" size={35} color="#fff" />
+							</View>
+						</Pressable>
+					)}
+				</View>
+			</Modal>
+			<Modal visible={isModalViewPictureOpen} animationType="slide">
+				<View>
+					<Image source={{ uri: image?.uri }} style={styles.imageDisplay} />
 					<View style={styles.topBtns}>
-						<Pressable onPress={closeModelWithoutSaving}>
+						<Pressable onPress={() => setIsModalViewPictureOpen(false)}>
 							<View style={styles.iconCamera}>
 								<MaterialIcons name="close" size={35} color="#fff" />
 							</View>
 						</Pressable>
-						{image && (
-							<Pressable onPress={() => setIsModalOpen(false)}>
-								<View style={styles.iconCamera}>
-									<MaterialIcons name="arrow-forward" size={35} color="#fff" />
-								</View>
-							</Pressable>
-						)}
 					</View>
-				</>
+				</View>
 			</Modal>
 			<View style={styles.inputContainer}>
 				<Input
 					placeholder={placeholder}
 					value={value}
-					onChangeText={(text) => setValue(text)}
+					setValue={(text: string) => setValue(text)}
 					width={width * 0.75}
 				/>
 				<Pressable onPress={openModal}>
@@ -71,9 +82,12 @@ export const InputWithPhoto = ({
 			</View>
 
 			{image ? (
-				<View style={styles.imageContainer}>
+				<Pressable
+					style={styles.imageContainer}
+					onPress={() => setIsModalViewPictureOpen(true)}
+				>
 					<Image source={{ uri: image.uri }} style={styles.imageDisplay} />
-				</View>
+				</Pressable>
 			) : null}
 		</View>
 	);

@@ -19,10 +19,14 @@ export type RootDrawerParamList = {
 	Feed: undefined;
 	Profile: undefined;
 	SingleQuestion: { question: IQuestionFeed };
+	ProfileStackNavigator: undefined;
 	CreateQuestion: undefined;
+	AdvancedCreateQuestion: undefined;
 	OnBoardingScreen: undefined;
 	AuthChoice: undefined;
 	Login: undefined;
+	Register: undefined;
+	Settings: undefined;
 	Modal: undefined;
 	NotFound: undefined;
 };
@@ -35,10 +39,14 @@ export type RootDrawerScreenProps<Screen extends keyof RootDrawerParamList> = Dr
 export type RootTabParamList = {
 	Feed: undefined;
 	CreateQuestion: undefined;
-	Profile: undefined;
+	AdvancedCreateQuestion: undefined;
+	ProfileStackNavigator: undefined;
+	// Profile: undefined;
+	Settings: undefined;
 	OnBoarding: undefined;
 	AuthChoice: undefined;
 	Login: undefined;
+	Register: undefined;
 	SingleQuestion: undefined;
 };
 
@@ -46,9 +54,6 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 	BottomTabScreenProps<RootTabParamList, Screen>,
 	DrawerScreenProps<RootDrawerParamList>
 >;
-
-// first word is the title's type of content, second of the answers
-// ex: title of type Text, answers of type image => textImage
 
 export interface IQuestion {
 	id: string;
@@ -67,7 +72,7 @@ export interface IQuestionFeed {
 	answeredCount: number;
 	id: string;
 	title: string;
-	titleType: "Text" | "Image" | "Video";
+	backgroundImageName: string;
 	possibleAnswers: string[];
 	likedCount: number;
 	commentedCount: number;
@@ -97,6 +102,7 @@ export interface AnswerType {
 
 export interface IUser {
 	imageUrl: string | undefined;
+	imageName: string | undefined;
 	id: string;
 	username: string;
 	email: string;

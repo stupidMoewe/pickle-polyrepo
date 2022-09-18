@@ -1,8 +1,7 @@
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
-import { Image, Pressable, TouchableHighlight } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useEffect } from "react";
+import { Image, ImageBackground, Pressable, TouchableHighlight } from "react-native";
 import { pinkPickle } from "../../constants/ThemeColors";
 import {
 	useAnswerQuestionMutation,
@@ -19,14 +18,18 @@ const profileImage = require("../../assets/images/profile-picture.jpg");
 
 export default function Question({ question }: { question: IQuestionFeed }) {
 	const navigation = useNavigation();
-
 	const [like] = useLikeMutation();
 	const [answerQuestion] = useAnswerQuestionMutation();
+	const [isTouched, setIsTouched] = React.useState(false);
 
-	const { id, title, isAnsweredByCurrentUser, isLikedByCurrentUser, answerChoozenId, titleType } =
-		question;
-
-	console.log("question", question);
+	const {
+		id,
+		title,
+		isAnsweredByCurrentUser,
+		isLikedByCurrentUser,
+		answerChoozenId,
+		backgroundImageName,
+	} = question;
 
 	const likeQuestionHandler = () => {
 		like(id);
@@ -41,65 +44,71 @@ export default function Question({ question }: { question: IQuestionFeed }) {
 		});
 	};
 
+	useEffect(() => {
+		if (isAnsweredByCurrentUser) setIsTouched(true);
+	}, []);
+
 	return (
 		<View style={styles.container}>
-			<View style={styles.questionContainer}>
-				<View style={styles.rowContainer}>
-					{titleType == "Text" ? (
+			<ImageBackground style={styles.imageBackground} source={{ uri: backgroundImageName }}>
+				<Pressable
+					onPress={() => setIsTouched(true)}
+					style={{
+						width: "100%",
+						height: "100%",
+					}}
+				></Pressable>
+			</ImageBackground>
+			{isTouched && (
+				<Pressable style={styles.questionContainer} onPress={() => setIsTouched(false)}>
+					<View style={styles.rowContainer}>
 						<Text style={styles.title}>{title}</Text>
-					) : (
-						<Image
-							source={{ uri: title }}
-							style={{ height: "100%", width: "100%" }}
-						></Image>
+					</View>
+					<View style={styles.rowContainer}>
+						{answers?.map((answer, index) => (
+							<Answer
+								answer={answer}
+								key={index}
+								questionCount={question.answeredCount}
+								answerQuestionHandler={answerQuestionHandler}
+								isAnswerChoozen={answerChoozenId === answer.id}
+								isQuestionAnswered={isAnsweredByCurrentUser}
+							/>
+						))}
+					</View>
+					{isAnsweredByCurrentUser && (
+						<Text style={styles.textNbOfAnswers}>
+							{question.answeredCount}{" "}
+							{question.answeredCount > 1 ? "réponses" : "réponse"}
+						</Text>
 					)}
-				</View>
-				<View style={styles.rowContainer}>
-					{answers?.map((answer, index) => (
-						<Answer
-							answer={answer}
-							key={index}
-							questionCount={question.answeredCount}
-							answerQuestionHandler={answerQuestionHandler}
-							isAnswerChoozen={answerChoozenId === answer.id}
-							isQuestionAnswered={isAnsweredByCurrentUser}
-						/>
-					))}
-				</View>
-				{/* {isAnsweredByCurrentUser && (
-					<Text style={styles.textNbOfAnswers}>
-						{question.answeredCount}{" "}
-						{question.answeredCount > 1 ? "réponses" : "réponse"}
-					</Text>
-				)} */}
-			</View>
-			<View style={styles.questionScreen}>
-				<View style={styles.bottomIcons}>
-					<Pressable onPress={likeQuestionHandler} style={styles.iconArea}>
-						<AntDesign
-							name="heart"
-							size={45}
-							color={isLikedByCurrentUser ? pinkPickle : "lightgray"}
-						/>
-					</Pressable>
-					<TouchableHighlight
-						onPress={() => {
-							navigation.navigate("CreateQuestion");
-						}}
-					>
-						<AntDesign name="pluscircleo" size={70} color={pinkPickle} />
-					</TouchableHighlight>
+				</Pressable>
+			)}
+			<View style={styles.bottomIcons}>
+				<Pressable onPress={likeQuestionHandler} style={styles.iconArea}>
 					<AntDesign
-						name="clockcircleo"
+						name="heart"
 						size={45}
-						color={pinkPickle}
-						style={styles.iconArea}
+						color={isLikedByCurrentUser ? pinkPickle : "lightgray"}
 					/>
-				</View>
+				</Pressable>
+				<TouchableHighlight
+					onPress={() => {
+						navigation.navigate("CreateQuestion");
+					}}
+				>
+					<AntDesign name="pluscircleo" size={70} color={pinkPickle} />
+				</TouchableHighlight>
+				<AntDesign
+					name="clockcircleo"
+					size={45}
+					color={pinkPickle}
+					style={styles.iconArea}
+				/>
 			</View>
 			<View style={styles.topIconsContainer}>
 				<GoBack />
-				<Pressable onPress={() => navigation.navigate("Profile")}>
+				<Pressable onPress={() => navigation.navigate("ProfileStackNavigator")}>
 					<Image
 						source={
 							question.creator.imageUrl

@@ -16,14 +16,21 @@ const linking: LinkingOptions<RootDrawerParamList> = {
 			RootStackNavigator: {
 				screens: {
 					Feed: "Feed",
-					Profile: "Profile",
-					SingleQuestion: "SingleQuestion",
 					CreateQuestion: "CreateQuestion",
+					AdvancedCreateQuestion: "AdvancedCreateQuestion",
+					Settings: "Settings",
+					ProfileStackNavigator: {
+						screens: {
+							Profile: "Profile",
+							SingleQuestion: "SingleQuestion",
+						},
+					},
 				},
 			},
 			OnBoardingScreen: "OnBoardingScreen",
 			AuthChoice: "AuthChoice",
 			Login: "Login",
+			Register: "Register",
 		},
 	},
 };

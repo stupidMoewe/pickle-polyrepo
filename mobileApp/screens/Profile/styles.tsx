@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { fontLarge, fontNormal, fontSmall } from "../../constants/FontSizes";
+import { fontNormal, fontSmall } from "../../constants/FontSizes";
 import { pinkPickle } from "../../constants/ThemeColors";
 
 const height = Dimensions.get("window").height;
@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
 		zIndex: 10,
 		overflow: "hidden",
 		display: "flex",
+		backgroundColor: "dark",
 	},
 	container: {
 		height: height,

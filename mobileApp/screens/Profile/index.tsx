@@ -24,15 +24,13 @@ const ProfileScreen = () => {
 
 	const { data: user, error: userError, isLoading: userLoading } = useGetMeQuery();
 
-	const { data: questions, error, isLoading } = useGetUserQuestionsQuery(user!.id);
+	const {
+		data: questions,
+		error,
+		isLoading: questionsLoading,
+	} = useGetUserQuestionsQuery(user!.id);
 
-	if (isLoading || userLoading) {
-		return (
-			<View style={styles.container}>
-				<Text>Loading...</Text>
-			</View>
-		);
-	} else if (error || questions === undefined || userError || user === undefined) {
+	if (error || questions === undefined || userError || user === undefined) {
 		return (
 			<View style={styles.container}>
 				<Text>Error</Text>
@@ -85,7 +83,13 @@ const ProfileScreen = () => {
 						</View>
 						<View style={styles.userViewPicture}>
 							<Image
-								source={user.imageUrl ? { uri: user.imageUrl } : profileImage}
+								source={
+									user.imageName
+										? { uri: user.imageName }
+										: user.imageUrl
+										? { uri: user.imageUrl }
+										: profileImage
+								}
 								resizeMode="cover"
 								style={styles.profileImage}
 							></Image>
@@ -138,11 +142,16 @@ const ProfileScreen = () => {
 				scrollEventThrottle={16}
 			>
 				<View style={[styles.mainContainer, { marginTop: HEADER_HEIGHT + 50 }]}>
-					{!isLoading &&
-						activeBtn === 0 &&
-						questionsToDisplay.map((q: IQuestionFeed, index: number) => {
-							return <ProfileQuestionPreview question={q} key={index} />;
-						})}
+					{activeBtn === 0 &&
+						(questionsLoading ? (
+							<Text>Loading...</Text>
+						) : (
+							<>
+								{questionsToDisplay.map((q: IQuestionFeed, index: number) => {
+									return <ProfileQuestionPreview question={q} key={index} />;
+								})}
+							</>
+						))}
 				</View>
 			</ScrollView>
 		</View>

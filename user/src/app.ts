@@ -3,7 +3,7 @@ import { json } from "body-parser";
 import cookieSession from "cookie-session";
 import express from "express";
 import { NotFoundError } from "./errors";
-import { login, logout, me, register, userById, users } from "./routes";
+import { editProfile, login, logout, me, register, userById, users } from "./routes";
 
 const app = express();
 app.set("trust proxy", true);
@@ -27,6 +27,7 @@ app.use(me);
 app.use(login);
 app.use(logout);
 app.use(userById);
+app.use(editProfile);
 
 app.use("*", (_req, _res) => {
 	throw new NotFoundError();

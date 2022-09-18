@@ -17,6 +17,9 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		fontWeight: "bold",
 	},
+	disabled: {
+		backgroundColor: "#eee",
+	},
 });
 
 export default styles;

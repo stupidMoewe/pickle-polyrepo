@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet } from "react-native";
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
-const styles = StyleSheet.create({
+const gloablStyles = StyleSheet.create({
 	container: {},
 	topIconsLeft: {
 		top: 0,
@@ -11,6 +11,16 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 		elevation: 10,
 	},
+	pageTitle: {
+		fontSize: 30,
+		fontWeight: "bold",
+		padding: 10,
+	},
+	h1Title: {
+		fontSize: 24,
+		fontWeight: "bold",
+		padding: 10,
+	},
 });
 
-export default styles;
+export default gloablStyles;

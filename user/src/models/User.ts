@@ -77,6 +77,10 @@ const userSchema = new mongoose.Schema(
 			required: false,
 			default: "https://picsum.photos/200/200",
 		},
+		imageName: {
+			type: String,
+			required: false,
+		},
 	},
 	{
 		toJSON: {

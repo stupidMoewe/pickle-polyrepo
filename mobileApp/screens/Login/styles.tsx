@@ -20,10 +20,6 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		marginBottom: 60,
 	},
-	label: {
-		fontSize: fontLarge,
-		marginBottom: 10,
-	},
 	buttonContainer: {
 		backgroundColor: "#AD40AF",
 		padding: 20,

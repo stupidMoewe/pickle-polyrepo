@@ -12,6 +12,7 @@ const router = express.Router();
 interface IReq {
 	contents: string[]; // sting of text or string of image name
 	contentsType: IAnswersType[];
+	backgroundImageName: string;
 }
 
 export const createQuestion = router.post(
@@ -21,8 +22,9 @@ export const createQuestion = router.post(
 	validateRequest,
 	async (req: Request, res: Response) => {
 		console.log("creating a question");
-		const { contents, contentsType }: IReq = req.body;
-		console.log(contents, contentsType);
+		console.log(req.body);
+		const { contents, contentsType, backgroundImageName }: IReq = req.body;
+		console.log(contents, contentsType, backgroundImageName);
 
 		const answersCreatedIds: string[] = [];
 
@@ -43,7 +45,7 @@ export const createQuestion = router.post(
 
 		const question = Question.build({
 			title: contents[0],
-			titleType: contentsType[0],
+			backgroundImageName,
 			possibleAnswers: answersCreatedIds,
 			creatorId: req!.currentUser!.id,
 			expirationDate: new Date().getSeconds() + 60 * 60 * 24,

@@ -1,52 +1,49 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { fontNormal } from "../../constants/FontSizes";
-import { pinkPickle } from "../../constants/ThemeColors";
+import { lightBlue, pinkPickle } from "../../constants/ThemeColors";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
 	container: {
-		width: "100%",
 		flexDirection: "row",
 		justifyContent: "center",
 		alignItems: "center",
-		// marginTop: "15%",
-		flex: 1,
-		// padding: 4,
-		backgroundColor: "transparent",
+		marginVertical: 25,
+		borderRadius: 12,
+		backgroundColor: lightBlue,
 	},
 	containerAnswer: {
 		width: "100%",
-		height: "100%",
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: "transparent",
 		fontWeight: "bold",
-		zIndex: 100,
-		borderColor: "white",
-		borderWidth: 1,
 		borderRadius: 10,
 		borderTopEndRadius: 0,
 		borderTopStartRadius: 0,
+		display: "flex",
+		flexDirection: "row",
 	},
 	backgroundBox: {
 		position: "absolute",
-		bottom: 0,
+		top: 0,
 		left: 0,
-		width: "100%",
-		// height: "100%",
-		zIndex: -1,
+		height: "100%",
+		zIndex: 1,
 		borderRadius: 10,
+		borderWidth: 3,
 		borderColor: pinkPickle,
 	},
 	containerResult: {
-		width: width * 0.15,
+		marginTop: 4,
 		textAlign: "center",
+		backgroundColor: "transparent",
 	},
 	textResult: {
 		fontSize: 18,
-		textAlign: "right",
+		textAlign: "center",
 	},
 	text: {
 		fontSize: fontNormal,
@@ -56,7 +53,7 @@ const styles = StyleSheet.create({
 	},
 	isAnswered: {},
 	answerNotChoozen: {},
-	imageStyle: { height: "100%", width: "100%" },
+	imageStyle: { height: "100%", width: "100%", borderRadius: 10 },
 });
 
 export default styles;

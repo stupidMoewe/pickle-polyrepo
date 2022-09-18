@@ -1,12 +1,10 @@
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { DrawerActions } from "@react-navigation/native";
 import React from "react";
-import { TouchableOpacity } from "react-native";
 import { useLogoutMutation } from "../../store/features/auth/authApi";
-import { Text, View } from "../Themed";
 import { CustomButton } from "../Button";
+import { View } from "../Themed";
 import styles from "./styles";
-import { pinkPickle } from "../../constants/ThemeColors";
 
 const CustomDrawer = (props: any) => {
 	const [logout, { isLoading, isError }] = useLogoutMutation();
@@ -17,8 +15,6 @@ const CustomDrawer = (props: any) => {
 			.then(() => {
 				props.navigation.dispatch(DrawerActions.closeDrawer());
 			});
-		// if (!isError && !isLoading) {
-		// }
 	};
 
 	return (
@@ -43,14 +39,20 @@ const CustomDrawer = (props: any) => {
 						label="Mon Profile"
 						labelStyle={styles.text}
 						onPress={() => {
-							props.navigation.navigate("Profile");
+							props.navigation.navigate("ProfileStackNavigator");
 						}}
 					/>
-					<DrawerItem label="Réglages" labelStyle={styles.text} onPress={() => {}} />
+					<DrawerItem
+						label="Réglages"
+						labelStyle={styles.text}
+						onPress={() => {
+							props.navigation.navigate("SettingsStack");
+						}}
+					/>
 				</View>
 			</DrawerContentScrollView>
 			<View style={{ padding: 35 }}>
-				<CustomButton title={"Logout"} color="red" onPress={logoutHandler} />
+				<CustomButton title={"Logout"} color="pink" onPress={logoutHandler} />
 			</View>
 		</View>
 	);

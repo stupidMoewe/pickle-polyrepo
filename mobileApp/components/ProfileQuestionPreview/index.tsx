@@ -24,7 +24,11 @@ export function ProfileQuestionPreview({ question }: ProfileQuestionPreviewProps
 			style={[styles.container, question.isAnsweredByCurrentUser && styles.containerAnswered]}
 			onPress={() => {
 				if (question) {
-					navigation.navigate("SingleQuestion", { question });
+					// navigation.navigate("SingleQuestion", { question });
+					navigation.navigate("ProfileStackNavigator", {
+						screen: "SingleQuestion",
+						params: { question },
+					});
 				}
 			}}
 		>

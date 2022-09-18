@@ -6,9 +6,8 @@ const width = Dimensions.get("window").width;
 const styles = StyleSheet.create({
 	container: {
 		height: "100%",
+		borderColor: "red",
 		paddingBottom: 20,
-		alignContent: "center",
-		alignItems: "center",
 	},
 	titleContainer: {
 		display: "flex",
@@ -29,17 +28,11 @@ const styles = StyleSheet.create({
 	containerQuestions: {
 		width: width,
 		height: "100%",
+		display: "flex",
+		justifyContent: "space-between",
 		paddingTop: 100,
+		paddingVertical: 10,
 		backgroundColor: "transparent",
-	},
-	inputContainer: {
-		width: width * 0.9,
-		marginVertical: 20,
-		alignSelf: "center",
-	},
-	inputLabel: {
-		fontSize: 24,
-		fontWeight: "bold",
 	},
 });
 

@@ -4,7 +4,7 @@ import styles from "./styles";
 import { Camera } from "expo-camera";
 import { Feather, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
-import { ImageObject } from "../../screens/CreateQuestion";
+import { ImageObject } from "../../screens/AdvancedCreateQuestion";
 
 interface TakePictureFrameProps {
 	image: ImageObject | null;
@@ -57,7 +57,12 @@ export const TakePictureFrame = ({ image, setImage }: TakePictureFrameProps) => 
 				<Image source={{ uri: image.uri }} style={styles.imageDisplay} />
 			) : (
 				<View style={styles.cameraContainer}>
-					<Camera ref={(ref) => setCamera(ref)} type={type} style={styles.cameraFrame} />
+					<Camera
+						ref={(ref) => setCamera(ref)}
+						type={type}
+						style={styles.cameraFrame}
+						pictureSize={"400x400"}
+					/>
 				</View>
 			)}
 			<View style={styles.photoBtns}>

@@ -1,88 +1,41 @@
-import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
-import React, { useState } from "react";
-import { Keyboard, KeyboardAvoidingView, Platform, Pressable } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Keyboard } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { CustomButton } from "../../components/Button";
 import GoBack from "../../components/GoBackIcon";
-import { QuestionInputBox } from "../../components/QuestionInputBox";
+import { Input, InputWithPhoto } from "../../components/Input";
 import { Text, View } from "../../components/Themed";
 import {
 	useCreateQuestionMutation,
 	useUploadImageMutation,
 } from "../../store/features/feed/userFeedApi";
+import { ImageObject } from "../AdvancedCreateQuestion";
 import styles from "./styles";
-
-export interface ImageObject {
-	uri: string;
-	type: string;
-	name: string;
-}
-
-interface CameraType {
-	front: number;
-	back: number;
-}
-
-const camStatus = Camera.Constants.Type as unknown as CameraType;
 
 export default function CreateQuestion() {
 	const navigation = useNavigation();
-	const [title, setTitle] = useState<string | null>(null);
-	const [answer1, setAnswer1] = useState<string | null>(null);
-	const [answer2, setAnswer2] = useState<string | null>(null);
-	const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false);
-	const [camera, setCamera] = useState<Camera | null>(null);
+	const [createQuestion, { isLoading: isLoadingCreateQuesiton }] = useCreateQuestionMutation();
+	const [uploadImage, { reset, isLoading: isLoadingUploadQuestion }] = useUploadImageMutation();
 
-	const [imageTitle, setImageTitle] = useState<ImageObject | null>(null);
-	const [imageAnswer1, setImageAnswer1] = useState<ImageObject | null>(null);
-	const [imageAnswer2, setImageAnswer2] = useState<ImageObject | null>(null);
+	const [title, setTitle] = useState<string>("");
+	const [backgroundImage, setBackgroundImage] = useState<ImageObject | null>(null);
+	const [answer1, setAnswer1] = useState<string>("");
+	const [answer2, setAnswer2] = useState<string>("");
 
-	const [focused, setFocused] = useState<number | null>(null);
-
-	const [createQuestion] = useCreateQuestionMutation();
-
-	const [uploadImage, { isLoading, reset, isSuccess, error, data }] = useUploadImageMutation();
+	const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
 	const postQuestion = async () => {
-		let titleImageName: string | null = null;
-		let answer1ImageName: string | null = null;
-		let answer2ImageName: string | null = null;
+		let backgroundImageName: string | null = null;
 
-		if (imageTitle) {
+		if (backgroundImage) {
 			const titleFormData = new FormData();
-			titleFormData.append("image", imageTitle);
+			titleFormData.append("image", backgroundImage);
 			await uploadImage(titleFormData)
 				.unwrap()
-				.then((res) => {
-					titleImageName = res.imageLocation;
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-			reset();
-		}
-		if (imageAnswer1) {
-			const payloadImage1 = new FormData();
-			payloadImage1.append("image", imageAnswer1);
-			await uploadImage(payloadImage1)
-				.unwrap()
-				.then((res) => {
-					answer1ImageName = res.imageLocation;
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-			reset();
-		}
-		if (imageAnswer2) {
-			const payloadImage2 = new FormData();
-			payloadImage2.append("image", imageAnswer2);
-			await uploadImage(payloadImage2)
-				.unwrap()
-				.then((res) => {
-					answer2ImageName = res.imageLocation;
+				.then((res: any) => {
+					backgroundImageName = res.imageLocation;
 				})
 				.catch((err) => {
 					console.log(err);
@@ -90,23 +43,19 @@ export default function CreateQuestion() {
 			reset();
 		}
 
+		console.log(backgroundImageName);
+
 		await createQuestion({
-			contents: [
-				title || titleImageName,
-				answer1 || answer1ImageName,
-				answer2 || answer2ImageName,
-			],
-			contentsType: [
-				titleImageName ? "Image" : "Text",
-				answer1ImageName ? "Image" : "Text",
-				answer2ImageName ? "Image" : "Text",
-			],
+			contents: [title, answer1, answer2],
+			contentsType: ["Text", "Text", "Text"],
+			backgroundImageName,
 		})
 			.unwrap()
 			.then(() => {
-				setTitle(null);
-				setAnswer1(null);
-				setAnswer2(null);
+				setTitle("");
+				setAnswer1("");
+				setAnswer2("");
+				setBackgroundImage(null);
 			})
 			.then(() => navigation.navigate("Profile"));
 	};
@@ -120,49 +69,23 @@ export default function CreateQuestion() {
 		});
 
 		if (!result.cancelled) {
-			setImage(result.uri);
+			// setImage(result.uri);
 		}
 	};
 
-	const takePicture = async () => {
-		if (camera) {
-			const data = await camera.takePictureAsync();
-			const img = {
-				uri: data.uri,
-				type: "image/jpg",
-				name: data.uri.substr(data.uri.lastIndexOf("/") + 1),
-			};
-			// MediaLibrary.saveToLibraryAsync(data.uri); // to change
-			switch (focused) {
-				case 0:
-					setImageTitle(img);
-					setFocused(1);
-					break;
-				case 1:
-					setImageAnswer1(img);
-					setFocused(2);
-					break;
-				case 2:
-					setImageAnswer2(img);
-					setFocused(null);
-					break;
-			}
-		}
-	};
+	useEffect(() => {
+		const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => {
+			setKeyboardVisible(true);
+		});
+		const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => {
+			setKeyboardVisible(false);
+		});
 
-	Keyboard.addListener("keyboardDidShow", () => {
-		setKeyboardIsOpen(true);
-	});
-	Keyboard.addListener("keyboardDidHide", () => {
-		setKeyboardIsOpen(false);
-	});
-
-	const pausePreview = () => {
-		if (camera) {
-			camera.pausePreview();
-		}
-	};
-	pausePreview();
+		return () => {
+			keyboardDidHideListener.remove();
+			keyboardDidShowListener.remove();
+		};
+	}, []);
 
 	return (
 		<View style={styles.container}>
@@ -170,85 +93,52 @@ export default function CreateQuestion() {
 				<GoBack />
 				<Text style={styles.title}>Post a Question</Text>
 			</View>
-			<KeyboardAvoidingView
-				behavior={Platform.OS === "ios" || "android" ? "padding" : "height"}
-				style={[styles.containerQuestions, { bottom: keyboardIsOpen ? 0 : 0 }]}
+			<KeyboardAwareScrollView
+				style={styles.containerQuestions}
+				indicatorStyle={"black"}
+				keyboardOpeningTime={0}
 			>
-				<View
-					style={{
-						flexDirection: "row",
-						flex: 1,
-					}}
-				>
-					<QuestionInputBox
-						isActive={focused === 0}
-						setActive={() => setFocused(0)}
+				<View style={styles.inputContainer}>
+					<Text style={styles.inputLabel}>Title</Text>
+					<InputWithPhoto
 						placeholder={"Title"}
 						value={title}
-						setValue={setTitle}
-						boxType={"title"}
-						contentType={"text"}
-						setCamera={setCamera}
-						image={imageTitle}
-						setImage={setImageTitle}
-						focused={focused}
-						setFocused={setFocused}
-						number={0}
-					/>
+						setValue={(text) => setTitle(text)}
+						image={backgroundImage}
+						setImageValue={setBackgroundImage}
+					></InputWithPhoto>
 				</View>
-				<View
-					style={{
-						flexDirection: "row",
-						flex: 1,
-					}}
-				>
-					<QuestionInputBox
-						isActive={focused === 1}
-						setActive={() => setFocused(1)}
+				<View style={styles.inputContainer}>
+					<Text style={styles.inputLabel}>Answers</Text>
+					<Input
 						placeholder={"Answer 1"}
 						value={answer1}
 						setValue={setAnswer1}
-						boxType={"answer"}
-						contentType={"text"}
-						setCamera={setCamera}
-						image={imageAnswer1}
-						setImage={setImageAnswer1}
-						focused={focused}
-						setFocused={setFocused}
-						number={1}
-					/>
-					<QuestionInputBox
-						isActive={focused === 2}
-						setActive={() => setFocused(2)}
-						placeholder={"Answer 2"}
-						value={answer2}
-						setValue={setAnswer2}
-						boxType={"answer"}
-						contentType={"text"}
-						setCamera={setCamera}
-						image={imageAnswer2}
-						setImage={setImageAnswer2}
-						focused={focused}
-						setFocused={setFocused}
-						number={2}
-					/>
+						style={{ marginVertical: 20 }}
+					></Input>
+					<Input placeholder={"Answer 2"} value={answer2} setValue={setAnswer2}></Input>
 				</View>
-			</KeyboardAvoidingView>
-			{(imageTitle || title) && (imageAnswer1 || answer1) && (imageAnswer2 || answer2) ? (
 				<CustomButton
-					title={"post"}
-					propsStyle={{ position: "absolute", bottom: 40, alignSelf: "center" }}
-					color={"pink"}
-					onPress={postQuestion}
+					title={"Advanced"}
+					propsStyle={{
+						marginTop: 20,
+						width: "50%",
+						alignSelf: "center",
+						marginBottom: 200,
+					}}
+					color={"blue"}
+					onPress={() => {
+						navigation.navigate("AdvancedCreateQuestion");
+					}}
 				></CustomButton>
-			) : (
-				<Pressable
-					onPress={() => takePicture()}
-					style={{ position: "absolute", bottom: 35, alignSelf: "center" }}
-				>
-					<MaterialIcons name="motion-photos-on" size={70} color="#fff" />
-				</Pressable>
-			)}
+			</KeyboardAwareScrollView>
+			<CustomButton
+				title={"post"}
+				propsStyle={{ position: "absolute", bottom: 40, alignSelf: "center" }}
+				color={"pink"}
+				onPress={postQuestion}
+				disabled={isLoadingUploadQuestion || isLoadingCreateQuesiton}
+			></CustomButton>
 		</View>
 	);
 }
